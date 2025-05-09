@@ -18,6 +18,11 @@ npm run start
 
 Esto empezara la ejecución del proyecto en el puerto `4200` y puedes empezar con la edición del proyecto en el editor de tu preferencia.
 
+## Backend
+
+>[!WARNING]
+>Documentacion en progreso
+
 ## Credo
 
 Al empezar cualquier cambio, creas tu rama y debes de seguir el siguiente credo:
