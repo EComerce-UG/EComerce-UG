@@ -24,4 +24,6 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm ci # ci == clean install 
+      working-directory: frontend
     - run: npm run build
+      working-directory: frontend
