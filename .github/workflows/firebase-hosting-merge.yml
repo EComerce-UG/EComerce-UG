@@ -7,17 +7,15 @@ on:
     branches: 
       - "main"
 jobs:
-  deploy_live_website:
+  build_and_preview:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
     - name: Configure Node.js 
       uses: actions/setup-node@v3
       with:
-        node-version: 18.x
-    - run: npm install
-      working-directory: frontend
-    - run: npm run build
+        node-version: 22.x
+    - run: npm install && npm run build
       working-directory: frontend
     - uses: FirebaseExtended/action-hosting-deploy@v0
       with:
