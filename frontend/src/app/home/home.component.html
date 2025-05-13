@@ -1,0 +1,18 @@
+<div class="mx-auto flex items-center place-content-center">
+  <div class="mx-auto items-center">
+    <tui-carousel
+      [duration]="4000"
+      [(index)]="index"
+    >
+      <ng-container *ngFor="let item of items">
+          <div
+              *tuiItem
+              class="item"
+          >
+              <p class="underline underline-offset-1">{{ item }}</p>
+              <!-- TODO: update documentation here -->
+          </div>
+      </ng-container>
+    </tui-carousel>
+  </div>
+</div>
