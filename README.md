@@ -18,6 +18,20 @@ npm run start
 
 Esto empezara la ejecución del proyecto en el puerto `4200` y puedes empezar con la edición del proyecto en el editor de tu preferencia.
 
+### Paquetes
+
+## Angular
+
+[Angular](https://angular.dev/) es la base del proyecto para el frontend, es un framework basado en componentes y con tipado estático.
+
+#### Taiga UI
+
+[Taiga](https://taiga-ui.dev/) es un toolkit para Angular UI creado de varias librerias base. La libreria tiene alrededor de 130 componentes y varias herramientas para su uso.
+
+### Tailwindcss
+
+[Tailwindcss](https://tailwindcss.com/) nos permite crear estilos personalizados y responsivos de manera rápida y eficiente.
+
 ## Backend
 
 >[!WARNING]
