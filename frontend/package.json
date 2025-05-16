@@ -33,7 +33,6 @@
     "@taiga-ui/kit": "^4.37.0",
     "@taiga-ui/layout": "^4.37.0",
     "@tailwindcss/postcss": "^4.1.7",
-    "@tailwindcss/vite": "^4.1.7",
     "express": "^4.18.2",
     "firebase": "^11.7.1",
     "firebase-tools": "^14.3.1",

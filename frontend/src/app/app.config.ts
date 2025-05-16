@@ -13,7 +13,6 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes), 
     provideClientHydration(withEventReplay()), 
     provideEventPlugins(),
-        provideEventPlugins(),
         provideEventPlugins()
     ]
 };
