@@ -1,0 +1,30 @@
+/* Estilos adicionales para el header */
+:host {
+  display: block;
+}
+
+/* Colores personalizados */
+.text-primary-500 {
+  color: #3b82f6; /* Azul por defecto, ajusta según tu paleta de colores */
+}
+
+.bg-primary-500 {
+  background-color: #3b82f6; /* Azul por defecto, ajusta según tu paleta de colores */
+}
+
+/* Animación para el menú móvil */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Aplicar animación al menú móvil */
+.lg\:hidden.bg-white {
+  animation: slideDown 0.2s ease-out;
+}
