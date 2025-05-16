@@ -1,0 +1,125 @@
+<header class="bg-white shadow-sm fixed w-full top-0 z-50">
+  <div class="container mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
+    <!-- Logo -->
+    <div class="flex items-center">
+      <a routerLink="/" class="text-2xl font-bold text-gray-800">
+      </a>
+    </div>
+
+    <!-- Desktop Navigation -->
+    <nav class="hidden lg:flex lg:gap-x-12">
+      <a routerLink="/" routerLinkActive="text-primary-500 font-medium" [routerLinkActiveOptions]="{exact: true}" 
+         class="text-sm/6 font-semibold text-gray-900 hover:text-primary-500 transition-colors">
+        Home
+      </a>
+      <a routerLink="/shop" routerLinkActive="text-primary-500 font-medium" 
+         class="text-sm/6 font-semibold text-gray-900 hover:text-primary-500 transition-colors">
+        Shop
+      </a>
+      <a routerLink="/about" routerLinkActive="text-primary-500 font-medium" 
+         class="text-sm/6 font-semibold text-gray-900 hover:text-primary-500 transition-colors">
+        About
+      </a>
+      <a routerLink="/contact" routerLinkActive="text-primary-500 font-medium" 
+         class="text-sm/6 font-semibold text-gray-900 hover:text-primary-500 transition-colors">
+        Contact
+      </a>
+    </nav>
+
+    <!-- Actions -->
+    <div class="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
+      <!-- User Account -->
+      <a routerLink="/account" class="text-sm/6 font-semibold text-gray-900 hover:text-primary-500 transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+        </svg>         
+      </a>
+      
+      <!-- Search -->
+      <a routerLink="/search" class="text-sm/6 font-semibold text-gray-900 hover:text-primary-500 transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+        </svg>          
+      </a>
+      
+      <!-- Wishlist -->
+      <a routerLink="/wishlist" class="text-sm/6 font-semibold text-gray-900 hover:text-primary-500 transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+        </svg>
+      </a>
+      
+      <!-- Cart -->
+      <a routerLink="/cart" class="text-sm/6 font-semibold text-gray-900 hover:text-primary-500 transition-colors relative">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+        </svg>
+        <span class="absolute -top-2 -right-2 bg-primary-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+          0
+        </span>
+      </a>
+    </div>
+      
+    <!-- Mobile Menu Button -->
+    <button (click)="toggleMenu()" class="lg:hidden text-gray-600 hover:text-primary-500 transition-colors">
+      <svg *ngIf="!menuOpen" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+      <svg *ngIf="menuOpen" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div *ngIf="menuOpen" class="lg:hidden bg-white border-t">
+    <div class="container mx-auto px-4 py-2">
+      <nav class="flex flex-col space-y-3 py-4">
+        <a routerLink="/" routerLinkActive="text-primary-500 font-medium" [routerLinkActiveOptions]="{exact: true}" 
+           class="text-gray-900 hover:text-primary-500 transition-colors py-2">
+          Home
+        </a>
+        <a routerLink="/shop" routerLinkActive="text-primary-500 font-medium" 
+           class="text-gray-900 hover:text-primary-500 transition-colors py-2">
+          Shop
+        </a>
+        <a routerLink="/about" routerLinkActive="text-primary-500 font-medium" 
+           class="text-gray-900 hover:text-primary-500 transition-colors py-2">
+          About
+        </a>
+        <a routerLink="/contact" routerLinkActive="text-primary-500 font-medium" 
+           class="text-gray-900 hover:text-primary-500 transition-colors py-2">
+          Contact
+        </a>
+        <div class="flex space-x-4 pt-4">
+          <a routerLink="/account" class="text-gray-900 hover:text-primary-500 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+            </svg>         
+          </a>
+          <a routerLink="/search" class="text-gray-900 hover:text-primary-500 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+            </svg>          
+          </a>
+          <a routerLink="/wishlist" class="text-gray-900 hover:text-primary-500 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+            </svg>
+          </a>
+          <a routerLink="/cart" class="text-gray-900 hover:text-primary-500 transition-colors relative">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+            </svg>
+            <span class="absolute -top-2 -right-2 bg-primary-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+              0
+            </span>
+          </a>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<!-- Spacer to prevent content from being hidden under fixed header -->
+<div class="h-[88px]"></div>
