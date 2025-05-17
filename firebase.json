@@ -1,15 +1,13 @@
 {
   "hosting": {
-    "source": "frontend/",
+    "source": "frontend",
     "ignore": [
       "firebase.json",
       "**/.*",
-      "**/node_modules/**",
-      ".github/*"
+      "**/node_modules/**"
     ],
-    "rewrites": [ {
-      "source": "**",
-      "destination": "src/index.html"
-    } ]
+    "frameworksBackend": {
+      "region": "us-central1"
+    }
   }
 }
