@@ -1,0 +1,56 @@
+/* Estilos para el aspecto ratio de las imágenes de productos */
+.aspect-h-1 {
+  --tw-aspect-h: 1;
+}
+
+.aspect-w-1 {
+  position: relative;
+  padding-bottom: calc(var(--tw-aspect-h) / 1 * 100%);
+  --tw-aspect-w: 1;
+}
+
+.aspect-w-1 > * {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+/* Estilos adicionales */
+.container {
+  max-width: 1280px;
+}
+
+/* Animaciones para los botones de acción */
+.transition-opacity {
+  transition: opacity 0.3s ease;
+}
+
+/* Estilos para hover en dispositivos táctiles */
+@media (hover: none) {
+  .group:hover .group-hover\:opacity-100 {
+    opacity: 1;
+  }
+}
+
+/* Estilos para los selectores */
+select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 0.5rem center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+}
+
+/* Estilos para el menú desplegable */
+.z-10 {
+  z-index: 10;
+}
+
+/* Cursor pointer para elementos clickeables */
+.cursor-pointer {
+  cursor: pointer;
+}
