@@ -1,15 +1,20 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { ProductList } from '../../../interfaces';
+import { ProductService } from '../../service/product.service';
 
 @Component({
   selector: 'app-shop',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './shop.component.html',
   styleUrl: './shop.component.css'
 })
 export class ShopComponent {
+  // Datos
+  allProductsList: ProductList[] = [];
   // Propiedades para categorías y filtros
   bannerImagePath: string = 'assets/images/Shop_Collection.png';
   categories: string[] = ['All', 'Chairs', 'Tables', 'Sofas', 'Lamps', 'Kitchen'];
@@ -29,95 +34,15 @@ export class ShopComponent {
   
   // Referencia a Math para usar en el template
   Math = Math;
-  
-  // Datos de productos
-  products = [
-    {
-      id: 1,
-      name: 'Minimal Chair',
-      price: 250,
-      discountPrice: 200,
-      image: '#',
-      category: 'Chairs',
-      isNew: true,
-      isSale: true
-    },
-    {
-      id: 2,
-      name: 'Modern Sofa',
-      price: 450,
-      discountPrice: null,
-      image: '#',
-      category: 'Sofas',
-      isNew: false,
-      isSale: false
-    },
-    {
-      id: 3,
-      name: 'Wooden Table',
-      price: 350,
-      discountPrice: 300,
-      image: '#',
-      category: 'Tables',
-      isNew: true,
-      isSale: true
-    },
-    {
-      id: 4,
-      name: 'Pendant Lamp',
-      price: 150,
-      discountPrice: null,
-      image: '#',
-      category: 'Lamps',
-      isNew: false,
-      isSale: false
-    },
-    {
-      id: 5,
-      name: 'Kitchen Island',
-      price: 550,
-      discountPrice: 500,
-      image: '#',
-      category: 'Kitchen',
-      isNew: true,
-      isSale: true
-    },
-    {
-      id: 6,
-      name: 'Dining Chair',
-      price: 180,
-      discountPrice: null,
-      image: '#',
-      category: 'Chairs',
-      isNew: false,
-      isSale: false
-    },
-    {
-      id: 7,
-      name: 'Coffee Table',
-      price: 280,
-      discountPrice: 250,
-      image: '#',
-      category: 'Tables',
-      isNew: true,
-      isSale: true
-    },
-    {
-      id: 8,
-      name: 'Floor Lamp',
-      price: 200,
-      discountPrice: null,
-      image: '#',
-      category: 'Lamps',
-      isNew: false,
-      isSale: false
-    }
-  ];
 
+  constructor(private productService: ProductService) {
+    this.allProductsList = this.productService.getAllProducts();
+  }
+  
   // Getters para la interfaz
   get filteredProducts() {
-    return this.products.filter(product => 
-      this.selectedCategory === 'All' || product.category === this.selectedCategory
+    return this.allProductsList.filter(product => 
+      this.selectedCategory === "All" || product.category === this.selectedCategory
     );
   }
   
@@ -164,4 +89,5 @@ export class ShopComponent {
     console.log('Added product to wishlist:', productId);
     // Implementar lógica de lista de deseos aquí
   }
+
 }
