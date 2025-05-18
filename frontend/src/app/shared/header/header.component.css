@@ -28,3 +28,7 @@
 .lg\:hidden.bg-white {
   animation: slideDown 0.2s ease-out;
 }
+
+.transition-colors {
+  transition: color 0.2s ease-in-out;
+}
