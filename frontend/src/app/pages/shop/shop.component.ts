@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { ProductList } from '../../../interfaces';
 import { ProductService } from '../../service/product.service';
-import fs from 'fs';
 
 @Component({
   selector: 'app-shop',

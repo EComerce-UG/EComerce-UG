@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/cor
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import {TuiTextfield} from '@taiga-ui/core';
-import {TuiInputNumber} from '@taiga-ui/kit';
+import { TuiTextfield } from '@taiga-ui/core';
+import { TuiInputNumber } from '@taiga-ui/kit';
 
 import { ProductService } from '../../service/product.service';
 import { ProductList } from '../../../interfaces';

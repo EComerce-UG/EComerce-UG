@@ -1,6 +1,16 @@
 <main class="container mx-auto px-4 py-8 mb-15">
-  <div class="relative mb-8 bg-black-500">
-    <h1>Regreso</h1>
+  <div class="relative grid grid-cols-6 mb-8 bg-black-500">
+    <div class="col-span-2 flex place-items-center">
+      <a routerLink="/shop" routerLinkActive="active" class="text-lg text-[#9f9f9f]">Home</a>
+      <svg class="mx-10 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 5 7 7-7 7"/>
+      </svg>
+      <a routerLink="/shop" routerLinkActive="active" class="text-lg text-[#9f9f9f]">Shop</a>
+      <svg class="mx-10 "aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 5 7 7-7 7"/>
+      </svg>
+      <a href="#" class="text-lg text-nowrap">{{productView?.name}}</a>
+    </div>
   </div>
   <section>
     <div class="bg-white">
@@ -31,7 +41,8 @@
                   class="size-6 text-yellow-500">
                   <path fill-rule="evenodd"
                     d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
-                    clip-rule="evenodd" />
+                    clip-rule="evenodd" 
+                  />
                 </svg>
                 <span class="text-gray-600 ml-2">{{productView?.rating}} ({{productView?.quantityReviews}} reviews)</span>
               </div>
