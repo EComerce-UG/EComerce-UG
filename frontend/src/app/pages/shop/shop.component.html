@@ -16,7 +16,7 @@
       <!-- Contenido del banner -->
       <div class="text-center relative z-10">
         <h1 class="text-4xl font-bold text-black-200 mb-2 drop-shadow-md">Shop Collection</h1>
-        <p class="text-white drop-shadow-md">Find the perfect piece for your space</p>
+        <p class="text-black drop-shadow-md">Home > My account</p>
       </div>
     </div>
   </div>
@@ -74,7 +74,12 @@
       </div>
       
       <div class="text-sm text-gray-600">
-        Showing {{ showingFrom }}-{{ showingTo }} of {{ totalResults }} results
+        <span *ngIf="totalResults > 0">
+          Showing {{ showingFrom }}-{{ showingTo }} of {{ totalResults }} results
+        </span>
+        <span *ngIf="totalResults === 0">
+          No products found
+        </span>
       </div>
     </div>
     
@@ -101,8 +106,18 @@
     </div>
   </div>
 
+  <!-- Mensaje cuando no hay productos -->
+  <div *ngIf="paginatedProducts.length === 0" class="text-center py-12">
+    <p class="text-gray-500 text-lg">No products found matching your criteria.</p>
+    <button 
+      (click)="setCategory('All')" 
+      class="mt-4 px-4 py-2 bg-black text-white rounded-md hover:bg-gray-800 transition-colors">
+      View All Products
+    </button>
+  </div>
+
   <!-- Cuadrícula de productos -->
-  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+  <div *ngIf="paginatedProducts.length > 0" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
     <div *ngFor="let product of paginatedProducts" class="group relative">
       <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-100">
         <img src="{{product?.imagesRoute}}1.jpg" alt="{{ product.name }}" class="h-full w-full object-cover object-center">
@@ -120,13 +135,6 @@
               </svg>
           </a>
         </div>
-        
-        <!-- Botón de añadir al carrito (móvil/hover) -->
-        <!-- <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-70 text-white py-2 px-4 opacity-0 group-hover:opacity-100 transition-opacity">
-          <button (click)="addToCart(product.id)" class="w-full text-center text-sm font-medium">
-            Add to Cart
-          </button>
-        </div> -->
       </div>
       
       <div class="mt-4">
@@ -139,20 +147,41 @@
     </div>
   </div>
   
-  <!-- Paginación simplificada -->
-  <div class="mt-12 flex justify-center">
+  <!-- Paginación dinámica -->
+  <div *ngIf="totalPages > 1" class="mt-12 flex justify-center">
     <nav class="flex items-center gap-1">
-      <button class="p-2 rounded-md border border-gray-300 hover:bg-gray-100">
+      <!-- Botón anterior -->
+      <button 
+        (click)="previousPage()" 
+        [disabled]="currentPage === 1"
+        [class.opacity-50]="currentPage === 1"
+        class="p-2 rounded-md border border-gray-300 hover:bg-gray-100 disabled:hover:bg-white">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
           <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
         </svg>
       </button>
-      <button class="px-3 py-1 rounded-md bg-black text-white">1</button>
-      <button class="px-3 py-1 rounded-md hover:bg-gray-100">2</button>
-      <button class="px-3 py-1 rounded-md hover:bg-gray-100">3</button>
-      <span class="px-2">...</span>
-      <button class="px-3 py-1 rounded-md hover:bg-gray-100">8</button>
-      <button class="p-2 rounded-md border border-gray-300 hover:bg-gray-100">
+      
+      <!-- Números de página -->
+      <ng-container *ngFor="let page of pages">
+        <ng-container *ngIf="page !== '...'">
+          <button 
+            (click)="goToPage(page)" 
+            [class.bg-black]="currentPage === page"
+            [class.text-white]="currentPage === page"
+            [class.hover:bg-gray-100]="currentPage !== page"
+            class="px-3 py-1 rounded-md">
+            {{ page }}
+          </button>
+        </ng-container>
+        <span *ngIf="page === '...'" class="px-2">...</span>
+      </ng-container>
+      
+      <!-- Botón siguiente -->
+      <button 
+        (click)="nextPage()" 
+        [disabled]="currentPage === totalPages"
+        [class.opacity-50]="currentPage === totalPages"
+        class="p-2 rounded-md border border-gray-300 hover:bg-gray-100 disabled:hover:bg-white">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
           <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
         </svg>
