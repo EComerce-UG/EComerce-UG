@@ -16,7 +16,13 @@
       <!-- Contenido del banner -->
       <div class="text-center relative z-10">
         <h1 class="text-4xl font-bold text-black-200 mb-2 drop-shadow-md">Shop Collection</h1>
-        <p class="text-black drop-shadow-md">Home > My account</p>
+        <div class="flex mt-2 place-items-center place-content-center">
+            <a routerLink="/shop" routerLinkActive="active" class="text-lg font-bold text-[#00000] cursor-pointer">Home</a>
+            <svg class="mx-5 font-black" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 5 7 7-7 7"/>
+            </svg>
+            <a routerLink="/shop" routerLinkActive="active" class="text-lg text-[#9f9f9f] cursor-pointer">Shop</a>
+        </div>
       </div>
     </div>
   </div>
