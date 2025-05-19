@@ -2,15 +2,12 @@ import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/cor
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { TuiTextfield } from '@taiga-ui/core';
+import { TuiTextfield, TuiAlertService } from '@taiga-ui/core';
 import { TuiInputNumber } from '@taiga-ui/kit';
 
 import { ProductService } from '../../service/product.service';
 import { ProductList } from '../../../interfaces';
-
-interface MyArrayData {
-  color: string
-}
+import { AuthService } from '../../service/auth.service';
 
 @Component({
   selector: 'app-product',
@@ -27,18 +24,17 @@ export class ProductComponent {
   productView: ProductList | undefined;
   productRelatedView: ProductList[] | undefined;
   stars: number;
-  myList:MyArrayData[] = []
   Array = Array;
   protected value: number | null = null;
   buttonDescription = signal(false)
+  private readonly alerts = inject(TuiAlertService);
 
-  constructor() {
+  constructor(private userService: AuthService) {
     const currentProductId = Number(this.route.snapshot.params['id']);
     this.productView = this.productService.getProductById(currentProductId);
     this.productRelatedView = this.productService.getRelatedProducts(this.productView?.category);
     this.stars = this.productService.getProductRatig(currentProductId);
     this.stars = Math.round(this.stars);
-    this.myList.push({color: "Red"})
   }
 
   get relatedProductsList() {
@@ -90,4 +86,10 @@ export class ProductComponent {
     }
   }
   // TO-DO
+
+  sendToCart(productId:number|undefined):void {
+    if(!this.userService.isLoggedIn()){
+      this.alerts.open('Please login to add this product.', {label: 'Curretly not loggin', appearance: 'warning'}).subscribe()
+    }
+  }
 }

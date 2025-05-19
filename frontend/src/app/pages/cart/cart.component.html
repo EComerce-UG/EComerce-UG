@@ -1,0 +1,87 @@
+<main class="container mx-auto px-4 py-8 mb-15">
+  <!-- Banner de la tienda con la imagen de fondo -->
+  <div class="relative mb-8">
+    <div class="h-64 rounded-lg flex items-center justify-center overflow-hidden">
+      <!-- Imagen de fondo -->
+      <div class="absolute inset-0 w-full h-full">
+        <img 
+          src="assets/banner-shop.png"
+          alt="Background" 
+          class="w-full h-full object-cover opacity-90"
+        />
+        <!-- Overlay para mejorar la legibilidad del texto -->
+        <div class="absolute inset-0 bg-black-100 bg-opacity-30"></div>
+      </div>
+      
+      <!-- Contenido del banner -->
+      <div class="text-center relative z-10 items-center grid grid-cols-1 place-content-center place-items-center">
+        <h1 class="text-5xl font-bold text-black-200 mb-2 drop-shadow-md">Cart</h1>
+        <div class="flex mt-2 place-items-center">
+            <a routerLink="/shop" routerLinkActive="active" class="text-lg font-bold text-[#00000] cursor-pointer">Home</a>
+            <svg class="mx-5 font-black" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 5 7 7-7 7"/>
+            </svg>
+            <a routerLink="/cart" routerLinkActive="active" class="text-lg text-[#9f9f9f] cursor-pointer">Cart</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- Vista para el carrito -->
+<div class="container mx-auto mt-10">
+  <div class="sm:flex my-10">
+    <div class="w-full sm:w-3/4 bg-white px-8 py-10">
+      <!-- Header para los productos -->
+      <div class="grid grid-cols-4 w-full bg-[#fff9e5] px-8 justify-between size-15 place-items-center">
+        <h1 class="font-semibold text-2xl px-5">Product</h1>
+        <h2 class="font-semibold text-2xl px-5 w-full">Price</h2>
+        <h2 class="font-semibold text-2xl px-5 w-full">Quantity</h2>
+        <h2 class="font-semibold text-2xl px-5 w-full">Subtotal</h2>
+      </div>
+      <!-- Componente para el producto -->
+      <div class="grid grid-cols-5 w-full h-min-20 md:flex items-strech py-8 md:py-10 lg:py-8 border-t border-gray-50 place-content-center">
+        <div class="md:w-4/12 2xl:w-1/4 w-full text-center grid grid-cols-1 justify-items-center">
+          <img src="https://i.ibb.co/6gzWwSq/Rectangle-20-1.png" alt="Black Leather Purse" class="size-20 h-full object-cover md:block hidden rounded-xs" />
+          <h2 class="font-bold mt-1">Sofa</h2>
+        </div>
+        <div class="md:w-4/12 2xl:w-1/4 w-full text-center content-center">
+          <h2 class="text-[#9f9f9f]">$1200.00</h2>
+        </div>
+        <div class="md:w-4/12 2xl:w-1/4 w-full text-center content-center">
+          <select aria-label="Select quantity" class="py-2 px-1 border border-gray-200 mr-6 focus:outline-none">
+              <option>01</option>
+              <option>02</option>
+              <option>03</option>
+            </select>
+        </div>
+        <div class="md:w-4/12 2xl:w-1/4 w-full text-center content-center">
+          <h2 class="text-[#00000]">$1200.00</h2>
+        </div>
+        <div class="flex md:w-4/12 2xl:w-1/4 w-full place-items-center place-content-center basis-1/9">
+          <svg class="w-[30px] h-[30px] text-[#fbebb5] cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+            <path fill-rule="evenodd" d="M8.586 2.586A2 2 0 0 1 10 2h4a2 2 0 0 1 2 2v2h3a1 1 0 1 1 0 2v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V8a1 1 0 0 1 0-2h3V4a2 2 0 0 1 .586-1.414ZM10 6h4V4h-4v2Zm1 4a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Zm4 0a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Z" clip-rule="evenodd"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div id="summary" class="w-full sm:w-1/4 md:w-1/2 px-8 py-10 bg-[#fff9e5] text-center">
+      <h1 class="font-bold text-4xl pb-8">Card Totals</h1>
+      <div class="flex justify-between mt-8 mb-2 mx-12 text-sm">
+        <span class="font-bold capitalize">Items 3</span>
+        <span class="font-extralight ">590$</span>
+      </div>
+      <div class="mt-2 mx-12">
+        <div class="flex justify-between py-6 text-sm capitalize">
+          <span class="font-bold">Total cost</span>
+          <span class="font-extralight">$600</span>
+        </div>
+        <button class="font-semibold w-full max-w-xs h-12 hover:bg-white hover:font-bold text-sm text-black capitalize border rounded-2xl text-center">
+          <p>Check Out</p>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>

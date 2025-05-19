@@ -82,8 +82,8 @@
               </div>
       
               <div class="flex space-x-4 mb-6">
-                <button class="flex gap-2 items-center text-black px-6 py-2 border-2 border-solid rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                    Add to Cart
+                <button (click)="sendToCart(productView?.id)" class="flex gap-2 items-center text-black px-6 py-2 border-2 border-solid rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                  Add to Cart
                 </button>
                 <button class="bg-gray-200 flex gap-2 items-center  text-gray-800 px-6 py-2 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
