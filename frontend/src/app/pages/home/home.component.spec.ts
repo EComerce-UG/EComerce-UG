@@ -1,23 +1,42 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Component } from '@angular/core';
 
-import { HomeComponent } from './home.component';
+@Component({
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css'] // o .scss si usas SCSS
+})
+export class HomeComponent {
+  // Aquí  definir propiedades 
 
-describe('HomeComponent', () => {
-  let component: HomeComponent;
-  let fixture: ComponentFixture<HomeComponent>;
+  // 
+  products = [
+    {
+      img: 'assets/images/home4.png',
+      name: 'Twain modular sofa',
+      price: 'Rs. 25,000.00'
+    },
+    {
+      img: 'assets/images/home5.png',
+      name: 'Garcia dining table set',
+      price: 'Rs. 25,000.00'
+    },
+    {
+      img: 'assets/images/home6.png',
+      name: 'Outdoor bar table',
+      price: 'Rs. 25,000.00'
+    },
+    {
+      img: 'assets/images/home7.png',
+      name: 'Plain console teak',
+      price: 'Rs. 25,000.00'
+    }
+  ];
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [HomeComponent]
-    })
-    .compileComponents();
+  // Newsletter logic 
+  subscribe(email: string): void {
+    if (email) {
+      console.log(`Subscribed with: ${email}`);
+    }
+  }
+}
 
-    fixture = TestBed.createComponent(HomeComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
