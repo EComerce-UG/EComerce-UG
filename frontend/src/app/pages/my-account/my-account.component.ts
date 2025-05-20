@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
+
+import { TuiAlertService } from '@taiga-ui/core';
 
 @Component({
   selector: 'app-my-account',
@@ -16,6 +18,7 @@ export class MyAccountComponent {
     password: '',
     rememberMe: false
   };
+  private readonly alerts = inject(TuiAlertService);
 
   registerData = {
     email: ''
@@ -24,6 +27,7 @@ export class MyAccountComponent {
   login() {
     // Implementar lógica de inicio de sesión
     console.log('Login attempt with:', this.loginData);
+    this.alerts.open('Loggin, please hold on.', {label: 'Succesfully loggin.', appearance: 'positive'}).subscribe();
     // Aquí puedes agregar la llamada a tu servicio de autenticación
   }
 
