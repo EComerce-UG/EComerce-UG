@@ -1,0 +1,33 @@
+
+input, textarea {
+  font-family: inherit;
+  font-size: 1rem;
+  color: #333;
+}
+
+button {
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #333;
+}
+
+@media (max-width: 768px) {
+  footer .grid {
+    grid-template-columns: 1fr !important;
+    text-align: center;
+  }
+}
+
+/* Personalización para los íconos */
+.icon {
+  font-size: 1.25rem;
+  color: #000;
+}
+
+/* Espaciado extra  */
+.section-padding {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
