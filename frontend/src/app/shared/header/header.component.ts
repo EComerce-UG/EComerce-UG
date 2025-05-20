@@ -26,9 +26,15 @@ export class HeaderComponent {
 
   checkUserLoggin(userWantsToGo:string): void {
     if(!this.userService.isLoggedIn()) {
+      if(userWantsToGo === "my-account") {
+        this.userRoutes.navigate([userWantsToGo]);
+        return;
+      }
       this.alerts.open('Please login to start buying.', {label: 'Curretly not loggin', appearance: 'warning'}).subscribe();
+      return;
     } else {
       this.userRoutes.navigate([userWantsToGo]);
+      return;
     }
   }
 }
