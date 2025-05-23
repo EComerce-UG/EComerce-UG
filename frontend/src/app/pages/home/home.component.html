@@ -1,18 +1,140 @@
-<div class="mx-auto flex items-center place-content-center">
-  <div class="mx-auto items-center">
-    <tui-carousel
-      [duration]="4000"
-      [(index)]="index"
-    >
-      <ng-container *ngFor="let item of items">
-          <div
-              *tuiItem
-              class="item"
-          >
-              <p class="underline underline-offset-1">{{ item }}</p>
-              <!-- TODO: update documentation here -->
-          </div>
-      </ng-container>
-    </tui-carousel>
-  </div>
+<!-- Wrapper principal -->
+<div class="font-sans text-gray-800">
+  <!-- HERO -->
+  <section class="bg-[#fbebb5] px-40 py-30 flex flex-col md:flex-row items-center justify-between">
+    <div class="max-w-md">
+      <h1 class="text-4xl font-bold mb-4 leading-tight">Rocket single seater</h1>
+      <a routerLink="/shop" class="inline-block border-b-2 border-black text-black hover:text-gray-700">Shop Now</a>
+    </div>
+    <div class="mt-10 md:mt-0">
+      <img src="assets/images/home1.png" alt="Rocket Chair" class="max-w-sm">
+    </div>
+  </section>
+
+  <!-- 2 PRODUCTOS DESTACADOS -->
+  <section class="grid grid-cols-1 md:grid-cols-2 gap-10 py-16 px-10 bg-gray-100">
+    <div class="text-center">
+      <img src="assets/images/home2.png" alt="Side Table" class="mx-auto mb-4">
+      <h3 class="text-lg font-semibold">Side table</h3>
+      <a href="#" class="inline-block border-b-2 mt-2 border-black text-black hover:text-gray-700">View More</a>
+    </div>
+    <div class="text-center">
+      <img src="assets/images/home3.png" alt="Side Table" class="mx-auto mb-4">
+      <h3 class="text-lg font-semibold">Side table</h3>
+      <a href="#" class="inline-block border-b-2 mt-2 border-black text-black hover:text-gray-700">View More</a>
+    </div>
+  </section>
+
+  <!-- TOP PICKS FOR YOU -->
+  <section class="py-16 px-10 text-center">
+    <h2 class="text-2xl font-bold mb-2">Top Picks For You</h2>
+    <p class="text-gray-600 mb-10">Find a bright ideal to suit your taste with our great selection of suspension, floor and table lights.</p>
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+      <!-- Producto 1 -->
+      <div>
+        <img src="assets/images/home4.png" alt="Product 1" class="mx-auto mb-2">
+        <p class="text-sm text-gray-600">Twain modular sofa</p>
+        <p class="font-bold">Rs. 25,000.00</p>
+      </div>
+      <!-- Producto 2 -->
+      <div>
+        <img src="assets/images/home5.png" alt="Product 2" class="mx-auto mb-2">
+        <p class="text-sm text-gray-600">Garcia dining table set</p>
+        <p class="font-bold">Rs. 25,000.00</p>
+      </div>
+      <!-- Producto 3 -->
+      <div>
+        <img src="assets/images/home6.png" alt="Product 3" class="mx-auto mb-2">
+        <p class="text-sm text-gray-600">Outdoor bar table</p>
+        <p class="font-bold">Rs. 25,000.00</p>
+      </div>
+      <!-- Producto 4 -->
+      <div>
+        <img src="assets/images/home7.png" alt="Product 4" class="mx-auto mb-2">
+        <p class="text-sm text-gray-600">Plain console teak</p>
+        <p class="font-bold">Rs. 25,000.00</p>
+      </div>
+    </div>
+    <a href="#" class="inline-block border-b-2 border-black text-black hover:text-gray-700">View More</a>
+  </section>
+
+  <!-- PROMO ASGAARD -->
+  <section class="bg-yellow-100 px-10 py-20 flex flex-col md:flex-row items-center justify-between">
+    <div>
+      <img src="assets/images/home8.png" alt="Asgaard Sofa" class="max-w-md">
+    </div>
+    <div class="max-w-md text-center md:text-left mt-10 md:mt-0">
+      <h2 class="text-2xl font-bold mb-2">New Arrivals</h2>
+      <h3 class="text-3xl font-bold mb-6">Asgaard sofa</h3>
+      <a href="#" class="inline-block border-b-2 border-black text-black hover:text-gray-700">Order Now</a>
+    </div>
+  </section>
+
+  <!-- BLOG SECTION -->
+  <section class="py-16 px-10 text-center">
+    <h2 class="text-2xl font-bold mb-2">Our Blogs</h2>
+    <p class="text-gray-600 mb-10">Find a bright ideal to suit your taste with our great selection</p>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- Blog 1 -->
+      <div>
+        <img src="assets/images/home9.png" alt="Blog 1" class="mb-4">
+        <h3 class="font-semibold">Going all-in with millennial design</h3>
+        <a href="#" class="inline-block border-b-2 mt-2 border-black text-black hover:text-gray-700">Read More</a>
+        <p class="text-xs text-gray-500 mt-2">🕒 5 min · 📅 Oct 2022</p>
+      </div>
+      <!-- Blog 2 -->
+      <div>
+        <img src="assets/images/home10.png" alt="Blog 2" class="mb-4">
+        <h3 class="font-semibold">Going all-in with millennial design</h3>
+        <a href="#" class="inline-block border-b-2 mt-2 border-black text-black hover:text-gray-700">Read More</a>
+        <p class="text-xs text-gray-500 mt-2">🕒 5 min · 📅 Oct 2022</p>
+      </div>
+      <!-- Blog 3 -->
+      <div>
+        <img src="assets/images/home11.png" alt="Blog 3" class="mb-4">
+        <h3 class="font-semibold">Going all-in with millennial design</h3>
+        <a href="#" class="inline-block border-b-2 mt-2 border-black text-black hover:text-gray-700">Read More</a>
+        <p class="text-xs text-gray-500 mt-2">🕒 5 min · 📅 Oct 2022</p>
+      </div>
+    </div>
+    <a href="#" class="inline-block border-b-2 mt-10 border-black text-black hover:text-gray-700">View All Post</a>
+  </section>
+
+  <!-- INSTAGRAM CTA -->
+  <section class="bg-gray-100 py-20 px-10 text-center">
+    <h2 class="text-3xl font-bold mb-2">Our Instagram</h2>
+    <p class="text-gray-600 mb-6">Follow our store on Instagram</p>
+    <a href="#" class="inline-block border-b-2 border-black text-black hover:text-gray-700">Follow Us</a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-white py-10 px-10 text-sm text-gray-600">
+    <div class="flex flex-col md:flex-row justify-between mb-6">
+      <div>
+        <h4 class="font-bold mb-2">Links</h4>
+        <ul>
+          <li><a href="#" class="hover:underline">Home</a></li>
+          <li><a href="#" class="hover:underline">Shop</a></li>
+          <li><a href="#" class="hover:underline">About</a></li>
+          <li><a href="#" class="hover:underline">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-bold mb-2">Help</h4>
+        <ul>
+          <li><a href="#" class="hover:underline">Payment Options</a></li>
+          <li><a href="#" class="hover:underline">Returns</a></li>
+          <li><a href="#" class="hover:underline">Privacy Policies</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-bold mb-2">Newsletter</h4>
+        <form class="flex space-x-2">
+          <input type="email" placeholder="Enter your email" class="px-4 py-2 border border-gray-300 rounded">
+          <button class="px-4 py-2 bg-black text-white rounded">Subscribe</button>
+        </form>
+      </div>
+    </div>
+    <p class="text-center text-xs mt-4">&copy; 2022 Modular House. All rights reserved</p>
+  </footer>
 </div>
