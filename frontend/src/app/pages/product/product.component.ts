@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, signal } from '@angular/core';
+import { CommonModule, ViewportScroller } from '@angular/common';
+import { ActivatedRoute, Route, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { TuiTextfield, TuiAlertService } from '@taiga-ui/core';
 import { TuiInputNumber } from '@taiga-ui/kit';
@@ -29,12 +29,13 @@ export class ProductComponent {
   buttonDescription = signal(false)
   private readonly alerts = inject(TuiAlertService);
 
-  constructor(private userService: AuthService) {
+  constructor(private userService: AuthService, private viewportScroller: ViewportScroller) {
     const currentProductId = Number(this.route.snapshot.params['id']);
     this.productView = this.productService.getProductById(currentProductId);
     this.productRelatedView = this.productService.getRelatedProducts(this.productView?.category);
     this.stars = this.productService.getProductRatig(currentProductId);
     this.stars = Math.round(this.stars);
+    viewportScroller.scrollToPosition([0,0])
   }
 
   get relatedProductsList() {
