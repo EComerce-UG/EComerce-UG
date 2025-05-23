@@ -13,8 +13,10 @@ jobs:
       - name: Configure Node.js 
         uses: actions/setup-node@v3
         with:
-          node-version: 22.x
+          node-version: 18.x
       - run: npm install && npm run build
+      - name: Debug Environment
+        run: echo "FIREBASE_CLI_EXPERIMENTS=${{ env.FIREBASE_CLI_EXPERIMENTS }}"
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}

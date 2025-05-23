@@ -15,3 +15,19 @@ export interface ProductList {
   productDescription: string,
   imagesRoute: string
 }
+
+export interface User {
+  id: '',
+  nombre: '',
+  apaterno: '',
+  amaterno: '',
+  direccion: '',
+  telefono: '',
+  ciudad: '',
+  estado: '',
+  usuario: '',
+  password: '',
+  rol: '',
+  bloqueado: false,
+  intentos: 0,
+}

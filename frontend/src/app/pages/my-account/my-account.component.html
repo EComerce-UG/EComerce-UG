@@ -1,0 +1,141 @@
+<main class="container mx-auto px-4 py-8">
+  <!-- Banner de la tienda con la imagen de fondo -->
+  <div class="relative mb-8">
+    <div class="h-64 rounded-lg flex items-center justify-center overflow-hidden">
+      <!-- Imagen de fondo -->
+      <div class="absolute inset-0 w-full h-full">
+        <img 
+          src="assets/banner-shop.png"
+          alt="Background" 
+          class="w-full h-full object-cover opacity-90"
+        />
+        <!-- Overlay para mejorar la legibilidad del texto -->
+        <div class="absolute inset-0 bg-black-100 bg-opacity-30"></div>
+      </div>
+      
+      <!-- Contenido del banner -->
+      <div class="text-center relative z-10">
+        <h1 class="text-4xl font-bold text-black-200 mb-2 drop-shadow-md">My Account</h1>
+        <div class="flex mt-2 place-items-center place-content-center">
+            <a routerLink="/" class="text-lg font-bold text-[#00000] cursor-pointer">Home</a>
+            <svg class="mx-5 font-black" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 5 7 7-7 7"/>
+            </svg>
+            <a routerLink="/my-account" routerLinkActive="active" class="text-lg text-[#9f9f9f] cursor-pointer">My Account</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sección de Login y Registro -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+    <!-- Columna de Login -->
+    <div class="p-6">
+      <h2 class="text-3xl font-bold mb-8">Log In</h2>
+      <form>
+        <div class="mb-6">
+          <label for="username" class="block text-lg mb-2">Username or email address</label>
+          <input 
+            type="text" 
+            id="username" 
+            class="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-gray-200"
+            [(ngModel)]="loginData.username"
+            name="username"
+            required
+          >
+        </div>
+        
+        <div class="mb-6">
+          <label for="password" class="block text-lg mb-2">Password</label>
+          <input 
+            type="password" 
+            id="password" 
+            class="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-gray-200"
+            [(ngModel)]="loginData.password"
+            name="password"
+            required
+          >
+        </div>
+        
+        <div class="mb-6 flex items-center">
+          <input 
+            type="checkbox" 
+            id="remember" 
+            class="w-5 h-5 border border-gray-300 rounded mr-2"
+            [(ngModel)]="loginData.rememberMe"
+            name="rememberMe"
+          >
+          <label for="remember" class="text-lg">Remember me</label>
+        </div>
+        
+        <div class="flex items-center space-x-4">
+          <button 
+            type="submit" 
+            class="px-10 py-3 border border-gray-300 rounded-md text-lg font-medium hover:bg-gray-100 transition-colors"
+            (click)="login()"
+          >
+            Log In
+          </button>
+          <a href="#" class="text-gray-600 hover:underline">Lost Your Password?</a>
+        </div>
+      </form>
+    </div>
+    
+    <!-- Columna de Registro -->
+    <div class="p-6">
+      <h2 class="text-3xl font-bold mb-8">Register</h2>
+      <form>
+        <div class="mb-6">
+          <label for="email" class="block text-lg mb-2">Email address</label>
+          <input 
+            type="email" 
+            id="email" 
+            class="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-gray-200"
+            [(ngModel)]="registerData.email"
+            name="email"
+            required
+          >
+        </div>
+        
+        <div class="mb-6 text-gray-600">
+          <p class="mb-4">Se enviará un enlace para establecer una nueva contraseña a tu dirección de correo electrónico..</p>
+          <p>
+            Tus datos personales se utilizarán para mejorar tu experiencia en este sitio web,
+            gestionar el acceso a tu cuenta y para otros fines descritos en nuestra
+            <a href="#" class="font-bold hover:underline">política de privacidad</a>.
+          </p>
+        </div>
+        
+        <button 
+          type="submit" 
+          class="px-10 py-3 border border-gray-300 rounded-md text-lg font-medium hover:bg-gray-100 transition-colors"
+          (click)="register()"
+        >
+          Register
+        </button>
+      </form>
+    </div>
+  </div>
+  <!-- Sección de Beneficios -->
+<div class="mt-16 mb-8 bg-[#F8F8E1] py-12">  <!-- Color vainilla claro -->
+  <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 px-4">
+    <!-- Envío Gratis -->
+    <div class="text-center">
+      <h3 class="text-2xl font-bold mb-2">Envío Gratis</h3>
+      <p class="text-gray-600">Para pedidos superiores a $50, garantizando comodidad y rapidez.</p>
+    </div>
+    
+    <!-- Devoluciones en 90 Días -->
+    <div class="text-center">
+      <h3 class="text-2xl font-bold mb-2">Devoluciones en 90 Días</h3>
+      <p class="text-gray-600">Si hay problemas con tu producto, te ayudamos sin complicaciones.</p>
+    </div>
+    
+    <!-- Pago Seguro -->
+    <div class="text-center">
+      <h3 class="text-2xl font-bold mb-2">Pago Seguro</h3>
+      <p class="text-gray-600">Transacciones 100% protegidas, con tecnología de cifrado avanzado.</p>
+    </div>
+  </div>
+</div>
+</main>
