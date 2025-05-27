@@ -26,7 +26,7 @@ export class AuthService {
                 id: user.id,
                 usuario: user.usuario,
                 rol: user.rol
-            }, process.env.JWT_SECRECT as string, {
+            }, process.env.JWT_SECRET as string, {
                 expiresIn: '2h'
             })
             return { token, user }

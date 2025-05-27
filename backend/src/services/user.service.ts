@@ -1,9 +1,15 @@
 import { UserRepository } from '../repositories/user.repository'
 import { User } from '../models/user.model'
+import { hashPassword } from '../utils/bcrypt'
 
 export const userService = {
     async create(user: User): Promise<string> {
-        return UserRepository.create(user)
+        // No incluimos id, lo genera Firestore
+        const userToSave = {
+            ...user,
+            password: await hashPassword(user.password),
+        }
+        return UserRepository.create(userToSave as User)
     },
     async update(id: string, user: Partial<User>): Promise<void> {
         return UserRepository.update(id, user)
