@@ -1,7 +1,7 @@
 import { db } from '../config/firebase'
 import { User } from '../models/user.model'
 
-const USERS_COLLECTION = 'usuarios-ts'
+const USERS_COLLECTION = 'usuarios'
 
 export const UserRepository = {
     async create(user: User): Promise<string> {

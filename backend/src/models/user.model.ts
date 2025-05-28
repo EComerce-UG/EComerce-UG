@@ -9,5 +9,4 @@ export interface User {
     estado: string;
     usuario: string;
     password: string;
-    rol: 'admin' | 'recursos' | 'marketing' |'usuario';
 }
