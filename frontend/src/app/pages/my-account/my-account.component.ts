@@ -1,39 +1,257 @@
-import { Component, inject } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { RouterLink, RouterLinkActive } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { Component, inject } from "@angular/core"
+import { FormsModule } from "@angular/forms"
+import { RouterLink, RouterLinkActive } from "@angular/router"
+import { CommonModule } from "@angular/common"
 
-import { TuiAlertService } from '@taiga-ui/core';
+import { TuiAlertService } from "@taiga-ui/core"
+import { AuthService, type LoginRequest, type RegisterRequest, type User } from "../../service/auth.service"
 
 @Component({
-  selector: 'app-my-account',
+  selector: "app-my-account",
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink, RouterLinkActive],
-  templateUrl: './my-account.component.html',
-  styleUrl: './my-account.component.css'
+  templateUrl: "./my-account.component.html",
+  styleUrl: "./my-account.component.css",
 })
 export class MyAccountComponent {
   loginData = {
-    username: '',
-    password: '',
-    rememberMe: false
-  };
-  private readonly alerts = inject(TuiAlertService);
+    username: "",
+    password: "",
+    rememberMe: false,
+  }
+  private readonly alerts = inject(TuiAlertService)
+  private readonly authService = inject(AuthService)
 
   registerData = {
-    email: ''
-  };
+    email: "",
+    firstName: "",
+    lastName: "",
+    companyName: "",
+    country: "Sri Lanka",
+    streetAddress: "",
+    townCity: "",
+    province: "Western Province",
+    zipCode: "",
+    phone: "",
+    emailAddress: "",
+    additionalInformation: "",
+    username: "",
+    password: "",
+  }
+
+  showBillingForm = false
+  isLoading = false
 
   login() {
-    // Implementar lógica de inicio de sesión
-    console.log('Login attempt with:', this.loginData);
-    this.alerts.open('Loggin, please hold on.', {label: 'Succesfully loggin.', appearance: 'positive'}).subscribe();
-    // Aquí puedes agregar la llamada a tu servicio de autenticación
+    if (!this.loginData.username || !this.loginData.password) {
+      this.alerts
+        .open("Por favor complete todos los campos", {
+          label: "Error",
+          appearance: "error",
+        })
+        .subscribe()
+      return
+    }
+
+    this.isLoading = true
+
+    const loginRequest: LoginRequest = {
+      usuario: this.loginData.username,
+      password: this.loginData.password,
+    }
+
+    this.authService.login(loginRequest).subscribe({
+      next: (response: any) => {
+        this.isLoading = false
+        this.alerts
+          .open(`Bienvenido ${response.user.nombre}!`, {
+            label: "Login exitoso",
+            appearance: "positive",
+          })
+          .subscribe()
+
+        // Limpiar formulario
+        this.loginData = {
+          username: "",
+          password: "",
+          rememberMe: false,
+        }
+      },
+      error: (error: any) => {
+        this.isLoading = false
+        const errorMessage = error.error?.error || "Error al iniciar sesión"
+        this.alerts
+          .open(errorMessage, {
+            label: "Error de autenticación",
+            appearance: "error",
+          })
+          .subscribe()
+      },
+    })
   }
 
   register() {
-    // Implementar lógica de registro
-    console.log('Register attempt with:', this.registerData);
-    // Aquí puedes agregar la llamada a tu servicio de registro
+    if (!this.showBillingForm) {
+      // Validar email antes de mostrar el formulario completo
+      if (!this.registerData.email) {
+        this.alerts
+          .open("Por favor ingrese un email válido", {
+            label: "Error",
+            appearance: "error",
+          })
+          .subscribe()
+        return
+      }
+
+      // Mostrar formulario de billing details
+      this.showBillingForm = true
+      this.registerData.emailAddress = this.registerData.email
+      this.registerData.username = this.registerData.email // Usar email como username por defecto
+    } else {
+      // Validar campos requeridos
+      if (!this.validateRegistrationForm()) {
+        return
+      }
+
+      this.isLoading = true
+
+      // Mapear datos del formulario al formato del backend
+      const registerRequest: RegisterRequest = {
+        nombre: this.registerData.firstName,
+        apaterno: this.registerData.lastName,
+        amaterno: "", // Campo opcional, puedes agregarlo al formulario si lo necesitas
+        direccion: this.registerData.streetAddress,
+        telefono: this.registerData.phone,
+        ciudad: this.registerData.townCity,
+        estado: this.registerData.province,
+        usuario: this.registerData.username,
+        password: this.registerData.password,
+        rol: "usuario",
+      }
+
+      this.authService.register(registerRequest).subscribe({
+        next: (response: any) => {
+          this.isLoading = false
+          this.alerts
+            .open("Registro completado exitosamente!", {
+              label: "¡Bienvenido!",
+              appearance: "positive",
+            })
+            .subscribe()
+
+          // Limpiar formulario y volver a la vista inicial
+          this.resetRegistrationForm()
+        },
+        error: (error: any) => {
+          this.isLoading = false
+          const errorMessage = error.error?.error || "Error al registrar usuario"
+          this.alerts
+            .open(errorMessage, {
+              label: "Error de registro",
+              appearance: "error",
+            })
+            .subscribe()
+        },
+      })
+    }
+  }
+
+  private validateRegistrationForm(): boolean {
+    const requiredFields = [
+      { field: this.registerData.firstName, name: "Nombre" },
+      { field: this.registerData.lastName, name: "Apellido" },
+      { field: this.registerData.streetAddress, name: "Dirección" },
+      { field: this.registerData.townCity, name: "Ciudad" },
+      { field: this.registerData.phone, name: "Teléfono" },
+      { field: this.registerData.emailAddress, name: "Email" },
+      { field: this.registerData.username, name: "Usuario" },
+      { field: this.registerData.password, name: "Contraseña" },
+    ]
+
+    for (const item of requiredFields) {
+      if (!item.field || item.field.trim() === "") {
+        this.alerts
+          .open(`El campo ${item.name} es requerido`, {
+            label: "Error de validación",
+            appearance: "error",
+          })
+          .subscribe()
+        return false
+      }
+    }
+
+    // Validar email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(this.registerData.emailAddress)) {
+      this.alerts
+        .open("Por favor ingrese un email válido", {
+          label: "Error de validación",
+          appearance: "error",
+        })
+        .subscribe()
+      return false
+    }
+
+    // Validar contraseña (mínimo 6 caracteres)
+    if (this.registerData.password.length < 6) {
+      this.alerts
+        .open("La contraseña debe tener al menos 6 caracteres", {
+          label: "Error de validación",
+          appearance: "error",
+        })
+        .subscribe()
+      return false
+    }
+
+    return true
+  }
+
+  cancelBilling() {
+    this.showBillingForm = false
+    this.resetRegistrationForm()
+  }
+
+  private resetRegistrationForm() {
+    this.registerData = {
+      email: "",
+      firstName: "",
+      lastName: "",
+      companyName: "",
+      country: "Sri Lanka",
+      streetAddress: "",
+      townCity: "",
+      province: "Western Province",
+      zipCode: "",
+      phone: "",
+      emailAddress: "",
+      additionalInformation: "",
+      username: "",
+      password: "",
+    }
+    this.showBillingForm = false
+  }
+
+  logout() {
+    this.authService.logout().subscribe({
+      next: () => {
+        this.alerts
+          .open("Sesión cerrada exitosamente", {
+            label: "Logout",
+            appearance: "info",
+          })
+          .subscribe()
+      },
+      error: (error: any) => {
+        console.error("Error al cerrar sesión:", error)
+      },
+    })
+  }
+
+  get isLoggedIn(): boolean {
+    return this.authService.isLoggedIn()
+  }
+
+  get currentUser(): User | null {
+    return this.authService.getCurrentUser()
   }
 }

@@ -27,12 +27,28 @@
     </div>
   </div>
 
-  <!-- Sección de Login y Registro -->
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+  <!-- Mostrar información del usuario si está logueado -->
+  <div *ngIf="isLoggedIn && currentUser" class="mb-8 p-6 bg-green-50 border border-green-200 rounded-lg">
+    <div class="flex justify-between items-center">
+      <div>
+        <h3 class="text-xl font-bold text-green-800">¡Bienvenido, {{currentUser.nombre}} {{currentUser.apaterno}}!</h3>
+        <p class="text-green-600">Usuario: {{currentUser.usuario}} | Rol: {{currentUser.rol}}</p>
+      </div>
+      <button 
+        (click)="logout()"
+        class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors"
+      >
+        Cerrar Sesión
+      </button>
+    </div>
+  </div>
+
+  <!-- Sección de Login y Registro (solo mostrar si no está logueado) -->
+  <div *ngIf="!isLoggedIn" class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
     <!-- Columna de Login -->
     <div class="p-6">
       <h2 class="text-3xl font-bold mb-8">Log In</h2>
-      <form>
+      <form (ngSubmit)="login()">
         <div class="mb-6">
           <label for="username" class="block text-lg mb-2">Username or email address</label>
           <input 
@@ -41,6 +57,7 @@
             class="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-gray-200"
             [(ngModel)]="loginData.username"
             name="username"
+            [disabled]="isLoading"
             required
           >
         </div>
@@ -53,6 +70,7 @@
             class="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-gray-200"
             [(ngModel)]="loginData.password"
             name="password"
+            [disabled]="isLoading"
             required
           >
         </div>
@@ -64,6 +82,7 @@
             class="w-5 h-5 border border-gray-300 rounded mr-2"
             [(ngModel)]="loginData.rememberMe"
             name="rememberMe"
+            [disabled]="isLoading"
           >
           <label for="remember" class="text-lg">Remember me</label>
         </div>
@@ -71,10 +90,11 @@
         <div class="flex items-center space-x-4">
           <button 
             type="submit" 
-            class="px-10 py-3 border border-gray-300 rounded-md text-lg font-medium hover:bg-gray-100 transition-colors"
-            (click)="login()"
+            class="px-10 py-3 border border-gray-300 rounded-md text-lg font-medium hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            [disabled]="isLoading"
           >
-            Log In
+            <span *ngIf="!isLoading">Log In</span>
+            <span *ngIf="isLoading">Iniciando sesión...</span>
           </button>
           <a href="#" class="text-gray-600 hover:underline">Lost Your Password?</a>
         </div>
@@ -83,59 +103,280 @@
     
     <!-- Columna de Registro -->
     <div class="p-6">
-      <h2 class="text-3xl font-bold mb-8">Register</h2>
-      <form>
-        <div class="mb-6">
-          <label for="email" class="block text-lg mb-2">Email address</label>
-          <input 
-            type="email" 
-            id="email" 
-            class="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-gray-200"
-            [(ngModel)]="registerData.email"
-            name="email"
-            required
+      <!-- Formulario simple de registro -->
+      <div *ngIf="!showBillingForm">
+        <h2 class="text-3xl font-bold mb-8">Register</h2>
+        <form (ngSubmit)="register()">
+          <div class="mb-6">
+            <label for="email" class="block text-lg mb-2">Email address</label>
+            <input 
+              type="email" 
+              id="email" 
+              class="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-gray-200"
+              [(ngModel)]="registerData.email"
+              name="email"
+              [disabled]="isLoading"
+              required
+            >
+          </div>
+          
+          <div class="mb-6 text-gray-600">
+            <p class="mb-4">Se enviará un enlace para establecer una nueva contraseña a tu dirección de correo electrónico.</p>
+            <p>
+              Tus datos personales se utilizarán para mejorar tu experiencia en este sitio web,
+              gestionar el acceso a tu cuenta y para otros fines descritos en nuestra
+              <a href="#" class="font-bold hover:underline">política de privacidad</a>.
+            </p>
+          </div>
+          
+          <button 
+            type="submit" 
+            class="px-10 py-3 border border-gray-300 rounded-md text-lg font-medium hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            [disabled]="isLoading"
           >
-        </div>
-        
-        <div class="mb-6 text-gray-600">
-          <p class="mb-4">Se enviará un enlace para establecer una nueva contraseña a tu dirección de correo electrónico..</p>
-          <p>
-            Tus datos personales se utilizarán para mejorar tu experiencia en este sitio web,
-            gestionar el acceso a tu cuenta y para otros fines descritos en nuestra
-            <a href="#" class="font-bold hover:underline">política de privacidad</a>.
-          </p>
-        </div>
-        
-        <button 
-          type="submit" 
-          class="px-10 py-3 border border-gray-300 rounded-md text-lg font-medium hover:bg-gray-100 transition-colors"
-          (click)="register()"
-        >
-          Register
-        </button>
-      </form>
+            Register
+          </button>
+        </form>
+      </div>
+
+      <!-- Formulario de Billing Details -->
+      <div *ngIf="showBillingForm">
+        <h2 class="text-3xl font-bold mb-8">Billing details</h2>
+        <form (ngSubmit)="register()">
+          <!-- First Name y Last Name -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            <div>
+              <label for="firstName" class="block text-sm font-medium mb-2">First Name *</label>
+              <input 
+                type="text" 
+                id="firstName" 
+                class="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-gray-200"
+                [(ngModel)]="registerData.firstName"
+                name="firstName"
+                [disabled]="isLoading"
+                required
+              >
+            </div>
+            <div>
+              <label for="lastName" class="block text-sm font-medium mb-2">Last Name *</label>
+              <input 
+                type="text" 
+                id="lastName" 
+                class="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-gray-200"
+                [(ngModel)]="registerData.lastName"
+                name="lastName"
+                [disabled]="isLoading"
+                required
+              >
+            </div>
+          </div>
+
+          <!-- Username y Password -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            <div>
+              <label for="username" class="block text-sm font-medium mb-2">Username *</label>
+              <input 
+                type="text" 
+                id="regUsername" 
+                class="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-gray-200"
+                [(ngModel)]="registerData.username"
+                name="regUsername"
+                [disabled]="isLoading"
+                required
+              >
+            </div>
+            <div>
+              <label for="regPassword" class="block text-sm font-medium mb-2">Password *</label>
+              <input 
+                type="password" 
+                id="regPassword" 
+                class="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-gray-200"
+                [(ngModel)]="registerData.password"
+                name="regPassword"
+                [disabled]="isLoading"
+                required
+              >
+            </div>
+          </div>
+
+          <!-- Company Name -->
+          <div class="mb-6">
+            <label for="companyName" class="block text-sm font-medium mb-2">Company Name (Optional)</label>
+            <input 
+              type="text" 
+              id="companyName" 
+              class="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-gray-200"
+              [(ngModel)]="registerData.companyName"
+              name="companyName"
+              [disabled]="isLoading"
+            >
+          </div>
+
+          <!-- Country / Region -->
+          <div class="mb-6">
+            <label for="country" class="block text-sm font-medium mb-2">Country / Region</label>
+            <select 
+              id="country" 
+              class="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-gray-200"
+              [(ngModel)]="registerData.country"
+              name="country"
+              [disabled]="isLoading"
+              required
+            >
+              <option value="Sri Lanka">Sri Lanka</option>
+              <option value="United States">United States</option>
+              <option value="Canada">Canada</option>
+              <option value="United Kingdom">United Kingdom</option>
+              <option value="Australia">Australia</option>
+            </select>
+          </div>
+
+          <!-- Street Address -->
+          <div class="mb-6">
+            <label for="streetAddress" class="block text-sm font-medium mb-2">Street address *</label>
+            <input 
+              type="text" 
+              id="streetAddress" 
+              class="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-gray-200"
+              [(ngModel)]="registerData.streetAddress"
+              name="streetAddress"
+              [disabled]="isLoading"
+              required
+            >
+          </div>
+
+          <!-- Town / City -->
+          <div class="mb-6">
+            <label for="townCity" class="block text-sm font-medium mb-2">Town / City *</label>
+            <input 
+              type="text" 
+              id="townCity" 
+              class="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-gray-200"
+              [(ngModel)]="registerData.townCity"
+              name="townCity"
+              [disabled]="isLoading"
+              required
+            >
+          </div>
+
+          <!-- Province -->
+          <div class="mb-6">
+            <label for="province" class="block text-sm font-medium mb-2">Province</label>
+            <select 
+              id="province" 
+              class="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-gray-200"
+              [(ngModel)]="registerData.province"
+              name="province"
+              [disabled]="isLoading"
+              required
+            >
+              <option value="Western Province">Western Province</option>
+              <option value="Central Province">Central Province</option>
+              <option value="Southern Province">Southern Province</option>
+              <option value="Northern Province">Northern Province</option>
+              <option value="Eastern Province">Eastern Province</option>
+            </select>
+          </div>
+
+          <!-- ZIP Code -->
+          <div class="mb-6">
+            <label for="zipCode" class="block text-sm font-medium mb-2">ZIP Code</label>
+            <input 
+              type="text" 
+              id="zipCode" 
+              class="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-gray-200"
+              [(ngModel)]="registerData.zipCode"
+              name="zipCode"
+              [disabled]="isLoading"
+            >
+          </div>
+
+          <!-- Phone -->
+          <div class="mb-6">
+            <label for="phone" class="block text-sm font-medium mb-2">Phone *</label>
+            <input 
+              type="tel" 
+              id="phone" 
+              class="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-gray-200"
+              [(ngModel)]="registerData.phone"
+              name="phone"
+              [disabled]="isLoading"
+              required
+            >
+          </div>
+
+          <!-- Email address -->
+          <div class="mb-6">
+            <label for="emailAddress" class="block text-sm font-medium mb-2">Email address *</label>
+            <input 
+              type="email" 
+              id="emailAddress" 
+              class="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-gray-200"
+              [(ngModel)]="registerData.emailAddress"
+              name="emailAddress"
+              [disabled]="isLoading"
+              required
+            >
+          </div>
+
+          <!-- Additional Information -->
+          <div class="mb-6">
+            <label for="additionalInfo" class="block text-sm font-medium mb-2">Additional Information</label>
+            <textarea 
+              id="additionalInfo" 
+              rows="4"
+              class="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-gray-200"
+              [(ngModel)]="registerData.additionalInformation"
+              name="additionalInfo"
+              placeholder="Additional Information"
+              [disabled]="isLoading"
+            ></textarea>
+          </div>
+
+          <!-- Botones -->
+          <div class="flex space-x-4">
+            <button 
+              type="submit" 
+              class="px-10 py-3 bg-gray-800 text-white rounded-md text-lg font-medium hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              [disabled]="isLoading"
+            >
+              <span *ngIf="!isLoading">Complete Registration</span>
+              <span *ngIf="isLoading">Registrando...</span>
+            </button>
+            <button 
+              type="button" 
+              class="px-10 py-3 border border-gray-300 rounded-md text-lg font-medium hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              (click)="cancelBilling()"
+              [disabled]="isLoading"
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
+
   <!-- Sección de Beneficios -->
-<div class="mt-16 mb-8 bg-[#F8F8E1] py-12">  <!-- Color vainilla claro -->
-  <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 px-4">
-    <!-- Envío Gratis -->
-    <div class="text-center">
-      <h3 class="text-2xl font-bold mb-2">Envío Gratis</h3>
-      <p class="text-gray-600">Para pedidos superiores a $50, garantizando comodidad y rapidez.</p>
-    </div>
-    
-    <!-- Devoluciones en 90 Días -->
-    <div class="text-center">
-      <h3 class="text-2xl font-bold mb-2">Devoluciones en 90 Días</h3>
-      <p class="text-gray-600">Si hay problemas con tu producto, te ayudamos sin complicaciones.</p>
-    </div>
-    
-    <!-- Pago Seguro -->
-    <div class="text-center">
-      <h3 class="text-2xl font-bold mb-2">Pago Seguro</h3>
-      <p class="text-gray-600">Transacciones 100% protegidas, con tecnología de cifrado avanzado.</p>
+  <div class="mt-16 mb-8 bg-[#F8F8E1] py-12">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 px-4">
+      <!-- Envío Gratis -->
+      <div class="text-center">
+        <h3 class="text-2xl font-bold mb-2">Envío Gratis</h3>
+        <p class="text-gray-600">Para pedidos superiores a $50, garantizando comodidad y rapidez.</p>
+      </div>
+      
+      <!-- Devoluciones en 90 Días -->
+      <div class="text-center">
+        <h3 class="text-2xl font-bold mb-2">Devoluciones en 90 Días</h3>
+        <p class="text-gray-600">Si hay problemas con tu producto, te ayudamos sin complicaciones.</p>
+      </div>
+      
+      <!-- Pago Seguro -->
+      <div class="text-center">
+        <h3 class="text-2xl font-bold mb-2">Pago Seguro</h3>
+        <p class="text-gray-600">Transacciones 100% protegidas, con tecnología de cifrado avanzado.</p>
+      </div>
     </div>
   </div>
-</div>
 </main>
