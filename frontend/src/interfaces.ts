@@ -20,7 +20,6 @@ export interface User {
   id: '',
   nombre: '',
   apaterno: '',
-  amaterno: '',
   direccion: '',
   telefono: '',
   ciudad: '',

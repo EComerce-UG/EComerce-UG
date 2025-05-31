@@ -119,14 +119,12 @@ export class MyAccountComponent {
       const registerRequest: RegisterRequest = {
         nombre: this.registerData.firstName,
         apaterno: this.registerData.lastName,
-        amaterno: "", // Campo opcional, puedes agregarlo al formulario si lo necesitas
         direccion: this.registerData.streetAddress,
         telefono: this.registerData.phone,
         ciudad: this.registerData.townCity,
         estado: this.registerData.province,
         usuario: this.registerData.username,
-        password: this.registerData.password,
-        rol: "usuario",
+        password: this.registerData.password
       }
 
       this.authService.register(registerRequest).subscribe({

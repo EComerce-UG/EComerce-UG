@@ -49,13 +49,5 @@ export const UserController = {
         } catch (error: any) {
             res.status(401).json({error: error.message})
         }
-    },
-    async getByRol(req: Request, res: Response) {
-        try {
-            const users = await userService.getByRol(req.params.rol)
-            res.status(200).json({ users }) 
-        } catch (error: any) {
-            res.status(401).json({error: error.message})
-        }
     }
 }

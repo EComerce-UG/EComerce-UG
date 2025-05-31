@@ -25,8 +25,5 @@ export const userService = {
     },
     async getByUsername(username: string): Promise<User | null> {
         return UserRepository.getByUsername(username)
-    },
-    async getByRol(rol: string): Promise<User[]> {
-        return UserRepository.getByRol(rol)
     }
 }

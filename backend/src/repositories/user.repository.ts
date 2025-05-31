@@ -12,11 +12,9 @@ export const UserRepository = {
                 throw new Error('El usuario ya existe')
             }
 
-            // Corregir el typo: 'amanterno' -> 'amaterno'
             const duplicateName = await db.collection(USERS_COLLECTION)
                 .where('nombre', '==', user.nombre)
                 .where('apaterno', '==', user.apaterno)
-                .where('amaterno', '==', user.amaterno)
                 .get()
             
             if (!duplicateName.empty) {
@@ -52,10 +50,6 @@ export const UserRepository = {
     async getByUsername(username: string): Promise<User | null> {
         const user = await db.collection(USERS_COLLECTION).where('usuario', '==', username).get()
         return !user.empty ? ({ id: user.docs[0].id, ...user.docs[0].data() } as User) : null
-    },
-    
-    async getByRol(rol: string): Promise<User[]> {
-        const users = await db.collection(USERS_COLLECTION).where('rol', '==', rol).get()
-        return users.docs.map(doc => ({id: doc.id, ...doc.data() })) as User[]
     }
+    // getByRol eliminado: ya no se manejan roles en el sistema
 }
