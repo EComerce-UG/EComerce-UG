@@ -1,40 +1,8 @@
-import { Injectable } from "@angular/core";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Observable, BehaviorSubject } from "rxjs";
-import { tap } from "rxjs/operators";
-
-export interface LoginRequest {
-  usuario: string;
-  password: string;
-}
-
-export interface LoginResponse {
-  token: string;
-  user: User;
-}
-
-export interface User {
-  id: string;
-  nombre: string;
-  apaterno: string;
-  direccion: string;
-  telefono: string;
-  ciudad: string;
-  estado: string;
-  usuario: string;
-  password: string;
-}
-
-export interface RegisterRequest {
-  nombre: string;
-  apaterno: string;
-  direccion: string;
-  telefono: string;
-  ciudad: string;
-  estado: string;
-  usuario: string;
-  password: string;
-}
+import { Injectable } from "@angular/core"
+import { HttpClient, HttpHeaders } from "@angular/common/http"
+import { type Observable, BehaviorSubject } from "rxjs"
+import { tap } from "rxjs/operators"
+import { LoginRequest, LoginResponse, ProductList, RegisterRequest, User } from "../../interfaces"
 
 @Injectable({
   providedIn: "root",
@@ -65,7 +33,7 @@ export class AuthService {
     if (token) {
       this.getUserFromToken().subscribe({
         next: (response) => {
-          this.currentUserSubject.next(response.user);
+          this.currentUserSubject.next(response.user.user);
           localStorage.setItem("user", JSON.stringify(response.user));
         },
         error: () => {
@@ -106,9 +74,24 @@ export class AuthService {
     );
   }
 
-  getUserFromToken(): Observable<{ user: User }> {
+  getUserFromToken(): Observable<{ user: LoginResponse }> {
+    const headers = this.getAuthHeaders()
+    return this.http.get<{ user: LoginResponse }>(`${this.apiUrl}/auth/user`, { headers })
+  }
+
+  getUserLikesInfo(userList:[]): Observable<{products: ProductList[]}> {
     const headers = this.getAuthHeaders();
-    return this.http.get<{ user: User }>(`${this.apiUrl}/auth/user`, { headers });
+    return this.http.post<{ products: ProductList[] }>(`${this.apiUrl}/users/getLikes`, {userList}, { headers }).pipe()
+  }
+
+  updateUserLikes(productId: number, userId: string): Observable<{status: boolean}> {
+    const headers = this.getAuthHeaders();
+    return this.http.post<{ status: boolean }>(`${this.apiUrl}/users/updateLikes`, { productId: productId, id: userId }, { headers }).pipe()
+  }
+
+  addLikeProductUser(productId: number, userId: string): Observable<{status: boolean}> {
+    const headers = this.getAuthHeaders();
+    return this.http.post<{ status: boolean }>(`${this.apiUrl}/users/addLikes`, {productId: productId, id: userId}, { headers }).pipe()
   }
 
   private getAuthHeaders(): HttpHeaders {

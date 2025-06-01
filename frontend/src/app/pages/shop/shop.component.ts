@@ -2,25 +2,31 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { ProductList } from '../../../interfaces';
+import { ProductList, User } from '../../../interfaces';
 import { ProductService } from '../../service/product.service';
+import { HttpClient } from '@angular/common/http';
+import { AuthService } from '../../service/auth.service';
+import { response } from 'express';
 
 @Component({
   selector: 'app-shop',
   standalone: true,
   imports: [CommonModule, FormsModule, RouterModule],
+  providers: [],
   templateUrl: './shop.component.html',
   styleUrl: './shop.component.css'
 })
 export class ShopComponent {
   // Datos
   allProductsList: ProductList[] = [];
+  like = true
   // Propiedades para categorías y filtros
   bannerImagePath: string = 'assets/images/Shop_Collection.png';
   categories: string[] = ['All', 'Chairs', 'Tables', 'Sofas', 'Lamps', 'Kitchen'];
   selectedCategory: string = 'All';
   sortOptions: string[] = ['Default', 'Newest', 'Price: Low to High', 'Price: High to Low', 'Most Popular'];
   selectedSort: string = 'Default';
+  userLikes: ProductList[] = [];
   
   // Propiedades para la vista y paginación
   viewMode: string = 'grid'; // 'grid' o 'list'
@@ -34,11 +40,30 @@ export class ShopComponent {
   // Referencia a Math para usar en el template
   Math = Math;
 
-  constructor(private productService: ProductService) {
+  constructor(private productService: ProductService, private authService: AuthService , private http: HttpClient) {
     this.allProductsList = this.productService.getAllProducts();
+    this.checkForLikes();
   }
   
   // Getters para la interfaz
+  checkForLikes(): void {
+    this.authService.getUserFromToken().subscribe((response) => {
+      this.authService.getUserLikesInfo(response.user.user.likes).subscribe((response) => {
+        this.userLikes = response.products;
+      }, (error: any) => {
+        console.log(error);
+      })
+    })
+  }
+
+  isInUserLike(productId: number):boolean {
+    for (let value of this.userLikes) {
+      if(value.id === productId)
+        return true
+    }
+    return false;
+  }
+  
   get filteredProducts() {
     return this.allProductsList.filter(product => 
       this.selectedCategory === "All" || product.category === this.selectedCategory
@@ -135,8 +160,41 @@ export class ShopComponent {
     // Implementar lógica de carrito aquí
   }
 
-  addToWishlist(productId: number) {
-    console.log('Added product to wishlist:', productId);
-    // Implementar lógica de lista de deseos aquí
+  addToWishlist(productId: number):void {
+    // buscar primero si ya la tiene agregada
+    for (let value of this.userLikes) {
+      if(value.id === productId) {
+        this.authService.getUserFromToken().subscribe((response) => {
+          let userId = response.user.user.id;
+          this.authService.updateUserLikes(productId, userId).subscribe((response) => {
+            if(response.status)
+             window.location.reload();
+          }, (error: any) => {
+            console.log(error);
+          })
+        }, (error: any) => {
+          console.log(error);
+        })
+        return;
+      }
+    }
+    this.authService.getUserFromToken().subscribe((response) => {
+      let userId = response.user.user.id;
+      this.authService.addLikeProductUser(productId, userId).subscribe((response) => {
+        console.log(response)
+        if(response.status)
+         window.location.reload();
+      }, (error: any) => {
+        console.log(error);
+      })
+    }, (error: any) => {
+      console.log(error);
+    })
+    // this.user.addLikeProductUser(productId, "oscar").subscribe((response) => {
+    //   window.location.reload();
+    // }, (error) => {
+    //   console.error(error);
+    // });
+    return;
   }
 }

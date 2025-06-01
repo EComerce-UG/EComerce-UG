@@ -4,7 +4,8 @@ import { RouterLink, RouterLinkActive } from "@angular/router"
 import { CommonModule } from "@angular/common"
 
 import { TuiAlertService } from "@taiga-ui/core"
-import { AuthService, type LoginRequest, type RegisterRequest, type User } from "../../service/auth.service"
+import { AuthService } from "../../service/auth.service"
+import { LoginRequest, RegisterRequest, User } from "../../../interfaces"
 
 @Component({
   selector: "app-my-account",
@@ -18,7 +19,8 @@ export class MyAccountComponent {
     username: "",
     password: "",
     rememberMe: false,
-  }
+  };
+  private curretUserData: User[] = [];
   private readonly alerts = inject(TuiAlertService)
   private readonly authService = inject(AuthService)
 
@@ -76,6 +78,7 @@ export class MyAccountComponent {
           password: "",
           rememberMe: false,
         }
+        this.curretUserData = response.user;
       },
       error: (error: any) => {
         this.isLoading = false
@@ -124,7 +127,8 @@ export class MyAccountComponent {
         ciudad: this.registerData.townCity,
         estado: this.registerData.province,
         usuario: this.registerData.username,
-        password: this.registerData.password
+        password: this.registerData.password,
+        likes: []
       }
 
       this.authService.register(registerRequest).subscribe({

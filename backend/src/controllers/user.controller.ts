@@ -2,7 +2,20 @@ import { Request, Response } from 'express';
 import { userService } from '../services/user.service';
 
 export const UserController = {
-    async create(req: Request, res: Response) {
+    async create(req: Request & {
+        body: {
+            nombre: string
+            apaterno: string
+            amaterno: string
+            direccion: string
+            telefono: string
+            ciudad: string
+            estado: string
+            usuario: string
+            password: string
+            likes: any[]
+        }[]
+    }, res: Response) {
         try {
             const id = await userService.create(req.body)
             res.status(200).json({id}) 
@@ -49,5 +62,49 @@ export const UserController = {
         } catch (error: any) {
             res.status(401).json({error: error.message})
         }
+    },
+    async deleteFromLikesProductUser(req: Request & {
+      body: {
+        productId: number,
+        id: string
+      }
+    },
+      res: Response): Promise<void> {
+        try {
+          const { id, productId } = req.body;
+          userService.deleteFromLikesProductUser(productId, id);
+          res.status(200).json({status: true});
+        } catch (error:any) {
+          res.status(401).json({error: error.message});
+        }
+    },
+    async addToLikesProductUser(req: Request & {
+      body: {
+        productId: number,
+        id: string
+      }
+    }, 
+      res: Response): Promise<void> {
+        try {
+          const { productId, id } = req.body;
+          userService.addToLikesProductUser(productId, id)
+          res.status(200).json({status: true});
+        } catch (error:any) {
+          res.status(401).json({error: error.message});
+        }
+    },
+    async getProductsFromUser(req: Request & {
+      body: {
+        useList: []
+      }
+    }
+     ,res: Response) {
+      try {
+        const { userList } = req.body
+        const userLikeProductList = await userService.getProductsFromUser(userList);
+        res.status(200).json({products: userLikeProductList});
+      } catch (error:any) {
+        res.status(401).json({error: error.message});
+      }
     }
 }
