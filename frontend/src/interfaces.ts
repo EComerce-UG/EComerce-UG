@@ -16,18 +16,40 @@ export interface ProductList {
   imagesRoute: string
 }
 
+export interface LoginRequest {
+  usuario: string
+  password: string
+}
+
+export interface LoginResponse {
+  token: string
+  user: User
+}
+
 export interface User {
-  id: '',
-  nombre: '',
-  apaterno: '',
-  amaterno: '',
-  direccion: '',
-  telefono: '',
-  ciudad: '',
-  estado: '',
-  usuario: '',
-  password: '',
-  rol: '',
-  bloqueado: false,
-  intentos: 0,
+  id: string
+  nombre: string
+  apaterno: string
+  direccion: string
+  telefono: string
+  ciudad: string
+  estado: string
+  usuario: string
+  password: string
+  rol: string
+  bloqueado: boolean
+  intentos: 0
+  likes: []
+}
+
+export interface RegisterRequest {
+  nombre: string;
+  apaterno: string;
+  direccion: string;
+  telefono: string;
+  ciudad: string;
+  estado: string;
+  usuario: string;
+  password: string;
+  likes: [];
 }

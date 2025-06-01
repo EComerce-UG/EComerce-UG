@@ -1,11 +1,12 @@
 import { TuiRoot } from '@taiga-ui/core';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
+import { RouterOutlet, Router } from '@angular/router';
 // Componentes personalizados
 import { HeaderComponent } from './shared/header/header.component';
 import { FooterComponent } from './shared/footer/footer.component';
-
+import { AuthService } from './service/auth.service';
+import { ProductList, User } from '../interfaces';
 
 @Component({
   selector: 'app-root',
@@ -22,4 +23,24 @@ import { FooterComponent } from './shared/footer/footer.component';
 })
 export class AppComponent {
   title = 'EComerce-UG';
+  likesTotal:number = 0;
+  private readonly authService = inject(AuthService)
+  userLikes: ProductList[] = [];
+
+  constructor(private userRoutes: Router) { 
+    this.checkForLikes();
+  }
+
+  checkForLikes(): void {
+    this.authService.getUserFromToken().subscribe((response) => {
+      this.authService.getUserLikesInfo(response.user.user.likes).subscribe((response) => {
+        this.userLikes = response.products;
+        this.likesTotal += this.userLikes.length;
+      })
+    })
+  }
+
+  get currentUser(): User | null {
+    return this.authService.getCurrentUser()
+  }
 }
