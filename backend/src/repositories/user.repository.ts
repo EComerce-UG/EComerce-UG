@@ -1,10 +1,13 @@
 import { db } from '../config/firebase'
-import { User } from '../models/user.model'
+import { UserModel } from '../models/user.model'
+import { firestore } from "firebase-admin";
+import { ProductModel } from '../models/product.model';
 
 const USERS_COLLECTION = 'usuarios'
+const PRODUCTS_COLLECTION = 'products';
 
 export const UserRepository = {
-    async create(user: User): Promise<string> {
+    async create(user: UserModel): Promise<string> {
         try {
             // Corregir la lógica: si NO está vacío, significa que SÍ existe
             const userExist = await db.collection(USERS_COLLECTION).where('usuario', '==', user.usuario).get()
@@ -12,11 +15,9 @@ export const UserRepository = {
                 throw new Error('El usuario ya existe')
             }
 
-            // Corregir el typo: 'amanterno' -> 'amaterno'
             const duplicateName = await db.collection(USERS_COLLECTION)
                 .where('nombre', '==', user.nombre)
                 .where('apaterno', '==', user.apaterno)
-                .where('amaterno', '==', user.amaterno)
                 .get()
             
             if (!duplicateName.empty) {
@@ -31,7 +32,7 @@ export const UserRepository = {
         }
     },
     
-    async update(id: string, user: Partial<User>): Promise<void> {
+    async update(id: string, user: Partial<UserModel>): Promise<void> {
         await db.collection(USERS_COLLECTION).doc(id).update(user)
     },
     
@@ -39,23 +40,54 @@ export const UserRepository = {
         await db.collection(USERS_COLLECTION).doc(id).delete()
     },
     
-    async getAll(): Promise<User[]> {
+    async getAll(): Promise<UserModel[]> {
         const users = await db.collection(USERS_COLLECTION).get()
-        return users.docs.map(doc => ({id: doc.id, ...doc.data() })) as User[]
+        return users.docs.map(doc => ({id: doc.id, ...doc.data() })) as UserModel[]
     }, 
     
-    async getById(id: string): Promise<User | null> {
+    async getById(id: string): Promise<UserModel | null> {
         const user = await db.collection(USERS_COLLECTION).doc(id).get()
-        return user.exists ? ({ id: user.id, ...user.data()} as User) : null
+        return user.exists ? ({ id: user.id, ...user.data()} as UserModel) : null
     },
     
-    async getByUsername(username: string): Promise<User | null> {
+    async getByUsername(username: string): Promise<UserModel | null> {
         const user = await db.collection(USERS_COLLECTION).where('usuario', '==', username).get()
-        return !user.empty ? ({ id: user.docs[0].id, ...user.docs[0].data() } as User) : null
+        return !user.empty ? ({ id: user.docs[0].id, ...user.docs[0].data() } as UserModel) : null
     },
-    
-    async getByRol(rol: string): Promise<User[]> {
-        const users = await db.collection(USERS_COLLECTION).where('rol', '==', rol).get()
-        return users.docs.map(doc => ({id: doc.id, ...doc.data() })) as User[]
+
+    async addToLikesProductUser(productId:number, id:string): Promise<void> {
+      const snapshot = db.collection(USERS_COLLECTION).doc(id);
+      snapshot.update({
+        likes: firestore.FieldValue.arrayUnion(productId)
+      }).then(((response) => {
+        console.log(response);
+      })).catch((error) => {
+        console.error(error);
+      });
+    },
+
+    async deleteFromLikesProductUser(productId:number, id:string): Promise<void> {
+      const snapshot = db.collection(USERS_COLLECTION).doc(id);
+      snapshot.update({
+        likes: firestore.FieldValue.arrayRemove(productId)
+      }).then(((response) => {
+        console.log(response);
+      })).catch((error) => {
+        console.error(error);
+      });
+    },
+
+    async getProductsFromUser(listFromUser:[]):Promise<ProductModel[]> {
+      const dataReturn: ProductModel[] = [];
+      const snapshot = await db.collection(PRODUCTS_COLLECTION).get()
+      listFromUser.forEach((value:number) => {
+        snapshot.docs.map((doc) => {
+          if(doc.get('id') === value) {
+            const data = doc.data() as ProductModel;
+            dataReturn.push(data);
+          }
+        })
+      })
+      return dataReturn;
     }
 }

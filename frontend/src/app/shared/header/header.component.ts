@@ -1,22 +1,26 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Input } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { TuiAlertService } from '@taiga-ui/core';
 import { Router } from "@angular/router";
 
 import { AuthService } from '../../service/auth.service';
+import { ProductList } from '../../../interfaces';
 
 @Component({
   selector: 'app-header',
   standalone: true,
   imports: [CommonModule, RouterLink, RouterLinkActive],
+  providers: [],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderComponent {
-  menuOpen = false;
+  menuOpen:boolean = false;
+  @Input() likesProductsTotal:number = 0; 
   private readonly alerts = inject(TuiAlertService);
+  userLikes: ProductList[] = [];
 
   constructor(public userService: AuthService, private userRoutes: Router) { }
 

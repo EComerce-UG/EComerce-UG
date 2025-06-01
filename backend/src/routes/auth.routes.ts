@@ -5,6 +5,7 @@ const router = Router()
 
 router.post('/login', AuthController.login)
 router.post('/logout', AuthController.logout)
-router.get('/user', AuthController.getUserFromToken)
+const { AuthMiddleware } = require('../middleware/auth.middleware')
+router.get('/user', AuthMiddleware.verifyToken, AuthController.getUserFromToken)
 
 export default router;

@@ -54,3 +54,7 @@ select {
 .cursor-pointer {
   cursor: pointer;
 }
+
+.like-button {
+  color: #717070;
+}
