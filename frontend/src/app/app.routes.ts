@@ -5,6 +5,8 @@ import { ProductComponent } from './pages/product/product.component';
 import { CartComponent } from './pages/cart/cart.component';
 import { AuthguardService } from './auth/authguard.service';
 import { HomeComponent } from './pages/home/home.component.spec';
+import { SearchComponent } from './pages/search/search.component';
+import { WishlistComponent } from './pages/wishlist/wishlist.component';
 
 export const routes: Routes = [
   { 
@@ -27,6 +29,14 @@ export const routes: Routes = [
   { 
     path: 'home', 
     component: HomeComponent, 
+  },
+  {
+    path: 'search',
+    component: SearchComponent
+  },
+  {
+    path: 'wishlist',
+    component: WishlistComponent
   },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
 
