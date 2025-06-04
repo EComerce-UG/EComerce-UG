@@ -1,0 +1,7 @@
+FROM node:22-alpine
+COPY . .
+RUN npm install 
+EXPOSE 8080
+ARG DOCKER_ENV
+ENV NODE_ENV=${DOCKER_ENV}
+CMD ["NODE_ENV=production node", "dist/index.js"]

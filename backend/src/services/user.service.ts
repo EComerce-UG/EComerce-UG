@@ -1,7 +1,7 @@
-import { UserRepository } from '../repositories/user.repository'
-import { UserModel } from '../models/user.model'
-import { hashPassword } from '../utils/bcrypt'
-import { ProductModel } from '../models/product.model'
+import { UserRepository } from '../repositories/user.repository.js'
+import { UserModel } from '../models/user.model.js'
+import { hashPassword } from '../utils/bcrypt.js'
+import { ProductModel } from '../models/product.model.js'
 
 export const userService = {
     async create(user: UserModel): Promise<string> {

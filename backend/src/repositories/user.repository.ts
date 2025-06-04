@@ -1,7 +1,8 @@
-import { db } from '../config/firebase'
-import { UserModel } from '../models/user.model'
-import { firestore } from "firebase-admin";
-import { ProductModel } from '../models/product.model';
+import { db } from '../config/firebase.js'
+import { UserModel } from '../models/user.model.js'
+import pkg from 'firebase-admin'
+import { ProductModel } from '../models/product.model.js';
+const { firestore } = pkg;
 
 const USERS_COLLECTION = 'usuarios'
 const PRODUCTS_COLLECTION = 'products';
