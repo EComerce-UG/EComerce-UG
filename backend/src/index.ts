@@ -8,7 +8,7 @@ dotenv.config();
 const app = express();
 
 
-if(process.env.NODE_ENV === "development") {
+if(process.env.TYPE_DEV !== undefined) {
   // Configuración de CORS
   const corsOptions = {
     origin: 'http://localhost:4200',
@@ -17,7 +17,7 @@ if(process.env.NODE_ENV === "development") {
     allowedHeaders: ['Content-Type', 'Authorization', 'x-auth-token']
   };
   app.use(cors(corsOptions));
-} else if(process.env.NODE_ENV === "production") {
+} else {
   app.use(cors({origin: true}));
 }
 app.use(express.json());
@@ -44,5 +44,4 @@ app.listen(PORT, () => {
     console.log(`- GET  http://localhost:${PORT}/api/`);
     console.log(`- POST http://localhost:${PORT}/api/users/create`);
     console.log(`- POST http://localhost:${PORT}/api/auth/login`);
-    console.log(`- Trabajando en: ` + process.env.NODE_ENV);
 });

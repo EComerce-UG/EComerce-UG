@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "./dist/index.js",
   "scripts": {
-    "start": "NODE_ENV=development npm-run-all --parallel watch:build watch:server --print-label",
+    "start": "TYPE_DEV=development npm-run-all --parallel watch:build watch:server --print-label",
     "watch:build": "tsc --watch",
     "watch:server": "nodemon './dist/index.js' --watch './dist'",
     "deploy:build": "tsc",
