@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService, CartItem } from '../../service/cart.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-sidebar',
+  imports: [CommonModule],
   templateUrl: './sidebar.html',
   styleUrls: ['./sidebar.css']
 })
@@ -10,11 +12,15 @@ export class SidebarComponent implements OnInit {
   cartItems: CartItem[] = [];
   total: number = 0;
   isOpen: boolean = false; // Controla si el sidebar está abierto
-
   constructor(private cartService: CartService) {}
 
   ngOnInit(): void {
     this.updateCart();
+    this.cartService.getEvent().subscribe((event) => {
+      if(event.toggle === 'Side menu') {
+        this.toggleDrawer();
+      }
+    })
   }
 
   toggleDrawer(): void {

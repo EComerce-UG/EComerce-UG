@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ProductList } from '../../interfaces';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 export interface CartItem {
   product: ProductList;
@@ -11,8 +12,17 @@ export interface CartItem {
 })
 export class CartService {
   private items: CartItem[] = [];
+  private requestOpenComponentSource = new Subject();
 
   constructor() {}
+
+  sendEvent(data:object) {
+    this.requestOpenComponentSource.next(data);
+  }
+
+  getEvent():Observable<any> {
+    return this.requestOpenComponentSource.asObservable()
+  }
 
   getItems(): CartItem[] {
     return this.items;
