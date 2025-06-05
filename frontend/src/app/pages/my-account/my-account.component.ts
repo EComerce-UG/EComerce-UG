@@ -1,18 +1,18 @@
-import { Component, inject } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { RouterLink, RouterLinkActive } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { Component, inject } from "@angular/core"
+import { FormsModule } from "@angular/forms"
+import { RouterLink, RouterLinkActive } from "@angular/router"
+import { CommonModule } from "@angular/common"
 
 import { TuiAlertService } from "@taiga-ui/core"
 import { AuthService } from "../../service/auth.service"
 import { LoginRequest, RegisterRequest, User } from "../../../interfaces"
 
 @Component({
-  selector: 'app-my-account',
+  selector: "app-my-account",
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink, RouterLinkActive],
-  templateUrl: './my-account.component.html',
-  styleUrl: './my-account.component.css'
+  templateUrl: "./my-account.component.html",
+  styleUrl: "./my-account.component.css",
 })
 export class MyAccountComponent {
   loginData = {
@@ -25,8 +25,24 @@ export class MyAccountComponent {
   private readonly authService = inject(AuthService)
 
   registerData = {
-    email: ''
-  };
+    email: "",
+    firstName: "",
+    lastName: "",
+    companyName: "",
+    country: "Sri Lanka",
+    streetAddress: "",
+    townCity: "",
+    province: "Western Province",
+    zipCode: "",
+    phone: "",
+    emailAddress: "",
+    additionalInformation: "",
+    username: "",
+    password: "",
+  }
+
+  showBillingForm = false
+  isLoading = false
 
   login() {
     if (!this.loginData.username || !this.loginData.password) {

@@ -5,7 +5,7 @@ import { tap } from "rxjs/operators"
 import { LoginRequest, LoginResponse, ProductList, RegisterRequest, User } from "../../interfaces"
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class AuthService {
   private apiUrl = "http://localhost:5050/api";
@@ -103,6 +103,12 @@ export class AuthService {
   }
 
   isLoggedIn(): boolean {
-    return !!localStorage.getItem('token');
+    const token = localStorage.getItem("token");
+    const user = this.getCurrentUser();
+    return !!token && !!user;
+  }
+
+  getCurrentUser(): User | null {
+    return this.currentUserSubject.value;
   }
 }
