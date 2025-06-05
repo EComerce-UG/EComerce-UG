@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ProductList } from '../../interfaces';
+import { ProductList, ProductListToCart } from '../../interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -226,9 +226,26 @@ export class ProductService {
   getAllProducts(): ProductList[] {
     return this.productsListCompleted;
   }
+
+  getProductByIdCart(id:number, quantity:number): ProductListToCart {
+    let temp = this.productsListCompleted[id]
+    let dataSent:ProductListToCart = {
+      id: temp.id,
+      name: temp.name,
+      price: temp.price,
+      discountPrice: temp.discountPrice,
+      image: temp.image,
+      category: temp.category,
+      quantity: quantity,
+      isSale: temp.isSale,
+      colorAvailable: temp.colorAvailable,
+      imagesRoute: temp.imagesRoute
+    }
+    return dataSent;
+  }
   
-  getProductById(id:number): ProductList | undefined {
-    return this.productsListCompleted.find((porductInfo) => porductInfo.id == id);
+  getProductById(id:number): ProductList {
+    return this.productsListCompleted[id];
   }
 
   getProductRatig(id:number): number {

@@ -1,4 +1,4 @@
-import { Component, inject, Renderer2 } from '@angular/core';
+import { Component, inject, OnInit, Renderer2 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -17,7 +17,7 @@ import { TuiAlertService } from '@taiga-ui/core';
   templateUrl: './shop.component.html',
   styleUrl: './shop.component.css'
 })
-export class ShopComponent {
+export class ShopComponent implements OnInit {
   // Datos
   allProductsList: ProductList[] = [];
   // Propiedades para categorías y filtros
@@ -47,6 +47,8 @@ export class ShopComponent {
     this.allProductsList = this.productService.getAllProducts();
     this.checkForLikes();
   }
+
+  ngOnInit(): void { }
   
   // Getters para la interfaz
   checkForLikes(): void {

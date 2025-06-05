@@ -1,3 +1,5 @@
+import { ProductModel } from "./product.model.js"
+
 export interface UserModel {
   id: string
   nombre: string
@@ -11,4 +13,5 @@ export interface UserModel {
   bloqueado: boolean
   intentos: number
   likes: []
+  cart: ProductModel[]
 }

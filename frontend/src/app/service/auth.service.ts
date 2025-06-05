@@ -38,6 +38,7 @@ export class AuthService {
           this.currentUserSubject.next(response.user.user);
           localStorage.setItem("user", JSON.stringify(response.user));
           this.userService.changeCurrenLoginUser(true);
+          this.userService.userToCardSelect.next(response.user.user.carrito);
           this.userService.updateLikeCount(response.user.user.likes.length);
         },
         error: () => {
@@ -58,6 +59,7 @@ export class AuthService {
         localStorage.setItem("token", response.token);
         localStorage.setItem("user", JSON.stringify(response.user));
         this.currentUserSubject.next(response.user);
+        this.userService.userToCardSelect.next(response.user.carrito);
         this.userService.updateLikeCount(response.user.likes.length);
       })
     );
@@ -74,6 +76,7 @@ export class AuthService {
       tap(() => {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
+        this.userService.userToCardSelect.next([]);
         this.currentUserSubject.next(null);
       })
     );

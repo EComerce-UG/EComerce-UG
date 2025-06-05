@@ -133,7 +133,8 @@ export class MyAccountComponent implements OnInit {
         estado: this.registerData.province,
         usuario: this.registerData.username,
         password: this.registerData.password,
-        likes: []
+        likes: [],
+        carrito: []
       }
 
       this.authService.register(registerRequest).subscribe({

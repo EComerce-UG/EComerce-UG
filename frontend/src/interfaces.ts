@@ -16,6 +16,19 @@ export interface ProductList {
   imagesRoute: string
 }
 
+export interface ProductListToCart {
+  id: number,
+  name: string,
+  price: number,
+  discountPrice: number | null,
+  image: string,
+  category: string,
+  quantity: number,
+  isSale: boolean,
+  colorAvailable: string[],
+  imagesRoute: string
+}
+
 export interface LoginRequest {
   usuario: string
   password: string
@@ -40,6 +53,7 @@ export interface User {
   bloqueado: boolean
   intentos: 0
   likes: []
+  carrito: ProductListToCart[]
 }
 
 export interface RegisterRequest {
@@ -52,4 +66,5 @@ export interface RegisterRequest {
   usuario: string;
   password: string;
   likes: [];
+  carrito: ProductListToCart[];
 }

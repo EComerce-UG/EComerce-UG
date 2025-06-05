@@ -20,8 +20,8 @@ export class HeaderComponent implements OnInit {
   menuOpen:boolean = false;
   @Input() userIsLoggin: boolean = false;
   likesProductsTotal:number = 0;
+  totalOfCartProducts: number = 0;
   private readonly alerts = inject(TuiAlertService);
-  userLikes: ProductList[] = [];
 
   constructor(public userAuthService: AuthService, private userRoutes: Router, private userService: UserService, private render: Renderer2) { }
 
@@ -29,13 +29,22 @@ export class HeaderComponent implements OnInit {
     this.userService.userCountValue.subscribe(count => {
       this.likesProductsTotal = count
     });
+    this.userService.userToCardSelect.subscribe(quantity => {
+      this.totalOfCartProducts = quantity.length
+    });
     this.userService.currenUserLoggin.subscribe(value => {
       if(value) {
         this.render.addClass(document.getElementById('totalLikesNotification'), 'logginNotification');
         this.render.removeClass(document.getElementById('totalLikesNotification'), 'notLoggin')
+
+        this.render.addClass(document.getElementById('totalCartNotification'), 'logginNotification');
+        this.render.removeClass(document.getElementById('totalCartNotification'), 'notLoggin')
       }  else {
         this.render.removeClass(document.getElementById('totalLikesNotification'), 'logginNotification');
         this.render.addClass(document.getElementById('totalLikesNotification'), 'notLoggin')
+
+        this.render.removeClass(document.getElementById('totalCartNotification'), 'logginNotification');
+        this.render.addClass(document.getElementById('totalCartNotification'), 'notLoggin')
       }
     });
   }
