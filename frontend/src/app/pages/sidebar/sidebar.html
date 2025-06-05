@@ -1,18 +1,81 @@
-<div class="sidebar">
-  <h2>Carrito</h2>
+<!-- Botón para abrir el sidebar -->
+<button
+  type="button"
+  (click)="toggleDrawer()"
+  class="inline-flex items-center gap-2 p-2 bg-blue-600 text-white rounded hover:bg-blue-700 fixed top-4 right-4 z-50"
+>
+  Abrir Carrito
+</button>
 
-  <div *ngIf="cartItems.length === 0">
-    <p>El carrito está vacío.</p>
+<!-- Backdrop -->
+<div
+  class="fixed inset-0 bg-black bg-opacity-50 transition-opacity z-40"
+  *ngIf="isOpen"
+  (click)="closeDrawer()"
+></div>
+
+<!-- Sidebar estilo Preline -->
+<div
+  class="fixed top-0 right-0 z-50 w-80 h-screen bg-white border-l border-gray-200 shadow-lg transform transition-transform duration-300 ease-in-out"
+  [class.translate-x-0]="isOpen"
+  [class.translate-x-full]="!isOpen"
+  tabindex="-1"
+  aria-labelledby="sidebar-label"
+  [attr.aria-hidden]="!isOpen"
+>
+  <!-- Header -->
+  <div class="flex items-center justify-between p-4 border-b">
+    <h2 id="sidebar-label" class="text-lg font-semibold text-gray-800">
+      Carrito
+    </h2>
+    <button
+      type="button"
+      (click)="closeDrawer()"
+      class="text-gray-500 hover:text-gray-800"
+    >
+      ✕
+    </button>
   </div>
 
-  <div *ngFor="let item of cartItems">
-    <p>{{ item.product.name }} x{{ item.quantity }}</p>
-    <p>${{ item.product.discountPrice ?? item.product.price }}</p>
-    <button (click)="removeItem(item.product.id)">Quitar</button>
-  </div>
+  <!-- Contenido del carrito -->
+  <div class="p-4 overflow-y-auto h-[calc(100vh-64px)]">
+    <!-- Carrito vacío -->
+    <div *ngIf="cartItems.length === 0" class="text-gray-500">
+      El carrito está vacío.
+    </div>
 
-  <div *ngIf="cartItems.length > 0">
-    <h3>Total: ${{ total }}</h3>
-    <button (click)="clearCart()">Vaciar Carrito</button>
+    <!-- Lista de productos -->
+    <div
+      *ngFor="let item of cartItems"
+      class="group relative mb-4 rounded border p-3 hover:bg-gray-50 transition"
+    >
+      <div>
+        <p class="font-medium text-gray-800">
+          {{ item.product.name }} x{{ item.quantity }}
+        </p>
+        <p class="text-sm text-gray-600">
+          ${{ item.product.discountPrice ?? item.product.price }}
+        </p>
+      </div>
+
+      <!-- Botón 'Quitar' visible solo en hover -->
+      <button
+        (click)="removeItem(item.product.id)"
+        class="absolute top-2 right-2 text-sm text-red-600 opacity-0 group-hover:opacity-100 transition-opacity"
+      >
+        Quitar
+      </button>
+    </div>
+
+    <!-- Total y botón vaciar -->
+    <div *ngIf="cartItems.length > 0" class="mt-6">
+      <h3 class="text-lg font-bold text-gray-800">Total: ${{ total }}</h3>
+      <button
+        (click)="clearCart()"
+        class="mt-3 w-full px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition"
+      >
+        Vaciar Carrito
+      </button>
+    </div>
   </div>
 </div>

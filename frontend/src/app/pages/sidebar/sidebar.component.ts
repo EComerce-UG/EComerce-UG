@@ -9,11 +9,21 @@ import { CartService, CartItem } from '../../service/cart.service';
 export class SidebarComponent implements OnInit {
   cartItems: CartItem[] = [];
   total: number = 0;
+  isOpen: boolean = false; // Controla si el sidebar está abierto
 
   constructor(private cartService: CartService) {}
 
   ngOnInit(): void {
     this.updateCart();
+  }
+
+  toggleDrawer(): void {
+    this.isOpen = !this.isOpen;
+    this.updateCart();
+  }
+
+  closeDrawer(): void {
+    this.isOpen = false;
   }
 
   updateCart(): void {

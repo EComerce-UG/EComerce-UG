@@ -1,11 +1,25 @@
+/* sidebar.css */
+
+/* Clase opcional para aplicar padding personalizado si usas la clase 'sidebar' */
 .sidebar {
-  background-color: #fff;
   padding: 1rem;
-  border-left: 1px solid #ccc;
-  width: 300px;
-  height: 100vh;
-  position: fixed;
-  right: 0;
-  top: 0;
-  overflow-y: auto;
+}
+
+/* Puedes agregar transiciones personalizadas si lo deseas */
+.drawer-transition {
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Estilos personalizados para el botón cerrar si quieres ajustarlo */
+.close-button {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  font-size: 1.5rem;
+  color: #6b7280; /* gray-500 */
+  cursor: pointer;
+}
+
+.close-button:hover {
+  color: #111827; /* gray-900 */
 }
