@@ -5,10 +5,9 @@ import {TuiCarousel} from '@taiga-ui/kit';
 
 @Component({
   selector: 'app-home',
-  imports: [NgFor, TuiCarousel, RouterOutlet, RouterLink],
+  imports: [TuiCarousel, RouterLink],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent {
   protected index = 0;

@@ -15,7 +15,6 @@ import { AuthService } from '../../service/auth.service';
   imports: [FormsModule, TuiInputNumber, TuiTextfield, CommonModule, RouterModule],
   templateUrl: './product.component.html',
   styleUrl: './product.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductComponent {
   // obteniendo el id del producto

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject, Renderer2 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -6,7 +6,8 @@ import { ProductList, User } from '../../../interfaces';
 import { ProductService } from '../../service/product.service';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../service/auth.service';
-import { response } from 'express';
+import { UserService } from '../../service/user.service';
+import { TuiAlertService } from '@taiga-ui/core';
 
 @Component({
   selector: 'app-shop',
@@ -19,7 +20,6 @@ import { response } from 'express';
 export class ShopComponent {
   // Datos
   allProductsList: ProductList[] = [];
-  like = true
   // Propiedades para categorías y filtros
   bannerImagePath: string = 'assets/images/Shop_Collection.png';
   categories: string[] = ['All', 'Chairs', 'Tables', 'Sofas', 'Lamps', 'Kitchen'];
@@ -40,7 +40,10 @@ export class ShopComponent {
   // Referencia a Math para usar en el template
   Math = Math;
 
-  constructor(private productService: ProductService, private authService: AuthService , private http: HttpClient) {
+  // Uso de taiga
+  private readonly alerts = inject(TuiAlertService);
+
+  constructor(private productService: ProductService, private authService: AuthService, private userService: UserService , private http: HttpClient, private render:Renderer2) {
     this.allProductsList = this.productService.getAllProducts();
     this.checkForLikes();
   }
@@ -50,9 +53,13 @@ export class ShopComponent {
     this.authService.getUserFromToken().subscribe((response) => {
       this.authService.getUserLikesInfo(response.user.user.likes).subscribe((response) => {
         this.userLikes = response.products;
+        this.userService.updateLikeCount(this.userLikes.length);
       }, (error: any) => {
+        this.alerts.open('Hubo un error!', {label: 'Porfavor notifique a IT', appearance: 'warning'}).subscribe();
         console.log(error);
       })
+    },(error:any) => {
+      this.alerts.open('Algunas funciones estan limitadas hasta que inicie sesion.', {appearance: 'flat'}).subscribe();
     })
   }
 
@@ -161,14 +168,16 @@ export class ShopComponent {
   }
 
   addToWishlist(productId: number):void {
-    // buscar primero si ya la tiene agregada
     for (let value of this.userLikes) {
+      // buscar primero si ya la tiene agregada
       if(value.id === productId) {
         this.authService.getUserFromToken().subscribe((response) => {
           let userId = response.user.user.id;
           this.authService.updateUserLikes(productId, userId).subscribe((response) => {
-            if(response.status)
-             window.location.reload();
+            if(response.status) {
+              this.checkForLikes();
+              this.render.removeClass(document.getElementById(`${productId}-like-button`), 'like-button');
+            }
           }, (error: any) => {
             console.log(error);
           })
@@ -181,20 +190,16 @@ export class ShopComponent {
     this.authService.getUserFromToken().subscribe((response) => {
       let userId = response.user.user.id;
       this.authService.addLikeProductUser(productId, userId).subscribe((response) => {
-        console.log(response)
-        if(response.status)
-         window.location.reload();
+        if(response.status) {
+          this.checkForLikes();
+          this.render.addClass(document.getElementById(`${productId}-like-button`), 'like-button');
+        }
       }, (error: any) => {
         console.log(error);
       })
     }, (error: any) => {
-      console.log(error);
+      this.alerts.open('No puede realizar likes hasta que inicie session.', {appearance: 'neutral', closeable: false}).subscribe();
     })
-    // this.user.addLikeProductUser(productId, "oscar").subscribe((response) => {
-    //   window.location.reload();
-    // }, (error) => {
-    //   console.error(error);
-    // });
     return;
   }
 }

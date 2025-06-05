@@ -4,6 +4,7 @@ import { type Observable, BehaviorSubject } from "rxjs"
 import { tap } from "rxjs/operators"
 import { LoginRequest, LoginResponse, ProductList, RegisterRequest, User } from "../../interfaces"
 import { environment } from "../../environments/environment"
+import { UserService } from "./user.service"
 
 @Injectable({
   providedIn: "root",
@@ -13,7 +14,7 @@ export class AuthService {
   private currentUserSubject: BehaviorSubject<User | null>;
   public currentUser$: Observable<User | null>;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private userService: UserService) {
     // Inicializar el usuario desde localStorage si existe
     const storedUser = localStorage.getItem("user");
     let parsedUser: User | null = null;
@@ -33,9 +34,11 @@ export class AuthService {
     const token = localStorage.getItem("token");
     if (token) {
       this.getUserFromToken().subscribe({
-        next: (response) => {
+        next: (response) => {   
           this.currentUserSubject.next(response.user.user);
           localStorage.setItem("user", JSON.stringify(response.user));
+          this.userService.changeCurrenLoginUser(true);
+          this.userService.updateLikeCount(response.user.user.likes.length);
         },
         error: () => {
           localStorage.removeItem("token");
@@ -55,6 +58,7 @@ export class AuthService {
         localStorage.setItem("token", response.token);
         localStorage.setItem("user", JSON.stringify(response.user));
         this.currentUserSubject.next(response.user);
+        this.userService.updateLikeCount(response.user.likes.length);
       })
     );
   }

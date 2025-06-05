@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, inject, Input, OnInit, Renderer2 } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { TuiAlertService } from '@taiga-ui/core';
@@ -6,6 +6,7 @@ import { Router } from "@angular/router";
 
 import { AuthService } from '../../service/auth.service';
 import { ProductList } from '../../../interfaces';
+import { UserService } from '../../service/user.service';
 
 @Component({
   selector: 'app-header',
@@ -14,31 +15,47 @@ import { ProductList } from '../../../interfaces';
   providers: [],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
   menuOpen:boolean = false;
-  @Input() likesProductsTotal:number = 0; 
+  @Input() userIsLoggin: boolean = false;
+  likesProductsTotal:number = 0;
   private readonly alerts = inject(TuiAlertService);
   userLikes: ProductList[] = [];
 
-  constructor(public userService: AuthService, private userRoutes: Router) { }
+  constructor(public userAuthService: AuthService, private userRoutes: Router, private userService: UserService, private render: Renderer2) { }
+
+  ngOnInit(): void {
+    this.userService.userCountValue.subscribe(count => {
+      this.likesProductsTotal = count
+    });
+    this.userService.currenUserLoggin.subscribe(value => {
+      if(value) {
+        this.render.addClass(document.getElementById('totalLikesNotification'), 'logginNotification');
+        this.render.removeClass(document.getElementById('totalLikesNotification'), 'notLoggin')
+      }  else {
+        this.render.removeClass(document.getElementById('totalLikesNotification'), 'logginNotification');
+        this.render.addClass(document.getElementById('totalLikesNotification'), 'notLoggin')
+      }
+    });
+  }
 
   toggleMenu(): void {
     this.menuOpen = !this.menuOpen;
   }
 
   checkUserLoggin(userWantsToGo:string): void {
-    if(!this.userService.isLoggedIn()) {
+    if(!this.userAuthService.isLoggedIn()) {
       if(userWantsToGo === "my-account") {
         this.userRoutes.navigate([userWantsToGo]);
         return;
       }
-      this.alerts.open('Please login to start buying.', {label: 'Curretly not loggin', appearance: 'warning'}).subscribe();
+      this.alerts.open('No puede realizar tal accion.', {label: 'Cree una cuenta o inicie session.', appearance: 'neutral'}).subscribe();
       return;
     } else {
       this.userRoutes.navigate([userWantsToGo]);
       return;
     }
   }
+
 }

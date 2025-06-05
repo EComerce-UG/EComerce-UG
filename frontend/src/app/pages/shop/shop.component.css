@@ -56,5 +56,9 @@ select {
 }
 
 .like-button {
-  color: #717070;
+  fill: #fc4e4e;
+}
+
+.unlike-button {
+  fill: #fff;
 }

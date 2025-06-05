@@ -32,3 +32,11 @@
 .transition-colors {
   transition: color 0.2s ease-in-out;
 }
+
+.notLoggin {
+  visibility: hidden;
+}
+
+.logginNotification {
+  visibility: visible;
+}
