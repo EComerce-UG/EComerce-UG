@@ -9,6 +9,7 @@ import { SearchComponent } from './pages/search/search.component';
 import { WishlistComponent } from './pages/wishlist/wishlist.component';
 import { ContactComponent } from './pages/contact_view/contact.component';
 import { BlogComponent } from './pages/blog/blog.component';
+import { CheckoutComponent } from './pages/checkout/checkout.component';
 
 export const routes: Routes = [
   { 
@@ -23,6 +24,11 @@ export const routes: Routes = [
   { 
     path: 'shop', 
     component: ShopComponent, 
+  },
+  {
+    path: 'checkout',
+    component: CheckoutComponent,
+    canActivate: [AuthguardService]
   },
   {
     path: 'my-account',
