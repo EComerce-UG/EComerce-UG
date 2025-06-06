@@ -11,6 +11,8 @@ import { CartService } from '../../service/cart.service'; // Agregar esta import
 import { ProductList } from '../../../interfaces';
 import { UserService } from '../../service/user.service';
 
+
+
 @Component({
   selector: 'app-header',
   standalone: true,
@@ -54,7 +56,10 @@ export class HeaderComponent implements OnInit {
   }
 
   toggleMenu(): void {
-    this.menuOpen = !this.menuOpen;
+    if(this.userService.isLoggedIn()) {
+      this.menuOpen = !this.menuOpen;
+      this.cartService.sendEvent({toggle: 'Side menu', open: this.menuOpen} as {});
+    }
   }
 
 

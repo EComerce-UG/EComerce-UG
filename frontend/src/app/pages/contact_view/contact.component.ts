@@ -1,41 +1,59 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-contact',
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    RouterModule
+  ],
   templateUrl: './contact.component.html',
   styleUrls: ['./contact.component.css']
 })
 export class ContactComponent {
-  contactForm: FormGroup;
-  submitted = false;
-  successMessage = '';
+  // Datos del formulario
+  formData = {
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
+  };
 
-  constructor(private fb: FormBuilder) {
-    this.contactForm = this.fb.group({
-      name: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      subject: ['', Validators.required],
-      message: ['', Validators.required]
-    });
-  }
+  // Estado de envío
+  isSubmitting = false;
 
-  get f() {
-    return this.contactForm.controls;
-  }
-
-  onSubmit() {
-    this.submitted = true;
-
-    if (this.contactForm.invalid) {
+  // Método para enviar el formulario
+  submitForm() {
+    if (this.isSubmitting) return;
+    
+    // Validación básica
+    if (!this.formData.name || !this.formData.email || !this.formData.message) {
+      alert('Por favor, completa todos los campos obligatorios.');
       return;
     }
 
-    // Aquí puedes manejar el envío, por ejemplo, enviar datos a un servidor
-    console.log('Formulario enviado:', this.contactForm.value);
-
-    this.successMessage = '¡Gracias por contactarnos! Te responderemos pronto.';
-    this.contactForm.reset();
-    this.submitted = false;
+    this.isSubmitting = true;
+    
+    // Simular envío del formulario
+    console.log('Formulario enviado:', this.formData);
+    
+    // Simular delay de envío
+    setTimeout(() => {
+      alert(`Gracias ${this.formData.name}, tu mensaje ha sido enviado exitosamente!`);
+      
+      // Resetear el formulario
+      this.formData = {
+        name: '',
+        email: '',
+        subject: '',
+        message: ''
+      };
+      
+      this.isSubmitting = false;
+    }, 1000);
   }
 }

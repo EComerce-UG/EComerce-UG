@@ -1,0 +1,42 @@
+/* Estilos adicionales específicos para el componente */
+.sidebar {
+  padding: 0; /* Removemos el padding por defecto */
+}
+
+/* Animación suave para el backdrop */
+.backdrop-blur-sm {
+  backdrop-filter: blur(4px);
+}
+
+/* Estilos para la imagen del producto */
+.product-image {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+}
+
+/* Hover effects para los botones */
+.cart-button {
+  transition: all 0.2s ease-in-out;
+}
+
+.cart-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para el scroll personalizado */
+.overflow-y-auto::-webkit-scrollbar {
+  width: 4px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 2px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}

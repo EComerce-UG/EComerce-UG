@@ -1,0 +1,284 @@
+<main class="container mx-auto px-4 py-8">
+  <!-- Banner -->
+  <div class="relative mb-8">
+    <div class="h-64 rounded-lg flex items-center justify-center overflow-hidden">
+      <div class="absolute inset-0 w-full h-full">
+        <img 
+          src="assets/banner-shop.png"
+          alt="Background" 
+          class="w-full h-full object-cover opacity-90"
+        />
+      </div>
+      
+      <div class="text-center relative z-10">
+        <h1 class="text-4xl font-bold text-dark mb-2 drop-shadow-md">Checkout</h1>
+        <div class="flex mt-2 place-items-center place-content-center">
+          <a routerLink="/" class="text-lg font-bold text-dark cursor-pointer">Home</a>
+          <svg class="mx-5 font-black text-dark" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 5 7 7-7 7"/>
+          </svg>
+          <span class="text-lg text-dark-200">Checkout</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-7xl mx-auto">
+    <!-- Billing Details -->
+    <div class="space-y-6">
+      <h2 class="text-3xl font-bold mb-8">Billing details</h2>
+      
+      <form (ngSubmit)="placeOrder()" #checkoutForm="ngForm">
+        <!-- First Name y Last Name -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+          <div>
+            <label for="firstName" class="block text-sm font-medium mb-2">First Name *</label>
+            <input 
+              type="text" 
+              id="firstName" 
+              class="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              [(ngModel)]="billingDetails.firstName"
+              name="firstName"
+              [disabled]="isLoading"
+              required
+            >
+          </div>
+          <div>
+            <label for="lastName" class="block text-sm font-medium mb-2">Last Name *</label>
+            <input 
+              type="text" 
+              id="lastName" 
+              class="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              [(ngModel)]="billingDetails.lastName"
+              name="lastName"
+              [disabled]="isLoading"
+              required
+            >
+          </div>
+        </div>
+
+        <!-- Company Name -->
+        <div class="mb-6">
+          <label for="companyName" class="block text-sm font-medium mb-2">Company Name (Optional)</label>
+          <input 
+            type="text" 
+            id="companyName" 
+            class="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            [(ngModel)]="billingDetails.companyName"
+            name="companyName"
+            [disabled]="isLoading"
+          >
+        </div>
+
+        <!-- Country / Region -->
+        <div class="mb-6">
+          <label for="country" class="block text-sm font-medium mb-2">Country / Region *</label>
+          <select 
+            id="country" 
+            class="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            [(ngModel)]="billingDetails.country"
+            name="country"
+            [disabled]="isLoading"
+            required
+          >
+            <option *ngFor="let country of countries" [value]="country">{{ country }}</option>
+          </select>
+        </div>
+
+        <!-- Street Address -->
+        <div class="mb-6">
+          <label for="streetAddress" class="block text-sm font-medium mb-2">Street address *</label>
+          <input 
+            type="text" 
+            id="streetAddress" 
+            class="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            [(ngModel)]="billingDetails.streetAddress"
+            name="streetAddress"
+            [disabled]="isLoading"
+            required
+          >
+        </div>
+
+        <!-- Town / City -->
+        <div class="mb-6">
+          <label for="townCity" class="block text-sm font-medium mb-2">Town / City *</label>
+          <input 
+            type="text" 
+            id="townCity" 
+            class="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            [(ngModel)]="billingDetails.townCity"
+            name="townCity"
+            [disabled]="isLoading"
+            required
+          >
+        </div>
+
+        <!-- Province -->
+        <div class="mb-6">
+          <label for="province" class="block text-sm font-medium mb-2">Province *</label>
+          <select 
+            id="province" 
+            class="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            [(ngModel)]="billingDetails.province"
+            name="province"
+            [disabled]="isLoading"
+            required
+          >
+            <option *ngFor="let province of provinces" [value]="province">{{ province }}</option>
+          </select>
+        </div>
+
+        <!-- ZIP Code -->
+        <div class="mb-6">
+          <label for="zipCode" class="block text-sm font-medium mb-2">ZIP Code</label>
+          <input 
+            type="text" 
+            id="zipCode" 
+            class="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            [(ngModel)]="billingDetails.zipCode"
+            name="zipCode"
+            [disabled]="isLoading"
+          >
+        </div>
+
+        <!-- Phone -->
+        <div class="mb-6">
+          <label for="phone" class="block text-sm font-medium mb-2">Phone *</label>
+          <input 
+            type="tel" 
+            id="phone" 
+            class="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            [(ngModel)]="billingDetails.phone"
+            name="phone"
+            [disabled]="isLoading"
+            required
+          >
+        </div>
+
+        <!-- Email address -->
+        <div class="mb-6">
+          <label for="emailAddress" class="block text-sm font-medium mb-2">Email address *</label>
+          <input 
+            type="email" 
+            id="emailAddress" 
+            class="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            [(ngModel)]="billingDetails.emailAddress"
+            name="emailAddress"
+            [disabled]="isLoading"
+            required
+          >
+        </div>
+
+        <!-- Additional Information -->
+        <div class="mb-6">
+          <label for="additionalInfo" class="block text-sm font-medium mb-2">Additional Information</label>
+          <textarea 
+            id="additionalInfo" 
+            rows="4"
+            class="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            [(ngModel)]="billingDetails.additionalInformation"
+            name="additionalInfo"
+            placeholder="Additional Information"
+            [disabled]="isLoading"
+          ></textarea>
+        </div>
+      </form>
+    </div>
+
+    <!-- Order Summary -->
+    <div class="lg:pl-8">
+      <div class="bg-white border border-gray-200 rounded-lg p-6 sticky top-4">
+        <h3 class="text-2xl font-bold mb-6">Your Order</h3>
+        
+        <!-- Product List -->
+        <div class="space-y-4 mb-6">
+          <div class="flex justify-between items-center border-b pb-2">
+            <span class="font-medium">Product</span>
+            <span class="font-medium">Subtotal</span>
+          </div>
+          
+          <div *ngFor="let item of cartItems" class="flex justify-between items-center py-2">
+            <div class="flex-1">
+              <span class="text-gray-800">{{ item.product.name }}</span>
+              <span class="text-gray-500 ml-2">× {{ item.quantity }}</span>
+            </div>
+            <span class="font-medium">Rs. {{ (item.product.discountPrice ?? item.product.price) * item.quantity | number:'1.2-2' }}</span>
+          </div>
+          
+          <div class="border-t pt-4">
+            <div class="flex justify-between items-center mb-2">
+              <span>Subtotal</span>
+              <span>Rs. {{ subtotal | number:'1.2-2' }}</span>
+            </div>
+            <div class="flex justify-between items-center text-lg font-bold">
+              <span>Total</span>
+              <span class="text-yellow-600">Rs. {{ subtotal | number:'1.2-2' }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Payment Methods -->
+        <div class="mb-6">
+          <h4 class="font-medium mb-4">Payment Method</h4>
+          
+          <div class="space-y-3">
+            <label class="flex items-start space-x-3 cursor-pointer">
+              <input 
+                type="radio" 
+                name="paymentMethod" 
+                value="bank-transfer"
+                [(ngModel)]="selectedPaymentMethod"
+                class="mt-1"
+              >
+              <div>
+                <div class="font-medium">Direct Bank Transfer</div>
+                <p class="text-sm text-gray-600">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order will not be shipped until the funds have cleared in our account.</p>
+              </div>
+            </label>
+            
+            <label class="flex items-start space-x-3 cursor-pointer">
+              <input 
+                type="radio" 
+                name="paymentMethod" 
+                value="cash-delivery"
+                [(ngModel)]="selectedPaymentMethod"
+                class="mt-1"
+              >
+              <div>
+                <div class="font-medium">Cash On Delivery</div>
+                <p class="text-sm text-gray-600">Pay with cash upon delivery.</p>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Privacy Policy -->
+        <div class="mb-6 text-sm text-gray-600">
+          <p>Your personal data will be used to support your experience throughout this website, to manage access to your account, and for other purposes described in our <a href="#" class="font-medium hover:underline">privacy policy</a>.</p>
+        </div>
+
+        <!-- Place Order Button -->
+        <button 
+          type="button"
+          (click)="placeOrder()"
+          class="w-full bg-gray-900 text-white py-3 px-6 rounded-md font-medium hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          [disabled]="isLoading || cartItems.length === 0"
+        >
+          <span *ngIf="!isLoading">Place order</span>
+          <span *ngIf="isLoading">Processing...</span>
+        </button>
+
+        <!-- Back to Cart -->
+        <button 
+          type="button"
+          (click)="goBackToCart()"
+          class="w-full mt-3 border border-gray-300 text-gray-700 py-3 px-6 rounded-md font-medium hover:bg-gray-50 transition-colors"
+          [disabled]="isLoading"
+        >
+          Back to Cart
+        </button>
+      </div>
+    </div>
+  </div>
+</main>

@@ -8,6 +8,7 @@ import { FooterComponent } from './shared/footer/footer.component';
 import { AuthService } from './service/auth.service';
 import { ProductList, User } from '../interfaces';
 import { UserService } from './service/user.service';
+import { SidebarComponent } from './pages/sidebar/sidebar.component';
 
 @Component({
   selector: 'app-root',
@@ -16,6 +17,7 @@ import { UserService } from './service/user.service';
     RouterOutlet, 
     TuiRoot,
     CommonModule, 
+    SidebarComponent,
     HeaderComponent, 
     FooterComponent,
   ],
