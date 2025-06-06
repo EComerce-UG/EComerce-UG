@@ -76,13 +76,7 @@ export class SidebarComponent implements OnInit {
   // Método actualizado para navegar al checkout
   checkout(): void {
     // Verificar si hay productos en el carrito
-    if (this.cartItemsUser.length === 0) {
-      console.log('El carrito está vacío');
-      // Opcional: mostrar un mensaje de error
-      return;
-    }
     
-    console.log('Proceder al checkout');
     this.closeDrawer(); // Cerrar el sidebar primero
     this.router.navigate(['/checkout']); // Navegar a la página de checkout
   }
