@@ -1,5 +1,5 @@
 import { Component, OnInit, Renderer2, ElementRef } from '@angular/core';
-import { Router } from '@angular/router'; // Asegúrate de que esté importado
+import { Router } from '@angular/router';
 import { CartService, CartItem } from '../../service/cart.service';
 import { DecimalPipe, NgIf, NgFor } from '@angular/common';
 
@@ -19,12 +19,14 @@ export class SidebarComponent implements OnInit {
     private cartService: CartService,
     private renderer: Renderer2,
     private el: ElementRef,
-    private router: Router // Asegúrate de que esté inyectado
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     this.updateCart();
-    this.cartService.getEvent().subscribe((event: any) => {
+    
+    // Usar events$ observable - NO getEvent()
+    this.cartService.events$.subscribe((event: any) => {
       if(event.toggle === 'Side menu') {
         this.toggleDrawer();
       }
@@ -41,8 +43,10 @@ export class SidebarComponent implements OnInit {
   }
 
   updateCart(): void {
-    this.cartItems = this.cartService.getItems();
-    this.total = this.cartService.getTotal();
+    // Usar getCartItems() - NO getItems()
+    this.cartItems = this.cartService.getCartItems();
+    // Usar getCartTotal() - NO getTotal()
+    this.total = this.cartService.getCartTotal();
   }
 
   removeItem(productId: number): void {

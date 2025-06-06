@@ -17,7 +17,7 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit(): void {
     this.updateCart();
-    this.cartService.getEvent().subscribe((event: any) => {
+    this.cartService.events$.subscribe((event: any) => {
       if(event.toggle === 'Side menu') {
         this.toggleDrawer();
       }
@@ -34,8 +34,8 @@ export class SidebarComponent implements OnInit {
   }
 
   updateCart(): void {
-    this.cartItems = this.cartService.getItems();
-    this.total = this.cartService.getTotal();
+    this.cartItems = this.cartService.getCartItems();
+    this.total = this.cartService.getCartTotal();
   }
 
   removeItem(productId: number): void {

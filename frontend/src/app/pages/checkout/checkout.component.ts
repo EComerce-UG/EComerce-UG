@@ -90,8 +90,8 @@ export class CheckoutComponent implements OnInit {
   }
 
   loadCartData(): void {
-    this.cartItems = this.cartService.getItems();
-    this.subtotal = this.cartService.getTotal();
+    this.cartItems = this.cartService.getCartItems(); // Corregido: getItems() -> getCartItems()
+    this.subtotal = this.cartService.getCartTotal(); // Corregido: getTotal() -> getCartTotal()
   }
 
   validateForm(): boolean {
