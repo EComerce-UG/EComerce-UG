@@ -49,6 +49,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   toggleMenu(): void {
     this.menuOpen = !this.menuOpen;
+    this.cartService.sendEvent({toggle: 'Side menu', open: this.menuOpen} as {});
   }
 
   checkUserLoggin(userWantsToGo: string): void {

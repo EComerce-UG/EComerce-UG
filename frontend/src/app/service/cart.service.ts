@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { ProductList } from '../../interfaces';
 
 export interface CartItem {
@@ -14,6 +14,8 @@ export class CartService {
   private cartItems: CartItem[] = [];
   private cartSubject = new BehaviorSubject<CartItem[]>([]);
   public cart$ = this.cartSubject.asObservable();
+  private requestOpenComponentSource = new Subject();
+
 
   // Para el sidebar
   private eventSubject = new Subject<any>();
@@ -88,5 +90,9 @@ export class CartService {
   // Para el sidebar
   sendEvent(event: any): void {
     this.eventSubject.next(event);
+  }
+
+  getEvent():Observable<any> {
+    return this.requestOpenComponentSource.asObservable()
   }
 }
