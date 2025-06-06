@@ -55,7 +55,7 @@
           <h3 class="font-medium text-gray-900 mb-1">{{ item.product.name }}</h3>
           <div class="flex items-center gap-2 text-sm text-gray-600">
             <span>{{ item.quantity }}</span>
-            <span>×</span>
+            <span></span>
             <span class="text-yellow-600 font-medium">Rs. {{ (item.product.discountPrice ?? item.product.price) | number:'1.2-2' }}</span>
           </div>
         </div>
