@@ -10,6 +10,8 @@ import { WishlistService } from '../../service/wishlist.service';
 import { CartService } from '../../service/cart.service'; // Agregar esta importación
 import { ProductList } from '../../../interfaces';
 
+
+
 @Component({
   selector: 'app-header',
   standalone: true,
@@ -46,7 +48,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   toggleMenu(): void {
-    this.menuOpen = !this.menuOpen;
+    if(this.userService.isLoggedIn()) {
+      this.menuOpen = !this.menuOpen;
+      this.cartService.sendEvent({toggle: 'Side menu', open: this.menuOpen} as {});
+    }
   }
 
   checkUserLoggin(userWantsToGo: string): void {

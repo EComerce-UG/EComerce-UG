@@ -7,6 +7,9 @@ import { AuthguardService } from './auth/authguard.service';
 import { HomeComponent } from './pages/home/home.component.spec';
 import { SearchComponent } from './pages/search/search.component';
 import { WishlistComponent } from './pages/wishlist/wishlist.component';
+import { ContactComponent } from './pages/contact_view/contact.component';
+import { BlogComponent } from './pages/blog/blog.component';
+import { CheckoutComponent } from './pages/checkout/checkout.component';
 
 export const routes: Routes = [
   { 
@@ -23,8 +26,21 @@ export const routes: Routes = [
     component: ShopComponent, 
   },
   {
+    path: 'checkout',
+    component: CheckoutComponent,
+    canActivate: [AuthguardService]
+  },
+  {
     path: 'my-account',
     component: MyAccountComponent
+  },
+    {
+    path: 'contact',  
+    component: ContactComponent
+  },
+  {
+    path: 'blog',
+    component: BlogComponent
   },
   { 
     path: 'home', 
