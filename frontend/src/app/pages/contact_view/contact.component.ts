@@ -1,19 +1,21 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms'; // Para soporte de formularios
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-contact',
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule // Solo necesario si usas ngModel
+    FormsModule,
+    RouterModule
   ],
   templateUrl: './contact.component.html',
-  // styleUrls: ['./contact.component.css'] // Opcional si necesitas estilos adicionales
+  styleUrls: ['./contact.component.css']
 })
 export class ContactComponent {
-  // Datos del formulario (opcional)
+  // Datos del formulario
   formData = {
     name: '',
     email: '',
@@ -21,37 +23,37 @@ export class ContactComponent {
     message: ''
   };
 
+  // Estado de envío
+  isSubmitting = false;
+
   // Método para enviar el formulario
   submitForm() {
-    console.log('Formulario enviado:', this.formData);
-    // Aquí puedes agregar lógica para enviar los datos a tu backend
-    alert(`Gracias ${this.formData.name}, tu mensaje ha sido enviado!`);
+    if (this.isSubmitting) return;
     
-    // Resetea el formulario después de enviar
-    this.formData = {
-      name: '',
-      email: '',
-      subject: '',
-      message: ''
-    };
-  }
-
-  // Datos de features (opcional)
-  features = [
-    {
-      icon: '🚚',
-      title: 'Free Delivery',
-      description: 'For all orders over $50'
-    },
-    {
-      icon: '🔄',
-      title: '90 Days Return',
-      description: 'If goods have problems'
-    },
-    {
-      icon: '🔒',
-      title: 'Secure Payment',
-      description: '100% secure payment'
+    // Validación básica
+    if (!this.formData.name || !this.formData.email || !this.formData.message) {
+      alert('Por favor, completa todos los campos obligatorios.');
+      return;
     }
-  ];
+
+    this.isSubmitting = true;
+    
+    // Simular envío del formulario
+    console.log('Formulario enviado:', this.formData);
+    
+    // Simular delay de envío
+    setTimeout(() => {
+      alert(`Gracias ${this.formData.name}, tu mensaje ha sido enviado exitosamente!`);
+      
+      // Resetear el formulario
+      this.formData = {
+        name: '',
+        email: '',
+        subject: '',
+        message: ''
+      };
+      
+      this.isSubmitting = false;
+    }, 1000);
+  }
 }

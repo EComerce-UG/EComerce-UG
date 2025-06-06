@@ -7,6 +7,7 @@ import { AuthguardService } from './auth/authguard.service';
 import { HomeComponent } from './pages/home/home.component.spec';
 import { CheckoutComponent } from './pages/checkout/checkout.component';
 import { ContactComponent } from './pages/contact_view/contact.component';
+import { BlogComponent } from './pages/blog/blog.component';
 
 export const routes: Routes = [
   { 
@@ -34,6 +35,10 @@ export const routes: Routes = [
     {
     path: 'contact',  
     component: ContactComponent
+  },
+  {
+    path: 'blog',
+    component: BlogComponent
   },
   { 
     path: 'home', 

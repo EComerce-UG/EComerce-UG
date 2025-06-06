@@ -1,158 +1,168 @@
-<div class="min-h-screen flex flex-col bg-white">
-  <!-- Navbar -->
-  <nav class="bg-white shadow-sm py-4 px-6">
-    <div class="container mx-auto flex justify-between items-center">
-      <div class="text-xl font-bold">Meubel House</div>
-      <div class="flex space-x-6">
-        <a href="#" class="hover:text-gray-600">Home</a>
-        <a href="#" class="hover:text-gray-600">Shop</a>
-        <a href="#" class="hover:text-gray-600">About</a>
-        <a href="#" class="text-blue-600 font-medium">Contact</a>
+<main class="container mx-auto px-4 py-20">
+  <!-- Banner de la tienda con la imagen de fondo -->
+  <div class="relative mb-8">
+    <div class="h-64 rounded-lg flex items-center justify-center overflow-hidden">
+      <!-- Imagen de fondo -->
+      <div class="absolute inset-0 w-full h-full">
+        <img 
+          src="assets/banner-shop.png"
+          alt="Background" 
+          class="w-full h-full object-cover opacity-90"
+        />
+        <!-- Overlay para mejorar la legibilidad del texto -->
+        <div class="absolute inset-0 bg-black-100 bg-opacity-30"></div>
       </div>
-    </div>
-  </nav>
-
-  <!-- Breadcrumbs -->
-  <div class="bg-gray-50 py-4 px-6">
-    <div class="container mx-auto">
-      <span class="text-gray-500">Home</span>
-      <span class="mx-2">></span>
-      <span class="text-gray-800 font-medium">Contact</span>
+      
+      <!-- Contenido del banner -->
+      <div class="text-center relative z-10">
+        <h1 class="text-4xl font-bold text-black-200 mb-2 drop-shadow-md">Contact</h1>
+        <div class="flex mt-2 place-items-center place-content-center">
+            <a routerLink="/" class="text-lg font-bold text-[#00000] cursor-pointer">Home</a>
+            <svg class="mx-5 font-black" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 5 7 7-7 7"/>
+            </svg>
+            <a routerLink="/contact" routerLinkActive="active" class="text-lg text-[#9f9f9f] cursor-pointer">Contact</a>
+        </div>
+      </div>
     </div>
   </div>
 
   <!-- Main Content -->
   <div class="container mx-auto py-12 px-6 flex-1">
-    <h1 class="text-3xl font-bold mb-6">Get In Touch With Us</h1>
-    <p class="text-gray-600 mb-12 max-w-2xl">
-      For More Information About Our Product & Services, Please Feel Free To Drop Us An Email. Our Staff Always Be There To Help You Out. Do Not Hesitate!
-    </p>
+    <div class="text-center mb-12">
+      <h2 class="text-3xl font-bold mb-6">Get In Touch With Us</h2>
+      <p class="text-gray-600 max-w-2xl mx-auto">
+        For More Information About Our Product & Services, Please Feel Free To Drop Us An Email. Our Staff Always Be There To Help You Out. Do Not Hesitate!
+      </p>
+    </div>
 
-    <div class="flex flex-col lg:flex-row gap-12">
+    <div class="flex flex-col lg:flex-row gap-12 max-w-6xl mx-auto">
       <!-- Contact Info -->
       <div class="w-full lg:w-1/2 space-y-8">
-        <div>
-          <h3 class="text-xl font-semibold mb-4">Address</h3>
-          <p class="text-gray-600">235 5th St Avenue, New York NY10000, United States</p>
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0">
+            <svg class="w-6 h-6 text-gray-600 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold mb-2">Address</h3>
+            <p class="text-gray-600">235 5th St Avenue, New York NY10000, United States</p>
+          </div>
         </div>
-        <div>
-          <h3 class="text-xl font-semibold mb-4">Phone</h3>
-          <p class="text-gray-600">Mobile: +(84) 546-6789</p>
-          <p class="text-gray-600">Hotline: +(84) 456-6789</p>
+
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0">
+            <svg class="w-6 h-6 text-gray-600 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold mb-2">Phone</h3>
+            <p class="text-gray-600">Mobile: +(84) 546-6789</p>
+            <p class="text-gray-600">Hotline: +(84) 456-6789</p>
+          </div>
         </div>
-        <div>
-          <h3 class="text-xl font-semibold mb-4">Working Time</h3>
-          <p class="text-gray-600">Monday-Friday: 9:00 - 22:00</p>
-          <p class="text-gray-600">Saturday-Sunday: 8:00 - 21:00</p>
+
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0">
+            <svg class="w-6 h-6 text-gray-600 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold mb-2">Working Time</h3>
+            <p class="text-gray-600">Monday-Friday: 9:00 - 22:00</p>
+            <p class="text-gray-600">Saturday-Sunday: 8:00 - 21:00</p>
+          </div>
         </div>
       </div>
 
       <!-- Contact Form -->
-      <form class="w-full lg:w-1/2 space-y-6">
-        <div>
-          <label class="block text-gray-700 mb-2">Your name</label>
-          <input 
-            type="text" 
-            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
-            placeholder="Abo"
-          >
-        </div>
-        <div>
-          <label class="block text-gray-700 mb-2">Email address</label>
-          <input 
-            type="email" 
-            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
-            placeholder="Abo@dei.com"
-          >
-        </div>
-        <div>
-          <label class="block text-gray-700 mb-2">Subject</label>
-          <input 
-            type="text" 
-            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
-            placeholder="This is an optional"
-          >
-        </div>
-        <div>
-          <label class="block text-gray-700 mb-2">Message</label>
-          <textarea 
-            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 h-32" 
-            placeholder="Hi! I'd like to ask about"
-          ></textarea>
-        </div>
-        <button 
-          type="submit" 
-          class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition"
-        >
-          Submit
-        </button>
-      </form>
-    </div>
-  </div>
-
-  <!-- Features -->
-  <div class="bg-gray-100 py-12">
-    <div class="container mx-auto px-6">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="flex flex-col items-center text-center">
-          <span class="text-3xl mb-4">🚚</span>
-          <h3 class="font-semibold mb-2">Free Delivery</h3>
-          <p class="text-gray-600">For all orders over $50</p>
-        </div>
-        <div class="flex flex-col items-center text-center">
-          <span class="text-3xl mb-4">🔄</span>
-          <h3 class="font-semibold mb-2">90 Days Return</h3>
-          <p class="text-gray-600">If goods have problems</p>
-        </div>
-        <div class="flex flex-col items-center text-center">
-          <span class="text-3xl mb-4">🔒</span>
-          <h3 class="font-semibold mb-2">Secure Payment</h3>
-          <p class="text-gray-600">100% secure payment</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Footer -->
-  <footer class="bg-gray-800 text-white py-12 px-6">
-    <div class="container mx-auto">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-        <div>
-          <h3 class="text-xl font-bold mb-4">Meubel House</h3>
-          <p class="text-gray-400">400 University Drive Suite 200 Coral Gables, FL 33134 USA</p>
-        </div>
-        <div>
-          <h4 class="text-gray-400 mb-4">Links</h4>
-          <ul class="space-y-2">
-            <li><a href="#" class="hover:text-gray-300">Home</a></li>
-            <li><a href="#" class="hover:text-gray-300">Shop</a></li>
-            <li><a href="#" class="hover:text-gray-300">About</a></li>
-            <li><a href="#" class="hover:text-gray-300">Contact</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4 class="text-gray-400 mb-4">Help</h4>
-          <ul class="space-y-2">
-            <li><a href="#" class="hover:text-gray-300">Payment Options</a></li>
-            <li><a href="#" class="hover:text-gray-300">Returns</a></li>
-            <li><a href="#" class="hover:text-gray-300">Privacy Policies</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4 class="text-gray-400 mb-4">Newsletter</h4>
-          <div class="flex">
+      <div class="w-full lg:w-1/2">
+        <form (ngSubmit)="submitForm()" class="space-y-6">
+          <div>
+            <label for="name" class="block text-gray-700 font-medium mb-2">Your name *</label>
+            <input 
+              type="text" 
+              id="name"
+              [(ngModel)]="formData.name"
+              name="name"
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-200" 
+              placeholder="Enter your name"
+              required
+            >
+          </div>
+          
+          <div>
+            <label for="email" class="block text-gray-700 font-medium mb-2">Email address *</label>
             <input 
               type="email" 
-              placeholder="Enter Your Email Address" 
-              class="px-4 py-2 rounded-l-lg text-gray-800 w-full"
+              id="email"
+              [(ngModel)]="formData.email"
+              name="email"
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-200" 
+              placeholder="Enter your email"
+              required
             >
-            <button class="bg-blue-600 px-4 py-2 rounded-r-lg hover:bg-blue-700">SUBSCRIBE</button>
           </div>
-        </div>
-      </div>
-      <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
-        <p>2022 Meubel House. All rights reserved</p>
+          
+          <div>
+            <label for="subject" class="block text-gray-700 font-medium mb-2">Subject</label>
+            <input 
+              type="text" 
+              id="subject"
+              [(ngModel)]="formData.subject"
+              name="subject"
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-200" 
+              placeholder="This is optional"
+            >
+          </div>
+          
+          <div>
+            <label for="message" class="block text-gray-700 font-medium mb-2">Message *</label>
+            <textarea 
+              id="message"
+              [(ngModel)]="formData.message"
+              name="message"
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-200 h-32 resize-none" 
+              placeholder="Hi! I'd like to ask about..."
+              required
+            ></textarea>
+          </div>
+          
+          <button 
+            type="submit" 
+            class="w-full px-6 py-3 border border-gray-300 rounded-md text-lg font-medium hover:bg-gray-100 transition-colors"
+          >
+            Submit
+          </button>
+        </form>
       </div>
     </div>
-  </footer>
+  </div>
+
+  <!-- Sección de Beneficios -->
+  <div class="mt-16 mb-8 bg-[#F8F8E1] py-12">  <!-- Color vainilla claro -->
+  <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 px-4">
+    <!-- Envío Gratis -->
+    <div class="text-center">
+      <h3 class="text-2xl font-bold mb-2">Envío Gratis</h3>
+      <p class="text-gray-600">Para pedidos superiores a $50, garantizando comodidad y rapidez.</p>
+    </div>
+    
+    <!-- Devoluciones en 90 Días -->
+    <div class="text-center">
+      <h3 class="text-2xl font-bold mb-2">Devoluciones en 90 Días</h3>
+      <p class="text-gray-600">Si hay problemas con tu producto, te ayudamos sin complicaciones.</p>
+    </div>
+    
+    <!-- Pago Seguro -->
+    <div class="text-center">
+      <h3 class="text-2xl font-bold mb-2">Pago Seguro</h3>
+      <p class="text-gray-600">Transacciones 100% protegidas, con tecnología de cifrado avanzado.</p>
+    </div>
+  </div>
 </div>
+</main>
