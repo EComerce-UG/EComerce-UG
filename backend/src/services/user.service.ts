@@ -1,7 +1,7 @@
-import { UserRepository } from '../repositories/user.repository'
-import { UserModel } from '../models/user.model'
-import { hashPassword } from '../utils/bcrypt'
-import { ProductModel } from '../models/product.model'
+import { UserRepository } from '../repositories/user.repository.js'
+import { UserModel } from '../models/user.model.js'
+import { hashPassword } from '../utils/bcrypt.js'
+import { ProductModel } from '../models/product.model.js'
 
 export const userService = {
     async create(user: UserModel): Promise<string> {
@@ -35,5 +35,14 @@ export const userService = {
     },
     async getProductsFromUser(listFromUser:[]): Promise<ProductModel[]> {
       return UserRepository.getProductsFromUser(listFromUser);
+    },
+    async addCartProductUser(listCartFromUser:[], id:string): Promise<void> {
+      return UserRepository.addCartProductUser(listCartFromUser, id);
+    },
+    async deleteFromCartUser(listCartFromUser:[], id:string): Promise<void> {
+      return UserRepository.deleteFromCartUser(listCartFromUser, id);
+    },
+    async checkoutCartUser(id:string): Promise<void> {
+      return UserRepository.checkoutCartUser(id);
     }
 }

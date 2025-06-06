@@ -39,25 +39,24 @@
         <h2 class="font-semibold text-2xl px-5 w-full">Subtotal</h2>
       </div>
       <!-- Componente para el producto -->
-      <div class="grid grid-cols-5 w-full h-min-20 md:flex items-strech py-8 md:py-10 lg:py-8 border-t border-gray-50 place-content-center">
+      <div *ngFor="let cartData of this.userCurrentCartSelect" class="grid grid-cols-5 w-full h-min-20 md:flex items-strech py-8 md:py-10 lg:py-8 border-t border-gray-50 place-content-center">
         <div class="md:w-4/12 2xl:w-1/4 w-full text-center grid grid-cols-1 justify-items-center">
-          <img src="https://i.ibb.co/6gzWwSq/Rectangle-20-1.png" alt="Black Leather Purse" class="size-20 h-full object-cover md:block hidden rounded-xs" />
-          <h2 class="font-bold mt-1">Sofa</h2>
+          <img src="{{cartData.imagesRoute}}1.jpg" alt="Black Leather Purse" class="size-20 h-full object-cover md:block hidden rounded-xs" />
+          <h2 class="font-bold mt-1">{{ cartData.name }}</h2>
         </div>
         <div class="md:w-4/12 2xl:w-1/4 w-full text-center content-center">
-          <h2 class="text-[#9f9f9f]">$1200.00</h2>
+          <h2 class="text-[#9f9f9f]">${{ cartData.price }}.00</h2>
         </div>
         <div class="md:w-4/12 2xl:w-1/4 w-full text-center content-center">
-          <select aria-label="Select quantity" class="py-2 px-1 border border-gray-200 mr-6 focus:outline-none">
-              <option>01</option>
-              <option>02</option>
-              <option>03</option>
+          <select aria-label="Select quantity" disabled class="py-2 px-1 border border-gray-200 mr-6 focus:outline-none">
+              <option>{{ cartData.quantity }}</option>
             </select>
         </div>
         <div class="md:w-4/12 2xl:w-1/4 w-full text-center content-center">
-          <h2 class="text-[#00000]">$1200.00</h2>
+          <h2 class="text-[#00000]">${{ cartData.price * cartData.quantity }}.00</h2>
         </div>
-        <div class="flex md:w-4/12 2xl:w-1/4 w-full place-items-center place-content-center basis-1/9">
+        <!-- Botto para eliminar producto -->
+        <div (click)="deleteCartProduct(cartData.id)" class="flex md:w-4/12 2xl:w-1/4 w-full place-items-center place-content-center basis-1/9">
           <svg class="w-[30px] h-[30px] text-[#fbebb5] cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
             <path fill-rule="evenodd" d="M8.586 2.586A2 2 0 0 1 10 2h4a2 2 0 0 1 2 2v2h3a1 1 0 1 1 0 2v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V8a1 1 0 0 1 0-2h3V4a2 2 0 0 1 .586-1.414ZM10 6h4V4h-4v2Zm1 4a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Zm4 0a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Z" clip-rule="evenodd"/>
           </svg>
@@ -67,21 +66,57 @@
 
     <div id="summary" class="w-full sm:w-1/4 md:w-1/2 px-8 py-10 bg-[#fff9e5] text-center">
       <h1 class="font-bold text-4xl pb-8">Card Totals</h1>
-      <div class="flex justify-between mt-8 mb-2 mx-12 text-sm">
-        <span class="font-bold capitalize">Items 3</span>
-        <span class="font-extralight ">590$</span>
+      <div *ngFor="let cartData of this.userCurrentCartSelect" class="flex justify-between mt-8 mb-2 mx-12 text-sm">
+        <span class="font-bold capitalize">{{ cartData.name }}</span>
+        <span class="font-extralight ">${{ cartData.price * cartData.quantity }}.00</span>
       </div>
       <div class="mt-2 mx-12">
         <div class="flex justify-between py-6 text-sm capitalize">
           <span class="font-bold">Total cost</span>
-          <span class="font-extralight">$600</span>
+          <span class="font-extralight">${{ totalCost }}.00</span>
         </div>
-        <button class="font-semibold w-full max-w-xs h-12 hover:bg-white hover:font-bold text-sm text-black capitalize border rounded-2xl text-center">
+        <button (click)="sendCheckoutData(long)" class="font-semibold w-full max-w-xs h-12 hover:bg-white hover:font-bold text-sm text-black capitalize border rounded-2xl text-center">
           <p>Check Out</p>
         </button>
       </div>
     </div>
   </div>
 </div>
+
+<ng-template
+	    #long
+	    let-observer
+	>
+  <header
+  #header
+  class="header"
+>
+  <section class="logo">
+      <label class="date">Gracias por su compra!🎉</label>
+      <tui-avatar
+          size="xl"
+          src="@tui.chevron-down"
+          class="icon"
+      />
+  </section>
+  <div class="wrapper">
+      <p class="description">Card payment</p>
+      <h3 class="title">Subtotal:</h3>
+
+      <span
+          class="money"
+          [tuiNumberFormat]="{decimalMode: 'always'}"
+      >
+          ${{ tempCost }}.00
+      </span>
+  </div>
+</header>
+<blockquote>
+  <p>
+    Su pago esta siendo procesado, se le notificara cuando este se haya acreditado y se eviaran sus productos a la dirección que se nos proporciono.
+    Gracias!
+  </p>
+</blockquote>
+</ng-template>
 
 </main>

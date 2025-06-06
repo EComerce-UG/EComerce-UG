@@ -35,6 +35,10 @@ export class WishlistService {
     }
   }
 
+  setWishlist(products: ProductList[]): void {
+    this.wishlistSubject.next(products);
+  }
+
   removeFromWishlist(productId: number): void {
     this.wishlistItems = this.wishlistItems.filter(item => item.id !== productId);
     this.saveWishlistToStorage();

@@ -1,4 +1,4 @@
-import { Component, inject } from "@angular/core"
+import { Component, inject, OnInit } from "@angular/core"
 import { FormsModule } from "@angular/forms"
 import { RouterLink, RouterLinkActive } from "@angular/router"
 import { CommonModule } from "@angular/common"
@@ -6,6 +6,7 @@ import { CommonModule } from "@angular/common"
 import { TuiAlertService } from "@taiga-ui/core"
 import { AuthService } from "../../service/auth.service"
 import { LoginRequest, RegisterRequest, User } from "../../../interfaces"
+import { UserService } from "../../service/user.service"
 
 @Component({
   selector: "app-my-account",
@@ -14,7 +15,7 @@ import { LoginRequest, RegisterRequest, User } from "../../../interfaces"
   templateUrl: "./my-account.component.html",
   styleUrl: "./my-account.component.css",
 })
-export class MyAccountComponent {
+export class MyAccountComponent implements OnInit {
   loginData = {
     username: "",
     password: "",
@@ -23,6 +24,9 @@ export class MyAccountComponent {
   private curretUserData: User[] = [];
   private readonly alerts = inject(TuiAlertService)
   private readonly authService = inject(AuthService)
+  private userService = inject(UserService);
+
+  ngOnInit(): void { }
 
   registerData = {
     email: "",
@@ -78,6 +82,7 @@ export class MyAccountComponent {
           password: "",
           rememberMe: false,
         }
+        this.userService.changeCurrenLoginUser(true);
         this.curretUserData = response.user;
       },
       error: (error: any) => {
@@ -128,7 +133,8 @@ export class MyAccountComponent {
         estado: this.registerData.province,
         usuario: this.registerData.username,
         password: this.registerData.password,
-        likes: []
+        likes: [],
+        carrito: []
       }
 
       this.authService.register(registerRequest).subscribe({
@@ -143,6 +149,7 @@ export class MyAccountComponent {
 
           // Limpiar formulario y volver a la vista inicial
           this.resetRegistrationForm()
+          this.userService.changeCurrenLoginUser(true);
         },
         error: (error: any) => {
           this.isLoading = false
@@ -242,6 +249,8 @@ export class MyAccountComponent {
             appearance: "info",
           })
           .subscribe()
+          this.userService.changeCurrenLoginUser(false);
+          this.userService.updateLikeCount(0);
       },
       error: (error: any) => {
         console.error("Error al cerrar sesión:", error)

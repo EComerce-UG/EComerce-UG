@@ -13,7 +13,7 @@ npm install .
 Ya instalados todos los paquetes de node, ahí mismo en la carpeta de frotend ejecutar el siguiente comando para poder inicializarlo en localhost:
 
 ```bash
-npm run start
+npm run start:dev
 ```
 
 Esto empezara la ejecución del proyecto en el puerto `4200` y puedes empezar con la edición del proyecto en el editor de tu preferencia.
@@ -36,6 +36,16 @@ Esto empezara la ejecución del proyecto en el puerto `4200` y puedes empezar co
 
 >[!WARNING]
 >Documentacion en progreso
+
+## Inicar el backend
+
+Para inicar el backend, usar el siguiente comando:
+
+```bash
+npm run start
+```
+
+Como se puede apreciar es igual al comando del `frontend`, esto para no confundirnos. El comando abrira el puerto 8080 para el backend y el frontend ya cuenta con variables de entorno que leen dependiendo si estamos en `production` o `development`. Si se corre localemente, estas variables estaran para `development`, si hacemos deploy al servidor, seran `production`.
 
 ## Credo
 

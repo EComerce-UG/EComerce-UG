@@ -2,17 +2,19 @@ import { Injectable } from "@angular/core"
 import { HttpClient, HttpHeaders } from "@angular/common/http"
 import { type Observable, BehaviorSubject } from "rxjs"
 import { tap } from "rxjs/operators"
-import { LoginRequest, LoginResponse, ProductList, RegisterRequest, User } from "../../interfaces"
+import { LoginRequest, LoginResponse, ProductList, ProductListToCart, RegisterRequest, User } from "../../interfaces"
+import { environment } from "../../environments/environment"
+import { UserService } from "./user.service"
 
 @Injectable({
   providedIn: "root",
 })
 export class AuthService {
-  private apiUrl = "http://localhost:5050/api";
+  private apiUrl = environment.apiUrl;
   private currentUserSubject: BehaviorSubject<User | null>;
   public currentUser$: Observable<User | null>;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private userService: UserService) {
     // Inicializar el usuario desde localStorage si existe
     const storedUser = localStorage.getItem("user");
     let parsedUser: User | null = null;
@@ -32,9 +34,10 @@ export class AuthService {
     const token = localStorage.getItem("token");
     if (token) {
       this.getUserFromToken().subscribe({
-        next: (response) => {
+        next: (response) => {   
           this.currentUserSubject.next(response.user.user);
           localStorage.setItem("user", JSON.stringify(response.user));
+          this.userService.setUserStructure(true, response.user.user.id, response.user.user.carrito, response.user.user.likes.length);
         },
         error: () => {
           localStorage.removeItem("token");
@@ -54,6 +57,7 @@ export class AuthService {
         localStorage.setItem("token", response.token);
         localStorage.setItem("user", JSON.stringify(response.user));
         this.currentUserSubject.next(response.user);
+        this.userService.setUserStructure(true, response.user.id, response.user.carrito, response.user.likes.length);
       })
     );
   }
@@ -69,6 +73,7 @@ export class AuthService {
       tap(() => {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
+        this.userService.setUserStructure(false, "", [], 0);
         this.currentUserSubject.next(null);
       })
     );
@@ -92,6 +97,28 @@ export class AuthService {
   addLikeProductUser(productId: number, userId: string): Observable<{status: boolean}> {
     const headers = this.getAuthHeaders();
     return this.http.post<{ status: boolean }>(`${this.apiUrl}/users/addLikes`, {productId: productId, id: userId}, { headers }).pipe()
+  }
+
+  // agregando los productos a firebase
+  addFirebaseCartUser(data:ProductListToCart): Observable<{status: boolean}> {
+    const headers = this.getAuthHeaders();
+    const userId = this.userService.userCurrentId.value;
+    return this.http.post<{ status: boolean }>(`${this.apiUrl}/users/addCartProduct`, {productList: data, id: userId}, { headers }).pipe()
+  }
+
+  // eliminando los productos a firebase
+  deleteFirebaseCartUser(): Observable<{status: boolean}> {
+    const headers = this.getAuthHeaders();
+    const userId = this.userService.userCurrentId.value;
+    const newDataCart = this.userService.userToCardSelect.value;
+    return this.http.post<{ status: boolean }>(`${this.apiUrl}/users/deleteCartProduct`, {productList: newDataCart, id: userId}, { headers }).pipe()
+  }
+
+  // terminar el carrito del usuario
+  checkoutFirebaseCartUser(): Observable<{status: boolean}> {
+    const headers = this.getAuthHeaders();
+    const userId = this.userService.userCurrentId.value;
+    return this.http.post<{ status: boolean }>(`${this.apiUrl}/users/checkoutCartUser`, {id: userId}, { headers }).pipe()
   }
 
   private getAuthHeaders(): HttpHeaders {

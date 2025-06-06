@@ -15,6 +15,7 @@
           "options": {
             "outputPath": "dist/ecomerce-ug",
             "index": "src/index.html",
+            "sourceMap": false,
             "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
@@ -43,12 +44,21 @@
             "ssr": false
           },
           "configurations": {
+            "debug": {
+              "sourceMap": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.debug.ts"
+                }
+              ]
+            },
             "production": {
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumWarning": "1GB",
+                  "maximumError": "1.5GB"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -56,13 +66,25 @@
                   "maximumError": "8kB"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.production.ts"
+                }
+              ]
             },
             "development": {
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true,
-              "ssr": false
+              "ssr": false,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.development.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"

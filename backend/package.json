@@ -1,17 +1,18 @@
 {
   "name": "class-02-backend-ts",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "./dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon ./src/index.ts",
-    "build": "tsc",
-    "start": "node ./dist/index.js"
+    "start": "TYPE_DEV=development npm-run-all --parallel watch:build watch:server --print-label",
+    "watch:build": "tsc --watch",
+    "watch:server": "nodemon './dist/index.js' --watch './dist'",
+    "deploy:build": "tsc",
+    "deploy:azure": "docker build -t express2backend.azurecr.io/demo:1.0 . && docker push express2backend.azurecr.io/demo:1.0"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "description": "",
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -19,15 +20,24 @@
     "dotenv": "^16.5.0",
     "express": "^4.21.2",
     "firebase-admin": "^13.4.0",
-    "jsonwebtoken": "^9.0.2"
+    "firebase-tools": "^14.5.1",
+    "jsonwebtoken": "^9.0.2",
+    "npm-run-all": "^4.1.5"
   },
   "devDependencies": {
+    "@tsconfig/node23": "^23.0.2",
     "@types/bcryptjs": "^2.4.6",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "@types/jsonwebtoken": "^9.0.8",
+    "@types/node": "^22.15.29",
+    "firebase-functions": "^6.3.2",
     "nodemon": "^3.1.9",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.3"
-  }
+  },
+  "engines": {
+    "node": "22"
+  },
+  "private": true
 }

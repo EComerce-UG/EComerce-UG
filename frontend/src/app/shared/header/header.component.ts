@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, inject, Input, OnInit, Renderer2 } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { TuiAlertService } from '@taiga-ui/core';
@@ -9,6 +9,7 @@ import { AuthService } from '../../service/auth.service';
 import { WishlistService } from '../../service/wishlist.service';
 import { CartService } from '../../service/cart.service'; // Agregar esta importación
 import { ProductList } from '../../../interfaces';
+import { UserService } from '../../service/user.service';
 
 
 
@@ -19,69 +20,61 @@ import { ProductList } from '../../../interfaces';
   providers: [],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HeaderComponent implements OnInit, OnDestroy {
-  menuOpen: boolean = false;
-  likesProductsTotal: number = 0;
-  private readonly alerts = inject(TuiAlertService);
-  private subscriptions: Subscription = new Subscription();
 
-  constructor(
-    public userService: AuthService,
-    private userRoutes: Router,
-    private wishlistService: WishlistService,
-    private cartService: CartService // Agregar esta inyección
-  ) { }
+export class HeaderComponent implements OnInit {
+  menuOpen:boolean = false;
+  @Input() userIsLoggin: boolean = false;
+  likesProductsTotal:number = 0;
+  totalOfCartProducts: number = 0;
+  private readonly alerts = inject(TuiAlertService);
+
+  constructor(public userAuthService: AuthService, private userRoutes: Router, private userService: UserService, private render: Renderer2, private cartService: CartService) { }
 
   ngOnInit(): void {
-    // Suscribirse a los cambios en la wishlist
-    this.subscriptions.add(
-      this.wishlistService.wishlist$.subscribe(wishlistItems => {
-        this.likesProductsTotal = wishlistItems.length;
-      })
-    );
-  }
+    this.userService.userCountValue.subscribe(count => {
+      this.likesProductsTotal = count
+    });
+    this.userService.userToCardSelect.subscribe(quantity => {
+      this.totalOfCartProducts = quantity.length
+    });
+    this.userService.currenUserLoggin.subscribe(value => {
+      if(value) {
+        this.render.addClass(document.getElementById('totalLikesNotification'), 'logginNotification');
+        this.render.removeClass(document.getElementById('totalLikesNotification'), 'notLoggin')
 
-  ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
+        this.render.addClass(document.getElementById('totalCartNotification'), 'logginNotification');
+        this.render.removeClass(document.getElementById('totalCartNotification'), 'notLoggin')
+      }  else {
+        this.render.removeClass(document.getElementById('totalLikesNotification'), 'logginNotification');
+        this.render.addClass(document.getElementById('totalLikesNotification'), 'notLoggin')
+
+        this.render.removeClass(document.getElementById('totalCartNotification'), 'logginNotification');
+        this.render.addClass(document.getElementById('totalCartNotification'), 'notLoggin')
+      }
+    });
   }
 
   toggleMenu(): void {
-    if(this.userService.isLoggedIn()) {
+    if(this.userAuthService.isLoggedIn()) {
       this.menuOpen = !this.menuOpen;
       this.cartService.sendEvent({toggle: 'Side menu', open: this.menuOpen} as {});
     }
   }
 
-  checkUserLoggin(userWantsToGo: string): void {
-    // Si es el carrito, abrir el sidebar en lugar de navegar
-    if (userWantsToGo === 'cart') {
-      if (!this.userService.isLoggedIn()) {
-        this.alerts.open('Please login to start buying.', {
-          label: 'Currently not logged in', 
-          appearance: 'warning'
-        }).subscribe();
-        return;
-      }
-      // Abrir el sidebar del carrito
-      this.cartService.sendEvent({ toggle: 'Side menu' });
-      return;
-    }
 
-    if (!this.userService.isLoggedIn()) {
-      if (userWantsToGo === "my-account") {
+  checkUserLoggin(userWantsToGo:string): void {
+    if(!this.userAuthService.isLoggedIn()) {
+      if(userWantsToGo === "my-account") {
         this.userRoutes.navigate([userWantsToGo]);
         return;
       }
-      this.alerts.open('Please login to start buying.', {
-        label: 'Currently not logged in', 
-        appearance: 'warning'
-      }).subscribe();
+      this.alerts.open('No puede realizar tal accion.', {label: 'Cree una cuenta o inicie session.', appearance: 'neutral'}).subscribe();
       return;
     } else {
       this.userRoutes.navigate([userWantsToGo]);
       return;
     }
   }
+
 }

@@ -1,14 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit, Renderer2 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { ProductList, User } from '../../../interfaces';
 import { ProductService } from '../../service/product.service';
-import { WishlistService } from '../../service/wishlist.service'; // Agregar WishlistService
-import { CartService } from '../../service/cart.service'; // Agregar CartService
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../service/auth.service';
+import { UserService } from '../../service/user.service';
+import { TuiAlertService } from '@taiga-ui/core';
 import { Subscription } from 'rxjs'; // Agregar Subscription
+import { WishlistService } from '../../service/wishlist.service';
+import { error } from 'console';
 
 @Component({
   selector: 'app-shop',
@@ -18,10 +20,9 @@ import { Subscription } from 'rxjs'; // Agregar Subscription
   templateUrl: './shop.component.html',
   styleUrl: './shop.component.css'
 })
-export class ShopComponent {
+export class ShopComponent implements OnInit {
   // Datos
   allProductsList: ProductList[] = [];
-  like = true
   // Propiedades para categorías y filtros
   bannerImagePath: string = 'assets/images/Shop_Collection.png';
   categories: string[] = ['All', 'Chairs', 'Tables', 'Sofas', 'Lamps', 'Kitchen'];
@@ -41,58 +42,58 @@ export class ShopComponent {
   
   // Referencia a Math para usar en el template
   Math = Math;
-
   // Agregar subscriptions para manejar observables
   private subscriptions: Subscription = new Subscription();
+
+  // Uso de taiga
+  private readonly alerts = inject(TuiAlertService);
 
   constructor(
     private productService: ProductService, 
     private authService: AuthService, 
-    private http: HttpClient,
-    private wishlistService: WishlistService, // Inyectar WishlistService
-    private cartService: CartService // Inyectar CartService
+    private userService: UserService , 
+    private http: HttpClient, 
+    private render:Renderer2,
+    private wishlistService: WishlistService
   ) {
     this.allProductsList = this.productService.getAllProducts();
     this.checkForLikes();
-    this.initializeWishlistSync();
   }
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }
 
-  // Sincronizar con el WishlistService
-  initializeWishlistSync(): void {
-    this.subscriptions.add(
-      this.wishlistService.wishlist$.subscribe(wishlistItems => {
-        // Actualizar userLikes basado en el WishlistService
-        this.userLikes = wishlistItems;
-      })
-    );
-  }
-  
+  ngOnInit(): void { }
+
   // Getters para la interfaz
   checkForLikes(): void {
     this.authService.getUserFromToken().subscribe((response) => {
       this.authService.getUserLikesInfo(response.user.user.likes).subscribe((response) => {
         this.userLikes = response.products;
-        // Sincronizar con WishlistService
-        response.products.forEach((product: ProductList) => {
-          if (!this.wishlistService.isInWishlist(product.id)) {
-            this.wishlistService.addToWishlist(product);
-          }
-        });
+        let tempData1: ProductList[] = []
+        response.products.forEach((data) => {
+          tempData1.push(this.productService.getProductById(data.id));
+        })
+        this.wishlistService.setWishlist(tempData1);
+        this.userService.updateLikeCount(this.userLikes.length);
       }, (error: any) => {
+        this.alerts.open('Hubo un error!', {label: 'Porfavor notifique a IT', appearance: 'warning'}).subscribe();
         console.log(error);
       })
+    },(error:any) => {
+      this.alerts.open('Algunas funciones estan limitadas hasta que inicie sesion.', {appearance: 'flat'}).subscribe();
     })
   }
-
-  // Método mejorado que usa WishlistService
-  isInUserLike(productId: number): boolean {
-    return this.wishlistService.isInWishlist(productId);
-  }
   
+  isInUserLike(productId: number):boolean {
+    for (let value of this.userLikes) {
+      if(value.id === productId)
+        return true
+    }
+    return false;
+  }
+
   get filteredProducts() {
     return this.allProductsList.filter(product => 
       this.selectedCategory === "All" || product.category === this.selectedCategory
@@ -186,68 +187,43 @@ export class ShopComponent {
 
   // Método mejorado para agregar al carrito
   addToCart(productId: number) {
-    const product = this.allProductsList.find(p => p.id === productId);
-    if (product) {
-      this.cartService.addToCart(product);
-      console.log('Added product to cart:', productId);
-    }
+    console.log('Added product to cart:', productId);
+    // Implementar lógica de carrito aquí
   }
 
-  // Método mejorado para wishlist que usa WishlistService
-  addToWishlist(productId: number): void {
-    const product = this.allProductsList.find(p => p.id === productId);
-    if (!product) return;
-
-    // Usar WishlistService para toggle
-    if (this.wishlistService.isInWishlist(productId)) {
-      this.wishlistService.removeFromWishlist(productId);
-      // También actualizar en el backend si es necesario
-      this.removeFromBackendWishlist(productId);
-    } else {
-      this.wishlistService.addToWishlist(product);
-      // También actualizar en el backend si es necesario
-      this.addToBackendWishlist(productId);
+  addToWishlist(productId: number):void {
+    for (let value of this.userLikes) {
+      // buscar primero si ya la tiene agregada
+      if(value.id === productId) {
+        this.authService.getUserFromToken().subscribe((response) => {
+          let userId = response.user.user.id;
+          this.authService.updateUserLikes(productId, userId).subscribe((response) => {
+            if(response.status) {
+              this.checkForLikes();
+              this.render.removeClass(document.getElementById(`${productId}-like-button`), 'like-button');
+            }
+          }, (error: any) => {
+            console.log(error);
+          })
+        }, (error: any) => {
+          console.log(error);
+        })
+        return;
+      }
     }
-  }
-
-  // Métodos auxiliares para sincronizar con el backend
-  private addToBackendWishlist(productId: number): void {
     this.authService.getUserFromToken().subscribe((response) => {
       let userId = response.user.user.id;
       this.authService.addLikeProductUser(productId, userId).subscribe((response) => {
-        console.log('Added to backend wishlist:', response);
-      }, (error: any) => {
-        console.log('Error adding to backend wishlist:', error);
-        // Si falla, remover del WishlistService
-        this.wishlistService.removeFromWishlist(productId);
-      });
-    }, (error: any) => {
-      console.log('Error getting user token:', error);
-      // Si falla, remover del WishlistService
-      this.wishlistService.removeFromWishlist(productId);
-    });
-  }
-
-  private removeFromBackendWishlist(productId: number): void {
-    this.authService.getUserFromToken().subscribe((response) => {
-      let userId = response.user.user.id;
-      this.authService.updateUserLikes(productId, userId).subscribe((response) => {
-        console.log('Removed from backend wishlist:', response);
-      }, (error: any) => {
-        console.log('Error removing from backend wishlist:', error);
-        // Si falla, volver a agregar al WishlistService
-        const product = this.allProductsList.find(p => p.id === productId);
-        if (product) {
-          this.wishlistService.addToWishlist(product);
+        if(response.status) {
+          this.checkForLikes();
+          this.render.addClass(document.getElementById(`${productId}-like-button`), 'like-button');
         }
-      });
+
     }, (error: any) => {
-      console.log('Error getting user token:', error);
-      // Si falla, volver a agregar al WishlistService
-      const product = this.allProductsList.find(p => p.id === productId);
-      if (product) {
-        this.wishlistService.addToWishlist(product);
-      }
-    });
+      this.alerts.open('No puede realizar likes hasta que inicie session.', {appearance: 'neutral', closeable: false}).subscribe();
+    })
+    return;
+
+    })
   }
 }

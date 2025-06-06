@@ -1,7 +1,8 @@
-import { db } from '../config/firebase'
-import { UserModel } from '../models/user.model'
-import { firestore } from "firebase-admin";
-import { ProductModel } from '../models/product.model';
+import { db } from '../config/firebase.js'
+import { UserModel } from '../models/user.model.js'
+import pkg from 'firebase-admin'
+import { ProductModel } from '../models/product.model.js';
+const { firestore } = pkg;
 
 const USERS_COLLECTION = 'usuarios'
 const PRODUCTS_COLLECTION = 'products';
@@ -89,5 +90,46 @@ export const UserRepository = {
         })
       })
       return dataReturn;
-    }
+    },
+
+    async addCartProductUser(listCartFromUser:[], id:string): Promise<void> {
+      console.log(listCartFromUser)
+      const snapshot = db.collection(USERS_COLLECTION).doc(id);
+      snapshot.update({
+        carrito: firestore.FieldValue.arrayUnion(listCartFromUser)
+      }).then(((response) => {
+        console.log(response);
+      })).catch((error) => {
+        console.error(error);
+      });
+    },
+
+    async deleteFromCartUser(listCartFromUser:[], id:string): Promise<void> {
+      const snapshot = db.collection(USERS_COLLECTION).doc(id);
+      snapshot.update({
+        carrito: []
+      }).then(((response) => {
+        console.log(response);
+      })).catch((error) => {
+        console.error(error);
+      });
+      snapshot.update({
+        carrito: listCartFromUser
+      }).then(((response) => {
+        console.log(response);
+      })).catch((error) => {
+        console.error(error);
+      });
+    },
+
+    async checkoutCartUser(id:string): Promise<void> {
+      const snapshot = db.collection(USERS_COLLECTION).doc(id);
+      snapshot.update({
+        carrito: []
+      }).then(((response) => {
+        console.log(response);
+      })).catch((error) => {
+        console.error(error);
+      });
+    },
 }

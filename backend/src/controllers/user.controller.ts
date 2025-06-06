@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { userService } from '../services/user.service';
+import { userService } from '../services/user.service.js';
 
 export const UserController = {
     async create(req: Request & {
@@ -103,6 +103,50 @@ export const UserController = {
         const { userList } = req.body
         const userLikeProductList = await userService.getProductsFromUser(userList);
         res.status(200).json({products: userLikeProductList});
+      } catch (error:any) {
+        res.status(401).json({error: error.message});
+      }
+    },
+    async addCartProductUser(req: Request & {
+      body: {
+        productList: [],
+        id: string
+      }
+    }
+     ,res: Response) {
+      try {
+        const { productList, id } = req.body
+        await userService.addCartProductUser(productList, id);
+        res.status(200).json({status: true});
+      } catch (error:any) {
+        res.status(401).json({error: error.message});
+      }
+    },
+    async deleteFromCartUser(req: Request & {
+      body: {
+        productList: [],
+        id: string
+      }
+    }
+     ,res: Response) {
+      try {
+        const { productList, id } = req.body
+        await userService.deleteFromCartUser(productList, id);
+        res.status(200).json({status: true});
+      } catch (error:any) {
+        res.status(401).json({error: error.message});
+      }
+    },
+    async checkoutCartUser(req: Request & {
+      body: {
+        id: string
+      }
+    }
+     ,res: Response) {
+      try {
+        const { id } = req.body
+        await userService.checkoutCartUser(id);
+        res.status(200).json({status: true});
       } catch (error:any) {
         res.status(401).json({error: error.message});
       }
