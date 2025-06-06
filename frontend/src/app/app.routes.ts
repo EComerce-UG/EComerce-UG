@@ -21,11 +21,6 @@ export const routes: Routes = [
     component: CartComponent, 
     canActivate: [AuthguardService]
   },
-  {
-    path: 'checkout',
-    component: CheckoutComponent,
-    canActivate: [AuthguardService]
-  },
   { 
     path: 'shop', 
     component: ShopComponent, 
