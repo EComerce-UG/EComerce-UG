@@ -35,5 +35,14 @@ export const userService = {
     },
     async getProductsFromUser(listFromUser:[]): Promise<ProductModel[]> {
       return UserRepository.getProductsFromUser(listFromUser);
+    },
+    async addCartProductUser(listCartFromUser:[], id:string): Promise<void> {
+      return UserRepository.addCartProductUser(listCartFromUser, id);
+    },
+    async deleteFromCartUser(listCartFromUser:[], id:string): Promise<void> {
+      return UserRepository.deleteFromCartUser(listCartFromUser, id);
+    },
+    async checkoutCartUser(id:string): Promise<void> {
+      return UserRepository.checkoutCartUser(id);
     }
 }

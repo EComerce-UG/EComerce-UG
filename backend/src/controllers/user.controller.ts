@@ -106,5 +106,49 @@ export const UserController = {
       } catch (error:any) {
         res.status(401).json({error: error.message});
       }
+    },
+    async addCartProductUser(req: Request & {
+      body: {
+        productList: [],
+        id: string
+      }
+    }
+     ,res: Response) {
+      try {
+        const { productList, id } = req.body
+        await userService.addCartProductUser(productList, id);
+        res.status(200).json({status: true});
+      } catch (error:any) {
+        res.status(401).json({error: error.message});
+      }
+    },
+    async deleteFromCartUser(req: Request & {
+      body: {
+        productList: [],
+        id: string
+      }
+    }
+     ,res: Response) {
+      try {
+        const { productList, id } = req.body
+        await userService.deleteFromCartUser(productList, id);
+        res.status(200).json({status: true});
+      } catch (error:any) {
+        res.status(401).json({error: error.message});
+      }
+    },
+    async checkoutCartUser(req: Request & {
+      body: {
+        id: string
+      }
+    }
+     ,res: Response) {
+      try {
+        const { id } = req.body
+        await userService.checkoutCartUser(id);
+        res.status(200).json({status: true});
+      } catch (error:any) {
+        res.status(401).json({error: error.message});
+      }
     }
 }

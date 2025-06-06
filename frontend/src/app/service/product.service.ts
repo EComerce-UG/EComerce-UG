@@ -11,7 +11,7 @@ export class ProductService {
 
   protected productsListCompleted: ProductList[] = [
     {
-      id: 1,
+      id: 0,
       name: 'Minimal Chair',
       price: 250,
       quantityAvailable: 5,
@@ -39,7 +39,7 @@ export class ProductService {
       imagesRoute: 'assets/1_silla/'
     },
     {
-      id: 2,
+      id: 1,
       name: 'Modern Sofa',
       price: 450,
       quantityAvailable: 5,
@@ -65,7 +65,7 @@ export class ProductService {
       imagesRoute: 'assets/2_sofa/'
     },
     {
-      id: 3,
+      id: 2,
       name: 'Wooden Table',
       price: 350,
       quantityAvailable: 5,
@@ -92,7 +92,7 @@ export class ProductService {
       imagesRoute: 'assets/3_mesa_madera/'
     },
     {
-      id: 4,
+      id: 3,
       name: 'Pendant Lamp',
       price: 150,
       quantityAvailable: 5,
@@ -117,7 +117,7 @@ export class ProductService {
       imagesRoute: 'assets/4_lampara/'
     },
     {
-      id: 5,
+      id: 4,
       name: 'Kitchen Island',
       price: 550,
       quantityAvailable: 5,
@@ -148,7 +148,7 @@ export class ProductService {
       imagesRoute: 'assets/5_isla_comedor/'
     },
     {
-      id: 6,
+      id: 5,
       name: 'Dining Chair',
       price: 180,
       quantityAvailable: 5,
@@ -170,7 +170,7 @@ export class ProductService {
       imagesRoute: 'assets/6_silla_comedor/'
     },
     {
-      id: 7,
+      id: 6,
       name: 'Coffee Table',
       price: 280,
       quantityAvailable: 5,
@@ -195,7 +195,7 @@ export class ProductService {
       imagesRoute: 'assets/7_mesa_cafetera/'
     },
     {
-      id: 8,
+      id: 7,
       name: 'Floor Lamp',
       price: 200,
       quantityAvailable: 5,

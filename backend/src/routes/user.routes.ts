@@ -14,5 +14,8 @@ router.get('/getbyusername/:username', AuthMiddleware.verifyToken, UserControlle
 router.post('/getLikes', AuthMiddleware.verifyToken, UserController.getProductsFromUser);
 router.post('/updateLikes', AuthMiddleware.verifyToken, UserController.deleteFromLikesProductUser);
 router.post('/addLikes', AuthMiddleware.verifyToken, UserController.addToLikesProductUser);
+router.post('/addCartProduct', AuthMiddleware.verifyToken, UserController.addCartProductUser);
+router.post('/deleteCartProduct', AuthMiddleware.verifyToken, UserController.deleteFromCartUser);
+router.post('/checkoutCartUser', AuthMiddleware.verifyToken, UserController.checkoutCartUser);
 
 export default router

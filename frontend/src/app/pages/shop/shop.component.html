@@ -143,6 +143,7 @@
             </svg>
           </button>
           <a 
+            [routerLink]="[`/product-view/${product.id}`, {isLiked: isInUserLike(product.id)}]" 
             routerLinkActive="active"
             class="bg-white w-10 h-10 rounded-full shadow-md hover:bg-gray-100 transition-colors duration-200 flex items-center justify-center"
             aria-label="View product"

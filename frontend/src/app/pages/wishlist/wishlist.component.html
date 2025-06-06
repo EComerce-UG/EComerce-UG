@@ -75,7 +75,7 @@
             <!-- Botones de acción - mismo estilo que shop -->
             <div class="absolute inset-0 flex items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-all duration-300">
               <button 
-                (click)="addToCart(product)" 
+                [routerLink]="[`/product-view/${product.id}`, {isLiked: isInUserLike(product.id)}]" 
                 class="bg-white w-10 h-10 rounded-full shadow-md hover:bg-gray-100 transition-colors duration-200 flex items-center justify-center"
                 aria-label="Add to cart"
               >

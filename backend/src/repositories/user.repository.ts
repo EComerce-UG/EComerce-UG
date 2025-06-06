@@ -90,5 +90,46 @@ export const UserRepository = {
         })
       })
       return dataReturn;
-    }
+    },
+
+    async addCartProductUser(listCartFromUser:[], id:string): Promise<void> {
+      console.log(listCartFromUser)
+      const snapshot = db.collection(USERS_COLLECTION).doc(id);
+      snapshot.update({
+        carrito: firestore.FieldValue.arrayUnion(listCartFromUser)
+      }).then(((response) => {
+        console.log(response);
+      })).catch((error) => {
+        console.error(error);
+      });
+    },
+
+    async deleteFromCartUser(listCartFromUser:[], id:string): Promise<void> {
+      const snapshot = db.collection(USERS_COLLECTION).doc(id);
+      snapshot.update({
+        carrito: []
+      }).then(((response) => {
+        console.log(response);
+      })).catch((error) => {
+        console.error(error);
+      });
+      snapshot.update({
+        carrito: listCartFromUser
+      }).then(((response) => {
+        console.log(response);
+      })).catch((error) => {
+        console.error(error);
+      });
+    },
+
+    async checkoutCartUser(id:string): Promise<void> {
+      const snapshot = db.collection(USERS_COLLECTION).doc(id);
+      snapshot.update({
+        carrito: []
+      }).then(((response) => {
+        console.log(response);
+      })).catch((error) => {
+        console.error(error);
+      });
+    },
 }

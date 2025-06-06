@@ -108,8 +108,10 @@ export class ProductComponent implements OnInit {
       this.alerts.open('Please login to add this product.', {label: 'Curretly not loggin', appearance: 'warning'}).subscribe()
     }
 
-    const productInfo: ProductListToCart = this.productService.getProductByIdCart(productId - 1, this.value);
+    const productInfo: ProductListToCart = this.productService.getProductByIdCart(productId, this.value);
     this.userService.updateUserCardSelect(productInfo)
+    this.userService.updateCartValue(productInfo);
+    this.userAuth.addFirebaseCartUser(productInfo).subscribe();
     this.alerts.open('Producto agregado!', {label: `Producto ${productInfo?.name.toLocaleLowerCase()} fue agregado!`, appearance: 'positive', closeable: false, autoClose: 1500}).subscribe();
   }
 }
