@@ -13,7 +13,6 @@ import { ProductListToCart } from '../../../interfaces';
   styleUrls: ['./sidebar.css']
 })
 export class SidebarComponent implements OnInit {
-  cartItems: CartItem[] = [];
   cartItemsUser: ProductListToCart[] = [];
   total: number = 0;
   totalUser: number = 0;
@@ -52,7 +51,6 @@ export class SidebarComponent implements OnInit {
 
   updateCart(): void {
     // Usar getCartItems() - NO getItems()
-    this.cartItems = this.cartService.getCartItems();
     this.cartItemsUser = this.userService.userToCardSelect.value;
     // Usar getCartTotal() - NO getTotal()
     this.total = this.cartService.getCartTotal();
@@ -78,7 +76,7 @@ export class SidebarComponent implements OnInit {
   // Método actualizado para navegar al checkout
   checkout(): void {
     // Verificar si hay productos en el carrito
-    if (this.cartItems.length === 0) {
+    if (this.cartItemsUser.length === 0) {
       console.log('El carrito está vacío');
       // Opcional: mostrar un mensaje de error
       return;
