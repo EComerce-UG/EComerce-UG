@@ -76,7 +76,6 @@ export class SidebarComponent implements OnInit {
   // Método actualizado para navegar al checkout
   checkout(): void {
     // Verificar si hay productos en el carrito
-    
     this.closeDrawer(); // Cerrar el sidebar primero
     this.router.navigate(['/checkout']); // Navegar a la página de checkout
   }
