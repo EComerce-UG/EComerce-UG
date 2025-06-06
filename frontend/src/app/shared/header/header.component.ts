@@ -48,10 +48,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   toggleMenu(): void {
-    if(this.userService.isLoggedIn()) {
-      this.menuOpen = !this.menuOpen;
-      this.cartService.sendEvent({toggle: 'Side menu', open: this.menuOpen} as {});
-    }
+    this.menuOpen = !this.menuOpen;
   }
 
   checkUserLoggin(userWantsToGo: string): void {
