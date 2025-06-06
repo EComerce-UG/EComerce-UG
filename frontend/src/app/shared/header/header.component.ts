@@ -29,7 +29,7 @@ export class HeaderComponent implements OnInit {
   totalOfCartProducts: number = 0;
   private readonly alerts = inject(TuiAlertService);
 
-  constructor(public userAuthService: AuthService, private userRoutes: Router, private userService: UserService, private render: Renderer2) { }
+  constructor(public userAuthService: AuthService, private userRoutes: Router, private userService: UserService, private render: Renderer2, private cartService: CartService) { }
 
   ngOnInit(): void {
     this.userService.userCountValue.subscribe(count => {
@@ -56,7 +56,7 @@ export class HeaderComponent implements OnInit {
   }
 
   toggleMenu(): void {
-    if(this.userService.isLoggedIn()) {
+    if(this.userAuthService.isLoggedIn()) {
       this.menuOpen = !this.menuOpen;
       this.cartService.sendEvent({toggle: 'Side menu', open: this.menuOpen} as {});
     }

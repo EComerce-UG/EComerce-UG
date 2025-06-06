@@ -4,8 +4,16 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { DecimalPipe } from '@angular/common';
 
-import { TuiAlertService } from '@taiga-ui/core';
+// taiga
+import {tuiClamp} from '@taiga-ui/cdk';
+import { TuiAlertService, TuiDialogService, TuiLoader, TuiDialogContext, TuiNumberFormat } from '@taiga-ui/core';
+import {TuiAvatar} from '@taiga-ui/kit';
+
+import type {PolymorpheusContent} from '@taiga-ui/polymorpheus';
 import { CartService, CartItem } from '../../service/cart.service';
+import { ProductListToCart } from '../../../interfaces';
+import { UserService } from '../../service/user.service';
+import { AuthService } from '../../service/auth.service';
 
 interface BillingDetails {
   firstName: string;
@@ -24,19 +32,25 @@ interface BillingDetails {
 @Component({
   selector: 'app-checkout',
   standalone: true,
-  imports: [CommonModule, FormsModule, DecimalPipe],
+  imports: [CommonModule, FormsModule, DecimalPipe, TuiAvatar, TuiNumberFormat],
   templateUrl: './checkout.component.html',
-  styleUrls: ['./checkout.component.css']
+  styleUrls: ['./checkout.component.less']
 })
 export class CheckoutComponent implements OnInit {
   private readonly alerts = inject(TuiAlertService);
+  private readonly dialogs = inject(TuiDialogService);
   private readonly cartService = inject(CartService);
   private readonly router = inject(Router);
 
   cartItems: CartItem[] = [];
+  cartItemsUser: ProductListToCart[] = [];
   subtotal: number = 0;
+  subtotalUser: number = 0;
+  tempCost: number = 0;
   isLoading = false;
   selectedPaymentMethod = 'bank-transfer';
+  
+  constructor(private userService:UserService, private authService:AuthService) { }
 
   billingDetails: BillingDetails = {
     firstName: '',
@@ -87,10 +101,14 @@ export class CheckoutComponent implements OnInit {
       }).subscribe();
       this.router.navigate(['/shop']);
     }
+    this.userService.userCartTotalCost.subscribe((value) => {
+      this.subtotalUser = value
+    })
   }
 
   loadCartData(): void {
     this.cartItems = this.cartService.getCartItems(); // Corregido: getItems() -> getCartItems()
+    this.cartItemsUser = this.userService.userToCardSelect.value;
     this.subtotal = this.cartService.getCartTotal(); // Corregido: getTotal() -> getCartTotal()
   }
 
@@ -125,6 +143,21 @@ export class CheckoutComponent implements OnInit {
     }
 
     return true;
+  }
+
+
+  sendCheckoutData(content: PolymorpheusContent): void {
+    if(this.userService.userToCardSelect.value.length !== 0) {
+      this.tempCost = this.subtotalUser;
+      if(this.authService.checkoutFirebaseCartUser().subscribe()) {
+        this.userService.userToCardSelect.next([])
+        this.userService.updateCartValueSingleton(0);
+        this.dialogs.open(content).subscribe();
+      }
+        return;
+    }
+    this.alerts.open('Porfavor, agregue productos para poder realizar pagos', {label: `Error en pago`, appearance: 'warning', closeable: false, autoClose: 3000}).subscribe();
+    return;
   }
 
   placeOrder(): void {

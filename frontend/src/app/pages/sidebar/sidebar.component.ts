@@ -2,6 +2,8 @@ import { Component, OnInit, Renderer2, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { CartService, CartItem } from '../../service/cart.service';
 import { DecimalPipe, NgIf, NgFor } from '@angular/common';
+import { UserService } from '../../service/user.service';
+import { ProductListToCart } from '../../../interfaces';
 
 @Component({
   selector: 'app-sidebar',
@@ -12,14 +14,17 @@ import { DecimalPipe, NgIf, NgFor } from '@angular/common';
 })
 export class SidebarComponent implements OnInit {
   cartItems: CartItem[] = [];
+  cartItemsUser: ProductListToCart[] = [];
   total: number = 0;
+  totalUser: number = 0;
   isOpen: boolean = false;
 
   constructor(
     private cartService: CartService,
     private renderer: Renderer2,
     private el: ElementRef,
-    private router: Router
+    private router: Router,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
@@ -31,6 +36,9 @@ export class SidebarComponent implements OnInit {
         this.toggleDrawer();
       }
     });
+    this.userService.userCartTotalCost.subscribe((data) => {
+      this.totalUser = data;
+    })
   }
 
   toggleDrawer(): void {
@@ -45,6 +53,7 @@ export class SidebarComponent implements OnInit {
   updateCart(): void {
     // Usar getCartItems() - NO getItems()
     this.cartItems = this.cartService.getCartItems();
+    this.cartItemsUser = this.userService.userToCardSelect.value;
     // Usar getCartTotal() - NO getTotal()
     this.total = this.cartService.getCartTotal();
   }
