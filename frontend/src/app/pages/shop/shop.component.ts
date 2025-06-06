@@ -4,9 +4,11 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { ProductList, User } from '../../../interfaces';
 import { ProductService } from '../../service/product.service';
+import { WishlistService } from '../../service/wishlist.service'; // Agregar WishlistService
+import { CartService } from '../../service/cart.service'; // Agregar CartService
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../service/auth.service';
-import { response } from 'express';
+import { Subscription } from 'rxjs'; // Agregar Subscription
 
 @Component({
   selector: 'app-shop',
@@ -40,9 +42,33 @@ export class ShopComponent {
   // Referencia a Math para usar en el template
   Math = Math;
 
-  constructor(private productService: ProductService, private authService: AuthService , private http: HttpClient) {
+  // Agregar subscriptions para manejar observables
+  private subscriptions: Subscription = new Subscription();
+
+  constructor(
+    private productService: ProductService, 
+    private authService: AuthService, 
+    private http: HttpClient,
+    private wishlistService: WishlistService, // Inyectar WishlistService
+    private cartService: CartService // Inyectar CartService
+  ) {
     this.allProductsList = this.productService.getAllProducts();
     this.checkForLikes();
+    this.initializeWishlistSync();
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
+
+  // Sincronizar con el WishlistService
+  initializeWishlistSync(): void {
+    this.subscriptions.add(
+      this.wishlistService.wishlist$.subscribe(wishlistItems => {
+        // Actualizar userLikes basado en el WishlistService
+        this.userLikes = wishlistItems;
+      })
+    );
   }
   
   // Getters para la interfaz
@@ -50,18 +76,21 @@ export class ShopComponent {
     this.authService.getUserFromToken().subscribe((response) => {
       this.authService.getUserLikesInfo(response.user.user.likes).subscribe((response) => {
         this.userLikes = response.products;
+        // Sincronizar con WishlistService
+        response.products.forEach((product: ProductList) => {
+          if (!this.wishlistService.isInWishlist(product.id)) {
+            this.wishlistService.addToWishlist(product);
+          }
+        });
       }, (error: any) => {
         console.log(error);
       })
     })
   }
 
-  isInUserLike(productId: number):boolean {
-    for (let value of this.userLikes) {
-      if(value.id === productId)
-        return true
-    }
-    return false;
+  // Método mejorado que usa WishlistService
+  isInUserLike(productId: number): boolean {
+    return this.wishlistService.isInWishlist(productId);
   }
   
   get filteredProducts() {
@@ -155,46 +184,70 @@ export class ShopComponent {
     }
   }
 
+  // Método mejorado para agregar al carrito
   addToCart(productId: number) {
-    console.log('Added product to cart:', productId);
-    // Implementar lógica de carrito aquí
+    const product = this.allProductsList.find(p => p.id === productId);
+    if (product) {
+      this.cartService.addToCart(product);
+      console.log('Added product to cart:', productId);
+    }
   }
 
-  addToWishlist(productId: number):void {
-    // buscar primero si ya la tiene agregada
-    for (let value of this.userLikes) {
-      if(value.id === productId) {
-        this.authService.getUserFromToken().subscribe((response) => {
-          let userId = response.user.user.id;
-          this.authService.updateUserLikes(productId, userId).subscribe((response) => {
-            if(response.status)
-             window.location.reload();
-          }, (error: any) => {
-            console.log(error);
-          })
-        }, (error: any) => {
-          console.log(error);
-        })
-        return;
-      }
+  // Método mejorado para wishlist que usa WishlistService
+  addToWishlist(productId: number): void {
+    const product = this.allProductsList.find(p => p.id === productId);
+    if (!product) return;
+
+    // Usar WishlistService para toggle
+    if (this.wishlistService.isInWishlist(productId)) {
+      this.wishlistService.removeFromWishlist(productId);
+      // También actualizar en el backend si es necesario
+      this.removeFromBackendWishlist(productId);
+    } else {
+      this.wishlistService.addToWishlist(product);
+      // También actualizar en el backend si es necesario
+      this.addToBackendWishlist(productId);
     }
+  }
+
+  // Métodos auxiliares para sincronizar con el backend
+  private addToBackendWishlist(productId: number): void {
     this.authService.getUserFromToken().subscribe((response) => {
       let userId = response.user.user.id;
       this.authService.addLikeProductUser(productId, userId).subscribe((response) => {
-        console.log(response)
-        if(response.status)
-         window.location.reload();
+        console.log('Added to backend wishlist:', response);
       }, (error: any) => {
-        console.log(error);
-      })
+        console.log('Error adding to backend wishlist:', error);
+        // Si falla, remover del WishlistService
+        this.wishlistService.removeFromWishlist(productId);
+      });
     }, (error: any) => {
-      console.log(error);
-    })
-    // this.user.addLikeProductUser(productId, "oscar").subscribe((response) => {
-    //   window.location.reload();
-    // }, (error) => {
-    //   console.error(error);
-    // });
-    return;
+      console.log('Error getting user token:', error);
+      // Si falla, remover del WishlistService
+      this.wishlistService.removeFromWishlist(productId);
+    });
+  }
+
+  private removeFromBackendWishlist(productId: number): void {
+    this.authService.getUserFromToken().subscribe((response) => {
+      let userId = response.user.user.id;
+      this.authService.updateUserLikes(productId, userId).subscribe((response) => {
+        console.log('Removed from backend wishlist:', response);
+      }, (error: any) => {
+        console.log('Error removing from backend wishlist:', error);
+        // Si falla, volver a agregar al WishlistService
+        const product = this.allProductsList.find(p => p.id === productId);
+        if (product) {
+          this.wishlistService.addToWishlist(product);
+        }
+      });
+    }, (error: any) => {
+      console.log('Error getting user token:', error);
+      // Si falla, volver a agregar al WishlistService
+      const product = this.allProductsList.find(p => p.id === productId);
+      if (product) {
+        this.wishlistService.addToWishlist(product);
+      }
+    });
   }
 }
