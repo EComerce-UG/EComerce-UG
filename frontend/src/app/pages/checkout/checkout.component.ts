@@ -92,15 +92,6 @@ export class CheckoutComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadCartData();
-    
-    // Verificar si el carrito está vacío
-    // if (this.cartItemsUser.length === 0) {
-    //   this.alerts.open('Your cart is empty. Please add items before checkout.', {
-    //     label: 'Empty Cart',
-    //     appearance: 'warning'
-    //   }).subscribe();
-    //   this.router.navigate(['/shop']);
-    // }
     this.userService.userCartTotalCost.subscribe((value) => {
       this.subtotalUser = value
     })
