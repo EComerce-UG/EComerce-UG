@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { ProductList } from '../../interfaces';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 export interface CartItem {
   product: ProductList;
@@ -11,106 +11,82 @@ export interface CartItem {
   providedIn: 'root'
 })
 export class CartService {
-  private items: CartItem[] = [];
-  private requestOpenComponentSource = new Subject();
+  private cartItems: CartItem[] = [];
+  private cartSubject = new BehaviorSubject<CartItem[]>([]);
+  public cart$ = this.cartSubject.asObservable();
+
+  // Para el sidebar
+  private eventSubject = new Subject<any>();
+  public events$ = this.eventSubject.asObservable();
 
   constructor() {
-    // Agregar datos de prueba al inicializar el servicio
-    this.initTestData();
+    this.loadCartFromStorage();
   }
 
-  // Método para inicializar datos de prueba
-  private initTestData(): void {
-    const testProducts: ProductList[] = [
-      {
-        id: 1,
-        name: 'Asgaard sofa',
-        price: 250000.00,
-        quantityAvailable: 5,
-        discountPrice: 225000.00,
-        image: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&h=400&fit=crop',
-        category: 'Sofas',
-        isNew: true,
-        isSale: true,
-        colorAvailable: ["bg-neutral-500", "bg-neutral-200"],
-        rating: 5,
-        quantityReviews: 120,
-        productContext: 'Comfortable and elegant sofa perfect for modern living rooms',
-        productDescription: 'A luxurious sofa with premium materials and contemporary design.',
-        imagesRoute: 'assets/sofa/'
-      },
-      {
-        id: 2,
-        name: 'Modern Coffee Table',
-        price: 75000.00,
-        quantityAvailable: 3,
-        discountPrice: null,
-        image: 'https://images.unsplash.com/photo-1549497538-303791108f95?w=400&h=400&fit=crop',
-        category: 'Tables',
-        isNew: false,
-        isSale: false,
-        colorAvailable: ["bg-amber-950", "bg-stone-800"],
-        rating: 4.5,
-        quantityReviews: 89,
-        productContext: 'Elegant coffee table for your living room',
-        productDescription: 'A stylish coffee table that complements any modern decor.',
-        imagesRoute: 'assets/table/'
-      }
-    ];
-
-    // Agregar productos al carrito para prueba
-    testProducts.forEach(product => {
-      this.addToCart(product);
-    });
-  }
-
-  sendEvent(data: object) {
-    this.requestOpenComponentSource.next(data);
-  }
-
-  getEvent(): Observable<any> {
-    return this.requestOpenComponentSource.asObservable();
-  }
-
-  getItems(): CartItem[] {
-    return this.items;
-  }
-
-  addToCart(product: ProductList): void {
-    const existingItem = this.items.find(item => item.product.id === product.id);
-    if (existingItem) {
-      existingItem.quantity += 1;
-    } else {
-      this.items.push({ product, quantity: 1 });
+  private loadCartFromStorage(): void {
+    const stored = localStorage.getItem('cart');
+    if (stored) {
+      this.cartItems = JSON.parse(stored);
+      this.cartSubject.next(this.cartItems);
     }
   }
 
+  private saveCartToStorage(): void {
+    localStorage.setItem('cart', JSON.stringify(this.cartItems));
+    this.cartSubject.next(this.cartItems);
+  }
+
+  addToCart(product: ProductList, quantity: number = 1): void {
+    const existingItem = this.cartItems.find(item => item.product.id === product.id);
+    
+    if (existingItem) {
+      existingItem.quantity += quantity;
+    } else {
+      this.cartItems.push({ product, quantity });
+    }
+    
+    this.saveCartToStorage();
+  }
+
   removeFromCart(productId: number): void {
-    this.items = this.items.filter(item => item.product.id !== productId);
+    this.cartItems = this.cartItems.filter(item => item.product.id !== productId);
+    this.saveCartToStorage();
   }
 
-  clearCart(): void {
-    this.items = [];
+  updateQuantity(productId: number, quantity: number): void {
+    const item = this.cartItems.find(item => item.product.id === productId);
+    if (item) {
+      item.quantity = quantity;
+      if (item.quantity <= 0) {
+        this.removeFromCart(productId);
+      } else {
+        this.saveCartToStorage();
+      }
+    }
   }
 
-  getTotal(): number {
-    return this.items.reduce((total, item) => {
+  getCartItems(): CartItem[] {
+    return this.cartItems;
+  }
+
+  getCartCount(): number {
+    return this.cartItems.reduce((total, item) => total + item.quantity, 0);
+  }
+
+  getCartTotal(): number {
+    return this.cartItems.reduce((total, item) => {
       const price = item.product.discountPrice ?? item.product.price;
-      return total + price * item.quantity;
+      return total + (price * item.quantity);
     }, 0);
   }
 
-  getItemCount(): number {
-    return this.items.reduce((count, item) => count + item.quantity, 0);
+  clearCart(): void {
+    this.cartItems = [];
+    this.saveCartToStorage();
   }
 
-  // Método adicional para limpiar datos de prueba
-  clearTestData(): void {
-    this.items = [];
-  }
-
-  // Método para agregar datos de prueba manualmente
-  addTestData(): void {
-    this.initTestData();
+  // Para el sidebar
+  sendEvent(event: any): void {
+    this.eventSubject.next(event);
   }
 }

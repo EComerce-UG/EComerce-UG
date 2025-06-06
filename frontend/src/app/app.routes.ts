@@ -6,6 +6,8 @@ import { CartComponent } from './pages/cart/cart.component';
 import { AuthguardService } from './auth/authguard.service';
 import { HomeComponent } from './pages/home/home.component.spec';
 import { CheckoutComponent } from './pages/checkout/checkout.component';
+import { SearchComponent } from './pages/search/search.component';
+import { WishlistComponent } from './pages/wishlist/wishlist.component';
 import { ContactComponent } from './pages/contact_view/contact.component';
 import { BlogComponent } from './pages/blog/blog.component';
 
@@ -43,6 +45,14 @@ export const routes: Routes = [
   { 
     path: 'home', 
     component: HomeComponent, 
+  },
+  {
+    path: 'search',
+    component: SearchComponent
+  },
+  {
+    path: 'wishlist',
+    component: WishlistComponent
   },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
 
