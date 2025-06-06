@@ -1,104 +1,158 @@
-<!-- Hero Section -->
-<div class="bg-gray-100 text-center py-10">
-  <h1 class="text-4xl font-semibold">Contact</h1>
-  <p class="text-sm text-gray-600 mt-2">Home / Contact</p>
+<div class="min-h-screen flex flex-col bg-white">
+  <!-- Navbar -->
+  <nav class="bg-white shadow-sm py-4 px-6">
+    <div class="container mx-auto flex justify-between items-center">
+      <div class="text-xl font-bold">Meubel House</div>
+      <div class="flex space-x-6">
+        <a href="#" class="hover:text-gray-600">Home</a>
+        <a href="#" class="hover:text-gray-600">Shop</a>
+        <a href="#" class="hover:text-gray-600">About</a>
+        <a href="#" class="text-blue-600 font-medium">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Breadcrumbs -->
+  <div class="bg-gray-50 py-4 px-6">
+    <div class="container mx-auto">
+      <span class="text-gray-500">Home</span>
+      <span class="mx-2">></span>
+      <span class="text-gray-800 font-medium">Contact</span>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="container mx-auto py-12 px-6 flex-1">
+    <h1 class="text-3xl font-bold mb-6">Get In Touch With Us</h1>
+    <p class="text-gray-600 mb-12 max-w-2xl">
+      For More Information About Our Product & Services, Please Feel Free To Drop Us An Email. Our Staff Always Be There To Help You Out. Do Not Hesitate!
+    </p>
+
+    <div class="flex flex-col lg:flex-row gap-12">
+      <!-- Contact Info -->
+      <div class="w-full lg:w-1/2 space-y-8">
+        <div>
+          <h3 class="text-xl font-semibold mb-4">Address</h3>
+          <p class="text-gray-600">235 5th St Avenue, New York NY10000, United States</p>
+        </div>
+        <div>
+          <h3 class="text-xl font-semibold mb-4">Phone</h3>
+          <p class="text-gray-600">Mobile: +(84) 546-6789</p>
+          <p class="text-gray-600">Hotline: +(84) 456-6789</p>
+        </div>
+        <div>
+          <h3 class="text-xl font-semibold mb-4">Working Time</h3>
+          <p class="text-gray-600">Monday-Friday: 9:00 - 22:00</p>
+          <p class="text-gray-600">Saturday-Sunday: 8:00 - 21:00</p>
+        </div>
+      </div>
+
+      <!-- Contact Form -->
+      <form class="w-full lg:w-1/2 space-y-6">
+        <div>
+          <label class="block text-gray-700 mb-2">Your name</label>
+          <input 
+            type="text" 
+            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
+            placeholder="Abo"
+          >
+        </div>
+        <div>
+          <label class="block text-gray-700 mb-2">Email address</label>
+          <input 
+            type="email" 
+            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
+            placeholder="Abo@dei.com"
+          >
+        </div>
+        <div>
+          <label class="block text-gray-700 mb-2">Subject</label>
+          <input 
+            type="text" 
+            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
+            placeholder="This is an optional"
+          >
+        </div>
+        <div>
+          <label class="block text-gray-700 mb-2">Message</label>
+          <textarea 
+            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 h-32" 
+            placeholder="Hi! I'd like to ask about"
+          ></textarea>
+        </div>
+        <button 
+          type="submit" 
+          class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition"
+        >
+          Submit
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Features -->
+  <div class="bg-gray-100 py-12">
+    <div class="container mx-auto px-6">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="flex flex-col items-center text-center">
+          <span class="text-3xl mb-4">🚚</span>
+          <h3 class="font-semibold mb-2">Free Delivery</h3>
+          <p class="text-gray-600">For all orders over $50</p>
+        </div>
+        <div class="flex flex-col items-center text-center">
+          <span class="text-3xl mb-4">🔄</span>
+          <h3 class="font-semibold mb-2">90 Days Return</h3>
+          <p class="text-gray-600">If goods have problems</p>
+        </div>
+        <div class="flex flex-col items-center text-center">
+          <span class="text-3xl mb-4">🔒</span>
+          <h3 class="font-semibold mb-2">Secure Payment</h3>
+          <p class="text-gray-600">100% secure payment</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white py-12 px-6">
+    <div class="container mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div>
+          <h3 class="text-xl font-bold mb-4">Meubel House</h3>
+          <p class="text-gray-400">400 University Drive Suite 200 Coral Gables, FL 33134 USA</p>
+        </div>
+        <div>
+          <h4 class="text-gray-400 mb-4">Links</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="hover:text-gray-300">Home</a></li>
+            <li><a href="#" class="hover:text-gray-300">Shop</a></li>
+            <li><a href="#" class="hover:text-gray-300">About</a></li>
+            <li><a href="#" class="hover:text-gray-300">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-gray-400 mb-4">Help</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="hover:text-gray-300">Payment Options</a></li>
+            <li><a href="#" class="hover:text-gray-300">Returns</a></li>
+            <li><a href="#" class="hover:text-gray-300">Privacy Policies</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-gray-400 mb-4">Newsletter</h4>
+          <div class="flex">
+            <input 
+              type="email" 
+              placeholder="Enter Your Email Address" 
+              class="px-4 py-2 rounded-l-lg text-gray-800 w-full"
+            >
+            <button class="bg-blue-600 px-4 py-2 rounded-r-lg hover:bg-blue-700">SUBSCRIBE</button>
+          </div>
+        </div>
+      </div>
+      <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+        <p>2022 Meubel House. All rights reserved</p>
+      </div>
+    </div>
+  </footer>
 </div>
-
-<!-- Contact Info & Form -->
-<section class="py-16 px-4 max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10">
-  <!-- Contact Information -->
-  <div class="space-y-8 text-gray-700">
-    <div class="flex items-start space-x-4">
-      <span class="text-xl">📍</span>
-      <div>
-        <h3 class="font-semibold">Address</h3>
-        <p>400 University Drive Suite 200 Coral Gables, FL 33134 USA</p>
-      </div>
-    </div>
-    <div class="flex items-start space-x-4">
-      <span class="text-xl">📞</span>
-      <div>
-        <h3 class="font-semibold">Phone</h3>
-        <p>+1 234 567 890<br>Mon-Sat: 9:00-18:00</p>
-      </div>
-    </div>
-    <div class="flex items-start space-x-4">
-      <span class="text-xl">⏰</span>
-      <div>
-        <h3 class="font-semibold">Working Time</h3>
-        <p>Monday to Friday: 9:00 – 20:00</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- Contact Form -->
-  <form class="space-y-6">
-    <div>
-      <label class="block mb-1 font-medium text-gray-700">Your name</label>
-      <input type="text" class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black" />
-    </div>
-    <div>
-      <label class="block mb-1 font-medium text-gray-700">Email address</label>
-      <input type="email" class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black" />
-    </div>
-    <div>
-      <label class="block mb-1 font-medium text-gray-700">Subject</label>
-      <input type="text" class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black" />
-    </div>
-    <div>
-      <label class="block mb-1 font-medium text-gray-700">Message</label>
-      <textarea rows="4" class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black"></textarea>
-    </div>
-    <button type="submit" class="bg-black text-white px-6 py-2 rounded hover:bg-gray-800 transition">Send</button>
-  </form>
-</section>
-
-<!-- Features Section -->
-<section class="bg-red-50 py-12 px-4 grid grid-cols-1 md:grid-cols-3 gap-8 text-center text-gray-700 max-w-6xl mx-auto">
-  <div>
-    <h3 class="font-semibold mb-2">Free Delivery</h3>
-    <p class="text-sm">For all orders over $50, consectetur adipim scing elit.</p>
-  </div>
-  <div>
-    <h3 class="font-semibold mb-2">90 Days Return</h3>
-    <p class="text-sm">If goods have problems, consectetur adipim scing elit.</p>
-  </div>
-  <div>
-    <h3 class="font-semibold mb-2">Secure Payment</h3>
-    <p class="text-sm">100% secure payment, consectetur adipim scing elit.</p>
-  </div>
-</section>
-
-<!-- Footer -->
-<footer class="bg-white py-12 px-4 text-gray-600 text-sm">
-  <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-6">
-    <div>
-      <p>400 University Drive Suite 200 Coral Gables, FL 33134 USA</p>
-    </div>
-    <div>
-      <h4 class="font-bold mb-2">Links</h4>
-      <ul class="space-y-1">
-        <li>Home</li>
-        <li>Shop</li>
-        <li>About</li>
-        <li>Contact</li>
-      </ul>
-    </div>
-    <div>
-      <h4 class="font-bold mb-2">Help</h4>
-      <ul class="space-y-1">
-        <li>Payment Options</li>
-        <li>Returns</li>
-        <li>Privacy Policies</li>
-      </ul>
-    </div>
-    <div>
-      <h4 class="font-bold mb-2">Newsletter</h4>
-      <input type="text" placeholder="Enter your email" class="w-full border px-3 py-2 rounded" />
-      <button class="mt-2 bg-black text-white px-4 py-2 rounded w-full hover:bg-gray-800 transition">Subscribe</button>
-    </div>
-  </div>
-  <div class="mt-8 text-center">
-    <p>2022 MuebleHouse. All rights reserved</p>
-  </div>
-</footer>

@@ -6,6 +6,7 @@ import { CartComponent } from './pages/cart/cart.component';
 import { AuthguardService } from './auth/authguard.service';
 import { HomeComponent } from './pages/home/home.component.spec';
 import { CheckoutComponent } from './pages/checkout/checkout.component';
+import { ContactComponent } from './pages/contact_view/contact.component';
 
 export const routes: Routes = [
   { 
@@ -29,6 +30,10 @@ export const routes: Routes = [
   {
     path: 'my-account',
     component: MyAccountComponent
+  },
+    {
+    path: 'contact',  
+    component: ContactComponent
   },
   { 
     path: 'home', 

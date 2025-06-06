@@ -1,41 +1,57 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms'; // Para soporte de formularios
 
 @Component({
   selector: 'app-contact',
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule // Solo necesario si usas ngModel
+  ],
   templateUrl: './contact.component.html',
-  styleUrls: ['./contact.component.css']
+  // styleUrls: ['./contact.component.css'] // Opcional si necesitas estilos adicionales
 })
 export class ContactComponent {
-  contactForm: FormGroup;
-  submitted = false;
-  successMessage = '';
+  // Datos del formulario (opcional)
+  formData = {
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
+  };
 
-  constructor(private fb: FormBuilder) {
-    this.contactForm = this.fb.group({
-      name: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      subject: ['', Validators.required],
-      message: ['', Validators.required]
-    });
+  // Método para enviar el formulario
+  submitForm() {
+    console.log('Formulario enviado:', this.formData);
+    // Aquí puedes agregar lógica para enviar los datos a tu backend
+    alert(`Gracias ${this.formData.name}, tu mensaje ha sido enviado!`);
+    
+    // Resetea el formulario después de enviar
+    this.formData = {
+      name: '',
+      email: '',
+      subject: '',
+      message: ''
+    };
   }
 
-  get f() {
-    return this.contactForm.controls;
-  }
-
-  onSubmit() {
-    this.submitted = true;
-
-    if (this.contactForm.invalid) {
-      return;
+  // Datos de features (opcional)
+  features = [
+    {
+      icon: '🚚',
+      title: 'Free Delivery',
+      description: 'For all orders over $50'
+    },
+    {
+      icon: '🔄',
+      title: '90 Days Return',
+      description: 'If goods have problems'
+    },
+    {
+      icon: '🔒',
+      title: 'Secure Payment',
+      description: '100% secure payment'
     }
-
-    // Aquí puedes manejar el envío, por ejemplo, enviar datos a un servidor
-    console.log('Formulario enviado:', this.contactForm.value);
-
-    this.successMessage = '¡Gracias por contactarnos! Te responderemos pronto.';
-    this.contactForm.reset();
-    this.submitted = false;
-  }
+  ];
 }
