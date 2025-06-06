@@ -4,6 +4,7 @@ import { CommonModule, DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-sidebar',
+  standalone: true,
   imports: [CommonModule, DecimalPipe],
   templateUrl: './sidebar.html',
   styleUrls: ['./sidebar.css']
