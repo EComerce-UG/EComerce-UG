@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { ProductList, User } from '../../../interfaces';
 import { ProductService } from '../../service/product.service';
+import { WishlistService } from '../../service/wishlist.service'; // Agregar WishlistService
+import { CartService } from '../../service/cart.service'; // Agregar CartService
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../service/auth.service';
 import { UserService } from '../../service/user.service';
@@ -58,6 +60,21 @@ export class ShopComponent implements OnInit {
   ) {
     this.allProductsList = this.productService.getAllProducts();
     this.checkForLikes();
+    this.initializeWishlistSync();
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
+
+  // Sincronizar con el WishlistService
+  initializeWishlistSync(): void {
+    this.subscriptions.add(
+      this.wishlistService.wishlist$.subscribe(wishlistItems => {
+        // Actualizar userLikes basado en el WishlistService
+        this.userLikes = wishlistItems;
+      })
+    );
   }
 
   ngOnDestroy(): void {
@@ -91,7 +108,6 @@ export class ShopComponent implements OnInit {
       if(value.id === productId)
         return true
     }
-    return false;
   }
 
   get filteredProducts() {
@@ -187,8 +203,11 @@ export class ShopComponent implements OnInit {
 
   // Método mejorado para agregar al carrito
   addToCart(productId: number) {
-    console.log('Added product to cart:', productId);
-    // Implementar lógica de carrito aquí
+    const product = this.allProductsList.find(p => p.id === productId);
+    if (product) {
+      this.cartService.addToCart(product);
+      console.log('Added product to cart:', productId);
+    }
   }
 
   addToWishlist(productId: number):void {
@@ -211,6 +230,10 @@ export class ShopComponent implements OnInit {
         return;
       }
     }
+  }
+
+  // Métodos auxiliares para sincronizar con el backend
+  private addToBackendWishlist(productId: number): void {
     this.authService.getUserFromToken().subscribe((response) => {
       let userId = response.user.user.id;
       this.authService.addLikeProductUser(productId, userId).subscribe((response) => {

@@ -19,6 +19,7 @@ import { UserService } from '../../service/user.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
 })
+
 export class HeaderComponent implements OnInit {
   menuOpen:boolean = false;
   @Input() userIsLoggin: boolean = false;
@@ -55,6 +56,7 @@ export class HeaderComponent implements OnInit {
   toggleMenu(): void {
     this.menuOpen = !this.menuOpen;
   }
+
 
   checkUserLoggin(userWantsToGo:string): void {
     if(!this.userAuthService.isLoggedIn()) {

@@ -36,6 +36,7 @@ export class WishlistComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
+
   isInUserLike(productId: number):boolean {
     for (let value of this.wishlistItems) {
       if(value.id === productId)
@@ -43,6 +44,7 @@ export class WishlistComponent implements OnInit, OnDestroy {
     }
     return false;
   }
+
 
   removeFromWishlist(productId: number): void {
     this.wishlistService.removeFromWishlist(productId);
