@@ -1,8 +1,8 @@
 
 <!-- Backdrop -->
 <div
-  class="fixed inset-0 bg-black bg-opacity-50 transition-opacity z-40"
   *ngIf="isOpen"
+  class="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm transition-opacity duration-300"
   (click)="closeDrawer()"
 ></div>
 

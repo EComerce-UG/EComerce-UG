@@ -26,8 +26,10 @@ export class HeaderComponent {
   constructor(public userService: AuthService, private userRoutes: Router, private cartService: CartService) { }
 
   toggleMenu(): void {
-    this.menuOpen = !this.menuOpen;
-    this.cartService.sendEvent({toggle: 'Side menu', open: this.menuOpen} as {});
+    if(this.userService.isLoggedIn()) {
+      this.menuOpen = !this.menuOpen;
+      this.cartService.sendEvent({toggle: 'Side menu', open: this.menuOpen} as {});
+    }
   }
 
   checkUserLoggin(userWantsToGo:string): void {

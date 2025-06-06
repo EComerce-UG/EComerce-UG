@@ -21,24 +21,9 @@ export const AuthController = {
             message: 'Sesion cerrada correctamente'
         })
     },
-    async getUserFromToken(req: Request & {
-      body: {
-        user: {
-          id: string
-          usuario: string
-          iat: number
-          exp: number
-        }
-      }
-    }, res: Response) {
-      const user = await AuthService.getLogginUser(req.body.user.usuario)
-      res.status(200).json({
-          user: {
-            token: req.body.user.id,
-            user: user,
-            iat: req.body.user.iat,
-            exp: req.body.user.exp
-          }
-      });
+    getUserFromToken(req: Request, res: Response) {
+        res.status(200).json({
+            user: req.body.user
+        })
     }
 }

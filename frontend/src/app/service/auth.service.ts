@@ -8,7 +8,7 @@ import { LoginRequest, LoginResponse, ProductList, RegisterRequest, User } from 
   providedIn: "root",
 })
 export class AuthService {
-  private apiUrl = "http://localhost:3020/api";
+  private apiUrl = "http://localhost:5050/api";
   private currentUserSubject: BehaviorSubject<User | null>;
   public currentUser$: Observable<User | null>;
 
