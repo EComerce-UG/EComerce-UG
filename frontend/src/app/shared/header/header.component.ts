@@ -3,8 +3,11 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { TuiAlertService } from '@taiga-ui/core';
 import { Router } from "@angular/router";
+import { Subscription } from 'rxjs';
 
 import { AuthService } from '../../service/auth.service';
+import { WishlistService } from '../../service/wishlist.service';
+import { CartService } from '../../service/cart.service'; // Agregar esta importación
 import { ProductList } from '../../../interfaces';
 import { UserService } from '../../service/user.service';
 

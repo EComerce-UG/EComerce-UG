@@ -8,6 +8,9 @@ import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../service/auth.service';
 import { UserService } from '../../service/user.service';
 import { TuiAlertService } from '@taiga-ui/core';
+import { Subscription } from 'rxjs'; // Agregar Subscription
+import { WishlistService } from '../../service/wishlist.service';
+import { error } from 'console';
 
 @Component({
   selector: 'app-shop',
@@ -39,22 +42,40 @@ export class ShopComponent implements OnInit {
   
   // Referencia a Math para usar en el template
   Math = Math;
+  // Agregar subscriptions para manejar observables
+  private subscriptions: Subscription = new Subscription();
 
   // Uso de taiga
   private readonly alerts = inject(TuiAlertService);
 
-  constructor(private productService: ProductService, private authService: AuthService, private userService: UserService , private http: HttpClient, private render:Renderer2) {
+  constructor(
+    private productService: ProductService, 
+    private authService: AuthService, 
+    private userService: UserService , 
+    private http: HttpClient, 
+    private render:Renderer2,
+    private wishlistService: WishlistService
+  ) {
     this.allProductsList = this.productService.getAllProducts();
     this.checkForLikes();
   }
 
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
+
   ngOnInit(): void { }
-  
+
   // Getters para la interfaz
   checkForLikes(): void {
     this.authService.getUserFromToken().subscribe((response) => {
       this.authService.getUserLikesInfo(response.user.user.likes).subscribe((response) => {
         this.userLikes = response.products;
+        let tempData1: ProductList[] = []
+        response.products.forEach((data) => {
+          tempData1.push(this.productService.getProductById(data.id));
+        })
+        this.wishlistService.setWishlist(tempData1);
         this.userService.updateLikeCount(this.userLikes.length);
       }, (error: any) => {
         this.alerts.open('Hubo un error!', {label: 'Porfavor notifique a IT', appearance: 'warning'}).subscribe();
@@ -64,7 +85,7 @@ export class ShopComponent implements OnInit {
       this.alerts.open('Algunas funciones estan limitadas hasta que inicie sesion.', {appearance: 'flat'}).subscribe();
     })
   }
-
+  
   isInUserLike(productId: number):boolean {
     for (let value of this.userLikes) {
       if(value.id === productId)
@@ -72,7 +93,7 @@ export class ShopComponent implements OnInit {
     }
     return false;
   }
-  
+
   get filteredProducts() {
     return this.allProductsList.filter(product => 
       this.selectedCategory === "All" || product.category === this.selectedCategory
@@ -164,6 +185,7 @@ export class ShopComponent implements OnInit {
     }
   }
 
+  // Método mejorado para agregar al carrito
   addToCart(productId: number) {
     console.log('Added product to cart:', productId);
     // Implementar lógica de carrito aquí
@@ -196,12 +218,12 @@ export class ShopComponent implements OnInit {
           this.checkForLikes();
           this.render.addClass(document.getElementById(`${productId}-like-button`), 'like-button');
         }
-      }, (error: any) => {
-        console.log(error);
-      })
+
     }, (error: any) => {
       this.alerts.open('No puede realizar likes hasta que inicie session.', {appearance: 'neutral', closeable: false}).subscribe();
     })
     return;
+
+    })
   }
 }
