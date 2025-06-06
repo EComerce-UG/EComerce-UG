@@ -1,54 +1,40 @@
-/* home.component.css */
-
-/* Ajustes para espaciado entre secciones si lo prefieres desde CSS */
-section {
-  margin-bottom: 4rem;
+/* Estilos generales para la promo */
+.promo-enter {
+  opacity: 0;
+  transform: translateY(20px);
 }
 
-/* Subrayado animado para los botones de "Shop Now", "View More", etc. */
-.btn-underline {
-  position: relative;
-  display: inline-block;
-  color: #000;
-  font-weight: 500;
-  cursor: pointer;
-  transition: color 0.3s ease;
+.promo-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
-.btn-underline::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background: #000;
-  transition: transform 0.3s ease;
-  transform: scaleX(1);
-  transform-origin: left;
+/* Efecto hover para la imagen */
+.promo-image {
+  transition: transform 0.3s ease, filter 0.3s ease;
 }
 
-.btn-underline:hover::after {
-  transform: scaleX(0.6);
+.promo-image:hover {
+  transform: scale(1.02);
+  filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.1));
 }
 
-/* Imagen principal del sofá (hero) para que se ajuste bien en responsive */
-.hero-image {
-  max-width: 100%;
-  height: auto;
+/* Tipografía minimalista */
+.promo-subtitle {
+  letter-spacing: 0.1em;
+  font-weight: 300;
 }
 
-/* Centrado vertical del hero para pantallas más grandes */
-@media (min-width: 768px) {
-  .hero-section {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
+.promo-title {
+  line-height: 1.1;
 }
 
-/* Ajustes para las cards de productos (si decides usarlos) */
-.product-card:hover {
-  transform: translateY(-4px);
-  transition: transform 0.3s ease;
+/* Botón con animación sutil */
+.promo-button {
+  transition: all 0.3s ease;
+}
+
+.promo-button:hover {
+  letter-spacing: 0.05em;
 }

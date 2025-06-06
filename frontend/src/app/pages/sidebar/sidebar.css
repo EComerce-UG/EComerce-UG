@@ -1,25 +1,42 @@
-/* sidebar.css */
-
-/* Clase opcional para aplicar padding personalizado si usas la clase 'sidebar' */
+/* Estilos adicionales específicos para el componente */
 .sidebar {
-  padding: 1rem;
+  padding: 0; /* Removemos el padding por defecto */
 }
 
-/* Puedes agregar transiciones personalizadas si lo deseas */
-.drawer-transition {
-  transition: transform 0.3s ease-in-out;
+/* Animación suave para el backdrop */
+.backdrop-blur-sm {
+  backdrop-filter: blur(4px);
 }
 
-/* Estilos personalizados para el botón cerrar si quieres ajustarlo */
-.close-button {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  font-size: 1.5rem;
-  color: #6b7280; /* gray-500 */
-  cursor: pointer;
+/* Estilos para la imagen del producto */
+.product-image {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
 }
 
-.close-button:hover {
-  color: #111827; /* gray-900 */
+/* Hover effects para los botones */
+.cart-button {
+  transition: all 0.2s ease-in-out;
+}
+
+.cart-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para el scroll personalizado */
+.overflow-y-auto::-webkit-scrollbar {
+  width: 4px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 2px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
 }

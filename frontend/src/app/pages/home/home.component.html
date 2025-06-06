@@ -1,15 +1,29 @@
 <!-- Wrapper principal -->
 <div class="font-sans text-gray-800">
   <!-- HERO -->
-  <section class="bg-[#fbebb5] px-40 py-30 flex flex-col md:flex-row items-center justify-between">
-    <div class="max-w-md">
-      <h1 class="text-4xl font-bold mb-4 leading-tight">Rocket single seater</h1>
-      <a routerLink="/shop" class="inline-block border-b-2 border-black text-black hover:text-gray-700">Shop Now</a>
-    </div>
-    <div class="mt-10 md:mt-0">
-      <img src="assets/images/home1.png" alt="Rocket Chair" class="max-w-sm">
-    </div>
-  </section>
+<section class="bg-[#fbebb5] px-4 py-20 md:px-20 lg:px-40 flex flex-col md:flex-row items-center justify-between gap-10">
+ 
+  <div class="max-w-xl md:max-w-2xl">
+    <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight tracking-tight">
+      Rocket Single Seater
+    </h1>
+    <a 
+      routerLink="/shop" 
+      class="inline-block text-xl border-b-2 border-black text-black hover:text-gray-700 transition-colors duration-300 hover:border-gray-700"
+    >
+      Shop Now
+    </a>
+  </div>
+
+  <div class="mt-10 md:mt-0 flex-1 flex justify-center">
+    <img 
+      src="assets/images/home1.png" 
+      alt="Modern Rocket Single Seater Sofa" 
+      class="w-full max-w-2xl object-contain transition-transform duration-500 hover:scale-105"
+      loading="lazy"
+    >
+  </div>
+</section>
 
   <!-- 2 PRODUCTOS DESTACADOS -->
   <section class="grid grid-cols-1 md:grid-cols-2 gap-10 py-16 px-10 bg-gray-100">
@@ -59,47 +73,145 @@
   </section>
 
   <!-- PROMO ASGAARD -->
-  <section class="bg-yellow-100 px-10 py-20 flex flex-col md:flex-row items-center justify-between">
-    <div>
-      <img src="assets/images/home8.png" alt="Asgaard Sofa" class="max-w-md">
+<section class="bg-[#fbebb5] px-10 py-20 md:py-32">
+  <div class="container mx-auto flex flex-col md:flex-row items-center justify-between gap-10">
+    <div class="flex-1 flex justify-center">
+      <img 
+        src="assets/images/home8.png" 
+        alt="Asgaard Sofa - New Arrival" 
+        class="w-full max-w-xl object-contain transition-transform duration-500 hover:scale-[1.02]"
+        loading="lazy"
+      >
     </div>
+
     <div class="max-w-md text-center md:text-left mt-10 md:mt-0">
-      <h2 class="text-2xl font-bold mb-2">New Arrivals</h2>
-      <h3 class="text-3xl font-bold mb-6">Asgaard sofa</h3>
-      <a href="#" class="inline-block border-b-2 border-black text-black hover:text-gray-700">Order Now</a>
+      <h2 class="text-2xl md:text-3xl font-light tracking-wider mb-2">New Arrivals</h2>
+      <h3 class="text-4xl md:text-5xl font-bold mb-6 leading-tight">Asgaard Sofa</h3>
+      <a 
+        routerLink="/product/asgaard-sofa" 
+        class="inline-block text-lg border-b-2 border-black text-black hover:text-gray-700 transition-colors duration-300 hover:border-gray-700"
+        aria-label="Order Asgaard Sofa"
+      >
+        Order Now
+      </a>
     </div>
-  </section>
+  </div>
+</section>
 
   <!-- BLOG SECTION -->
-  <section class="py-16 px-10 text-center">
-    <h2 class="text-2xl font-bold mb-2">Our Blogs</h2>
-    <p class="text-gray-600 mb-10">Find a bright ideal to suit your taste with our great selection</p>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-      <!-- Blog 1 -->
-      <div>
-        <img src="assets/images/home9.png" alt="Blog 1" class="mb-4">
-        <h3 class="font-semibold">Going all-in with millennial design</h3>
-        <a href="#" class="inline-block border-b-2 mt-2 border-black text-black hover:text-gray-700">Read More</a>
-        <p class="text-xs text-gray-500 mt-2">🕒 5 min · 📅 Oct 2022</p>
+<section class="py-16 px-4 md:px-10 bg-white">
+  <div class="container mx-auto">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl md:text-4xl font-bold mb-4 relative inline-block">
+        Our Blogs
+        <span class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-20 h-1 bg-yellow-400"></span>
+      </h2>
+      <p class="text-gray-600 max-w-2xl mx-auto mt-6">
+        Find a brigth ideal to suit your taste whit our great selection.
+      </p>
+    </div>
+
+    <!-- Grid de Tarjetas (Estético) -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <!-- Tarjeta 1 -->
+      <div class="blog-card group overflow-hidden">
+        <div class="relative overflow-hidden rounded-lg">
+          <img 
+            src="assets/images/home9.png" 
+            alt="Blog de diseño" 
+            class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110"
+          >
+          <span class="absolute top-4 right-4 bg-white text-black px-3 py-1 text-xs font-medium rounded-full shadow-sm">
+            Trends
+          </span>
+        </div>
+        <div class="p-6">
+          <div class="flex items-center text-sm text-gray-500 mb-3">
+            <span>📅 Oct 2022</span>
+            <span class="mx-2">•</span>
+            <span>🕒 5 min</span>
+          </div>
+          <h3 class="text-xl font-bold mb-3 group-hover:text-yellow-600 transition-colors">
+            Going all-in with millennial design
+          </h3>
+          <div class="inline-flex items-center text-black font-medium hover:text-yellow-600 transition-colors cursor-pointer">
+            Read More
+            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+            </svg>
+          </div>
+        </div>
       </div>
-      <!-- Blog 2 -->
-      <div>
-        <img src="assets/images/home10.png" alt="Blog 2" class="mb-4">
-        <h3 class="font-semibold">Going all-in with millennial design</h3>
-        <a href="#" class="inline-block border-b-2 mt-2 border-black text-black hover:text-gray-700">Read More</a>
-        <p class="text-xs text-gray-500 mt-2">🕒 5 min · 📅 Oct 2022</p>
+
+      <!-- Tarjeta 2 -->
+      <div class="blog-card group overflow-hidden">
+        <div class="relative overflow-hidden rounded-lg">
+          <img 
+            src="assets/images/home10.png" 
+            alt="Blog de materiales" 
+            class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110"
+          >
+          <span class="absolute top-4 right-4 bg-white text-black px-3 py-1 text-xs font-medium rounded-full shadow-sm">
+            Innovation
+          </span>
+        </div>
+        <div class="p-6">
+          <div class="flex items-center text-sm text-gray-500 mb-3">
+            <span>📅 Ene 2023</span>
+            <span class="mx-2">•</span>
+            <span>🕒 4 min</span>
+          </div>
+          <h3 class="text-xl font-bold mb-3 group-hover:text-yellow-600 transition-colors">
+            Exploring new materials for 2023
+          </h3>
+          <div class="inline-flex items-center text-black font-medium hover:text-yellow-600 transition-colors cursor-pointer">
+            Read More
+            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+            </svg>
+          </div>
+        </div>
       </div>
-      <!-- Blog 3 -->
-      <div>
-        <img src="assets/images/home11.png" alt="Blog 3" class="mb-4">
-        <h3 class="font-semibold">Going all-in with millennial design</h3>
-        <a href="#" class="inline-block border-b-2 mt-2 border-black text-black hover:text-gray-700">Read More</a>
-        <p class="text-xs text-gray-500 mt-2">🕒 5 min · 📅 Oct 2022</p>
+
+      <!-- Tarjeta 3 -->
+      <div class="blog-card group overflow-hidden">
+        <div class="relative overflow-hidden rounded-lg">
+          <img 
+            src="assets/images/home11.png" 
+            alt="Blog de minimalismo" 
+            class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110"
+          >
+          <span class="absolute top-4 right-4 bg-white text-black px-3 py-1 text-xs font-medium rounded-full shadow-sm">
+            Lifestyle
+          </span>
+        </div>
+        <div class="p-6">
+          <div class="flex items-center text-sm text-gray-500 mb-3">
+            <span>📅 Mar 2023</span>
+            <span class="mx-2">•</span>
+            <span>🕒 6 min</span>
+          </div>
+          <h3 class="text-xl font-bold mb-3 group-hover:text-yellow-600 transition-colors">
+            The art of minimalism
+          </h3>
+          <div class="inline-flex items-center text-black font-medium hover:text-yellow-600 transition-colors cursor-pointer">
+            Read More
+            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+            </svg>
+          </div>
+        </div>
       </div>
     </div>
-    <a href="#" class="inline-block border-b-2 mt-10 border-black text-black hover:text-gray-700">View All Post</a>
-  </section>
 
+    <!-- Botón "Ver Todos" (Estético) -->
+    <div class="text-center mt-12">
+      <div class="inline-block px-6 py-3 bg-black text-white hover:bg-gray-800 transition-colors rounded-md shadow-lg cursor-pointer">
+        Ver Todos los Artículos
+      </div>
+    </div>
+  </div>
+</section>
   <!-- INSTAGRAM CTA -->
   <section class="bg-gray-100 py-20 px-10 text-center">
     <h2 class="text-3xl font-bold mb-2">Our Instagram</h2>

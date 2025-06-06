@@ -14,14 +14,62 @@ export class CartService {
   private items: CartItem[] = [];
   private requestOpenComponentSource = new Subject();
 
-  constructor() {}
+  constructor() {
+    // Agregar datos de prueba al inicializar el servicio
+    this.initTestData();
+  }
 
-  sendEvent(data:object) {
+  // Método para inicializar datos de prueba
+  private initTestData(): void {
+    const testProducts: ProductList[] = [
+      {
+        id: 1,
+        name: 'Asgaard sofa',
+        price: 250000.00,
+        quantityAvailable: 5,
+        discountPrice: 225000.00,
+        image: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&h=400&fit=crop',
+        category: 'Sofas',
+        isNew: true,
+        isSale: true,
+        colorAvailable: ["bg-neutral-500", "bg-neutral-200"],
+        rating: 5,
+        quantityReviews: 120,
+        productContext: 'Comfortable and elegant sofa perfect for modern living rooms',
+        productDescription: 'A luxurious sofa with premium materials and contemporary design.',
+        imagesRoute: 'assets/sofa/'
+      },
+      {
+        id: 2,
+        name: 'Modern Coffee Table',
+        price: 75000.00,
+        quantityAvailable: 3,
+        discountPrice: null,
+        image: 'https://images.unsplash.com/photo-1549497538-303791108f95?w=400&h=400&fit=crop',
+        category: 'Tables',
+        isNew: false,
+        isSale: false,
+        colorAvailable: ["bg-amber-950", "bg-stone-800"],
+        rating: 4.5,
+        quantityReviews: 89,
+        productContext: 'Elegant coffee table for your living room',
+        productDescription: 'A stylish coffee table that complements any modern decor.',
+        imagesRoute: 'assets/table/'
+      }
+    ];
+
+    // Agregar productos al carrito para prueba
+    testProducts.forEach(product => {
+      this.addToCart(product);
+    });
+  }
+
+  sendEvent(data: object) {
     this.requestOpenComponentSource.next(data);
   }
 
-  getEvent():Observable<any> {
-    return this.requestOpenComponentSource.asObservable()
+  getEvent(): Observable<any> {
+    return this.requestOpenComponentSource.asObservable();
   }
 
   getItems(): CartItem[] {
@@ -54,5 +102,15 @@ export class CartService {
 
   getItemCount(): number {
     return this.items.reduce((count, item) => count + item.quantity, 0);
+  }
+
+  // Método adicional para limpiar datos de prueba
+  clearTestData(): void {
+    this.items = [];
+  }
+
+  // Método para agregar datos de prueba manualmente
+  addTestData(): void {
+    this.initTestData();
   }
 }
