@@ -149,7 +149,6 @@ export class MyAccountComponent implements OnInit {
 
           // Limpiar formulario y volver a la vista inicial
           this.resetRegistrationForm()
-          this.userService.changeCurrenLoginUser(true);
         },
         error: (error: any) => {
           this.isLoading = false
