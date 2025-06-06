@@ -6,7 +6,9 @@ import { Router } from "@angular/router";
 
 import { AuthService } from '../../service/auth.service';
 import { ProductList } from '../../../interfaces';
+
 import { CartService } from '../../service/cart.service';
+
 
 @Component({
   selector: 'app-header',
